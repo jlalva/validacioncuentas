@@ -1,0 +1,326 @@
+ERROR - 2024-04-13 15:54:40 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(26): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 15:54:40 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(26): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 15:56:52 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(42): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->add()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 15:56:52 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(42): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->add()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 16:07:18 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->edit('1')
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 16:07:18 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->edit('1')
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 16:09:04 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->edit('7')
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 16:09:04 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->edit('7')
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 16:09:31 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->edit('1')
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 16:09:31 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->edit('1')
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 16:09:37 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Modulo->edit('7')
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 16:09:37 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Modulo.php(58): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Modulo->edit('7')
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Modulo))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 20:26:11 --> mysqli_sql_exception: Table 'sw_validacioncuentas.persona' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM u...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM u...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM u...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM u...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Usuarios.php(36): App\Models\usuariosModelo->getUsuarios()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 20:26:11 --> Table 'sw_validacioncuentas.persona' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 5 APPPATH\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Usuarios.php(36): App\Models\usuariosModelo->getUsuarios()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 20:27:32 --> mysqli_sql_exception: Table 'sw_validacioncuentas.persona' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM u...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM u...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM u...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM u...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 20:27:32 --> Table 'sw_validacioncuentas.persona' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 5 APPPATH\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 20:32:06 --> mysqli_sql_exception: Table 'sw_validacioncuentas.persona' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM u...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM u...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM u...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM u...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 20:32:06 --> Table 'sw_validacioncuentas.persona' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 5 APPPATH\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-13 20:32:38 --> mysqli_sql_exception: Table 'sw_validacioncuentas.persona' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM u...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM u...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM u...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM u...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-13 20:32:38 --> Table 'sw_validacioncuentas.persona' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM usuario us
+                        INNER JOIN persona per ON per.per_correoinstitucional = us.usu_usuario
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
+                        WHERE per.per_estado = 1 AND per.per_periodo = \'\'')
+ 5 APPPATH\Models\usuariosModelo.php(10): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Usuarios.php(29): App\Models\usuariosModelo->getUsuarios()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-13 20:41:44 --> Class "App\Controllers\migracionModelo" not found
+in APPPATH\Controllers\Usuarios.php on line 46.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->add()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-13 20:42:22 --> Undefined variable $facultades
+in APPPATH\Views\seguridad\usuarios\add.php on line 100.
+ 1 APPPATH\Views\seguridad\usuarios\add.php(100): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $facultades', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\add.php', 100)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\add.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/add', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(49): view('seguridad/usuarios/add', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->add()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-13 20:42:52 --> Undefined variable $facultades
+in APPPATH\Views\seguridad\usuarios\add.php on line 100.
+ 1 APPPATH\Views\seguridad\usuarios\add.php(100): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $facultades', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\add.php', 100)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\add.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/add', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(49): view('seguridad/usuarios/add', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->add()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

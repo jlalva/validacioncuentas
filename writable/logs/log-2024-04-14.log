@@ -1,0 +1,300 @@
+CRITICAL - 2024-04-14 10:16:06 --> Attempt to read property "usu_rol_id" on array
+in APPPATH\Views\seguridad\usuarios\edit.php on line 36.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(36): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "usu_rol_id" on array', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 36)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:17:08 --> Undefined property: stdClass::$per_codigo
+in APPPATH\Views\seguridad\usuarios\edit.php on line 45.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_codigo', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 45)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:17:22 --> Undefined property: stdClass::$per_id
+in APPPATH\Views\seguridad\usuarios\edit.php on line 45.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_id', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 45)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:17:31 --> Undefined property: stdClass::$per_nombres
+in APPPATH\Views\seguridad\usuarios\edit.php on line 45.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(45): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_nombres', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 45)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:18:06 --> Undefined property: stdClass::$per_genero
+in APPPATH\Views\seguridad\usuarios\edit.php on line 55.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(55): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_genero', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 55)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:18:23 --> Undefined property: stdClass::$per_correoinstitucional
+in APPPATH\Views\seguridad\usuarios\edit.php on line 69.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(69): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_correoinstitucional', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 69)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:18:36 --> Undefined property: stdClass::$per_foto
+in APPPATH\Views\seguridad\usuarios\edit.php on line 104.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(104): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_foto', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 104)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 10:49:29 --> Undefined property: stdClass::$per_foto
+in APPPATH\Views\seguridad\usuarios\edit.php on line 101.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(101): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_foto', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 101)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-14 11:17:31 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Roles.php(28): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Roles->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-14 11:17:31 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Roles.php(28): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-14 11:18:29 --> mysqli_sql_exception: Table 'sw_validacioncuentas.anio' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Roles.php(28): App\Models\migracionModelo->periodoMigracion()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Roles->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-14 11:18:29 --> Table 'sw_validacioncuentas.anio' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT ani_id, ani_codigo, ani_anio,ani_periodo FROM anio WHERE ani_estado ORDER BY ani_codigo DESC')
+ 5 APPPATH\Models\migracionModelo.php(32): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Roles.php(28): App\Models\migracionModelo->periodoMigracion()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 11:26:55 --> Class "App\Controllers\migracionModelo" not found
+in APPPATH\Controllers\Roles.php on line 41.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->add()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 11:33:01 --> Class "App\Controllers\migracionModelo" not found
+in APPPATH\Controllers\Roles.php on line 57.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->edit('11')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 11:35:59 --> Class "App\Controllers\migracionModelo" not found
+in APPPATH\Controllers\Roles.php on line 57.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->edit('11')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 11:38:41 --> Class "App\Controllers\migracionModelo" not found
+in APPPATH\Controllers\Roles.php on line 146.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->access('1')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 16:20:43 --> Call to undefined method App\Models\usuariosModelo::ubigeoDepartamento
+in SYSTEMPATH\Model.php on line 842.
+ 1 APPPATH\Controllers\Perfil.php(23): CodeIgniter\Model->__call('ubigeoDepartamento', [])
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Perfil->index()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Perfil))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 16:25:14 --> Undefined property: stdClass::$per_foto
+in APPPATH\Views\seguridad\perfil\index.php on line 43.
+ 1 APPPATH\Views\seguridad\perfil\index.php(43): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_foto', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php', 43)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/perfil/index', [], true)
+ 5 APPPATH\Controllers\Perfil.php(24): view('seguridad/perfil/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Perfil->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Perfil))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 16:27:15 --> Undefined property: stdClass::$usu_per_id
+in APPPATH\Views\seguridad\perfil\index.php on line 51.
+ 1 APPPATH\Views\seguridad\perfil\index.php(51): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$usu_per_id', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php', 51)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/perfil/index', [], true)
+ 5 APPPATH\Controllers\Perfil.php(24): view('seguridad/perfil/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Perfil->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Perfil))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 16:27:37 --> Undefined property: stdClass::$per_nombres
+in APPPATH\Views\seguridad\perfil\index.php on line 55.
+ 1 APPPATH\Views\seguridad\perfil\index.php(55): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_nombres', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php', 55)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/perfil/index', [], true)
+ 5 APPPATH\Controllers\Perfil.php(24): view('seguridad/perfil/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Perfil->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Perfil))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 16:28:09 --> Undefined property: stdClass::$per_codigo
+in APPPATH\Views\seguridad\perfil\index.php on line 97.
+ 1 APPPATH\Views\seguridad\perfil\index.php(97): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$per_codigo', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php', 97)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\perfil\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/perfil/index', [], true)
+ 5 APPPATH\Controllers\Perfil.php(24): view('seguridad/perfil/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Perfil->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Perfil))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:10:38 --> Call to undefined method App\Models\usuariosModelo::ubigeoDepartamento
+in SYSTEMPATH\Model.php on line 842.
+ 1 APPPATH\Controllers\Empresa.php(17): CodeIgniter\Model->__call('ubigeoDepartamento', [])
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->index()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:14:27 --> Call to undefined method App\Models\usuariosModelo::ubigeoDepartamento
+in SYSTEMPATH\Model.php on line 842.
+ 1 APPPATH\Controllers\Empresa.php(33): CodeIgniter\Model->__call('ubigeoDepartamento', [])
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->add()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:14:59 --> Undefined variable $departamentos
+in APPPATH\Views\gestionar\empresa\add.php on line 69.
+ 1 APPPATH\Views\gestionar\empresa\add.php(69): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $departamentos', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php', 69)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('gestionar/empresa/add', [], true)
+ 5 APPPATH\Controllers\Empresa.php(34): view('gestionar/empresa/add', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->add()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:17:01 --> Undefined variable $departamentos
+in APPPATH\Views\gestionar\empresa\add.php on line 69.
+ 1 APPPATH\Views\gestionar\empresa\add.php(69): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $departamentos', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php', 69)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('gestionar/empresa/add', [], true)
+ 5 APPPATH\Controllers\Empresa.php(34): view('gestionar/empresa/add', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->add()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:17:03 --> Undefined variable $departamentos
+in APPPATH\Views\gestionar\empresa\add.php on line 69.
+ 1 APPPATH\Views\gestionar\empresa\add.php(69): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $departamentos', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php', 69)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\add.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('gestionar/empresa/add', [], true)
+ 5 APPPATH\Controllers\Empresa.php(34): view('gestionar/empresa/add', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->add()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-14 21:30:53 --> Call to undefined method App\Models\usuariosModelo::ubigeoProvincia
+in SYSTEMPATH\Model.php on line 842.
+ 1 APPPATH\Controllers\Empresa.php(57): CodeIgniter\Model->__call('ubigeoProvincia', [...])
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->edit('1')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-14 21:46:54 --> mysqli_sql_exception: Table 'sw_validacioncuentas.configuracion' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM c...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM c...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM c...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM c...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\configuracionModelo.php(10): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Configuracion.php(25): App\Models\configuracionModelo->reads()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Configuracion->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Configuracion))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-14 21:46:54 --> Table 'sw_validacioncuentas.configuracion' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_estado in (0, 1)', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_estado in (0, 1)')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_estado in (0, 1)')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_estado in (0, 1)')
+ 5 APPPATH\Models\configuracionModelo.php(10): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Configuracion.php(25): App\Models\configuracionModelo->reads()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Configuracion->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Configuracion))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

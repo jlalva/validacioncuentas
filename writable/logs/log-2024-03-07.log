@@ -1,0 +1,7 @@
+CRITICAL - 2024-03-07 06:08:47 --> Attempt to read property "per_genero" on null
+in APPPATH\Controllers\Encuestar.php on line 529.
+ 1 APPPATH\Controllers\Encuestar.php(529): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "per_genero" on null', 'C:\\xampp\\htdocs\\encuestas\\app\\Controllers\\Encuestar.php', 529)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Encuestar->constancia('371778-2')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Encuestar))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

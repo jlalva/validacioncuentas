@@ -1,0 +1,168 @@
+ERROR - 2024-04-12 14:23:28 --> mysqli_sql_exception: Table 'sw_validacioncuentas.empresa' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\xampp\htdocs\validacioncuentas\system\Model.php(268): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\validacioncuentas\system\BaseModel.php(656): CodeIgniter\Model->doFirst()
+#6 C:\xampp\htdocs\validacioncuentas\app\Models\empresaModelo.php(33): CodeIgniter\BaseModel->first()
+#7 C:\xampp\htdocs\validacioncuentas\app\Helpers\empresa_helper.php(107): App\Models\empresaModelo->datosEmpresa()
+#8 C:\xampp\htdocs\validacioncuentas\app\Views\login\index.php(28): fondo()
+#9 C:\xampp\htdocs\validacioncuentas\system\View\View.php(213): include('C:\\xampp\\htdocs...')
+#10 C:\xampp\htdocs\validacioncuentas\system\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+#11 C:\xampp\htdocs\validacioncuentas\system\Common.php(1184): CodeIgniter\View\View->render('login/index', Array, true)
+#12 C:\xampp\htdocs\validacioncuentas\app\Controllers\Index.php(36): view('login/index')
+#13 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Index->index()
+#14 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Index))
+#15 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#16 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#17 {main}
+CRITICAL - 2024-04-12 14:23:28 --> Table 'sw_validacioncuentas.empresa' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT *
+FROM `empresa`
+WHERE `emp_estado` = 1
+ LIMIT 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `empresa`
+WHERE `emp_estado` = 1
+ LIMIT 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `empresa`
+WHERE `emp_estado` = 1
+ LIMIT 1')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1616): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `empresa`
+WHERE `emp_estado` = :emp_estado:
+ LIMIT 1', [...], false)
+ 5 SYSTEMPATH\Model.php(268): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(656): CodeIgniter\Model->doFirst()
+ 7 APPPATH\Models\empresaModelo.php(33): CodeIgniter\BaseModel->first()
+ 8 APPPATH\Helpers\empresa_helper.php(107): App\Models\empresaModelo->datosEmpresa()
+ 9 APPPATH\Views\login\index.php(28): fondo()
+10 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\login\\index.php')
+11 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+12 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('login/index', [], true)
+13 APPPATH\Controllers\Index.php(36): view('login/index')
+14 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Index->index()
+15 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Index))
+16 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+17 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-12 15:45:54 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND con.con_estado = 1' at line 3 in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM c...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM c...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM c...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM c...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\configuracionModelo.php(17): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Inicio.php(21): App\Models\configuracionModelo->tipomensaje(2, NULL)
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Inicio->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-12 15:45:54 --> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AND con.con_estado = 1' at line 3
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_tipo = 2 AND ani.ani_codigo =  AND con.con_estado = 1', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_tipo = 2 AND ani.ani_codigo =  AND con.con_estado = 1')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_tipo = 2 AND ani.ani_codigo =  AND con.con_estado = 1')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT * FROM configuracion con
+                        INNER JOIN anio ani ON ani.ani_id = con.con_per_id
+                        WHERE con.con_tipo = 2 AND ani.ani_codigo =  AND con.con_estado = 1')
+ 5 APPPATH\Models\configuracionModelo.php(17): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Inicio.php(21): App\Models\configuracionModelo->tipomensaje(2, null)
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Inicio->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-12 15:47:07 --> Undefined variable $mensaje
+in APPPATH\Views\inicio\index.php on line 19.
+ 1 APPPATH\Views\inicio\index.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $mensaje', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\inicio\\index.php', 19)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\inicio\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('inicio/index', [], true)
+ 5 APPPATH\Controllers\Inicio.php(17): view('inicio/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Inicio->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-12 15:48:12 --> Undefined variable $mensaje
+in APPPATH\Views\inicio\index.php on line 19.
+ 1 APPPATH\Views\inicio\index.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $mensaje', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\inicio\\index.php', 19)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\inicio\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('inicio/index', [], true)
+ 5 APPPATH\Controllers\Inicio.php(17): view('inicio/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Inicio->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-04-12 16:01:06 --> Undefined variable $date
+in APPPATH\Views\include\header.php on line 31.
+ 1 APPPATH\Views\include\header.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $date', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\include\\header.php', 31)
+ 2 APPPATH\Views\inicio\index.php(1): require_once('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\include\\header.php')
+ 3 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\inicio\\index.php')
+ 4 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 5 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('inicio/index', [], true)
+ 6 APPPATH\Controllers\Inicio.php(17): view('inicio/index', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Inicio->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-12 18:49:18 --> mysqli_sql_exception: Table 'sw_validacioncuentas.ubigeo' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT dpto FRO...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT dpto FRO...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT dpto FRO...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT dpto FRO...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(118): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Empresa.php(17): App\Models\usuariosModelo->ubigeoDepartamento()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Empresa->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-12 18:49:18 --> Table 'sw_validacioncuentas.ubigeo' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 5 APPPATH\Models\usuariosModelo.php(118): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Empresa.php(17): App\Models\usuariosModelo->ubigeoDepartamento()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-04-12 19:00:18 --> mysqli_sql_exception: Table 'sw_validacioncuentas.ubigeo' doesn't exist in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT dpto FRO...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT dpto FRO...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT dpto FRO...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT dpto FRO...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\usuariosModelo.php(118): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Empresa.php(17): App\Models\usuariosModelo->ubigeoDepartamento()
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Empresa->index()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2024-04-12 19:00:18 --> Table 'sw_validacioncuentas.ubigeo' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('SELECT dpto FROM ubigeo GROUP BY dpto ORDER BY dpto ASC')
+ 5 APPPATH\Models\usuariosModelo.php(118): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Empresa.php(17): App\Models\usuariosModelo->ubigeoDepartamento()
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->index()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
