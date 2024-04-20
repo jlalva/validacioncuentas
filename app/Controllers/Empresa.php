@@ -13,7 +13,6 @@ class Empresa extends Controller
         if(session('authenticated') && accede()){
             if(bloqueado()){
                 $object = new empresaModelo();
-                $objectUser = new usuariosModelo();
                 $items = $object->reads();
                 $datos = ['titulo' => 'Empresa', 'items' => $items];
                 return view('gestionar/empresa/index', $datos);

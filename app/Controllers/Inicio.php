@@ -20,30 +20,4 @@ class Inicio extends Controller
         }
     }
 
-    public function fijarperiodo(){
-        $object = new periodoModelo();
-        $objectUsu = new usuariosModelo();
-        $idperiodo = $_POST['idperiodo'];
-        $periodo = $_POST['periodo'];
-        $session = session();
-        if(in_array(session('idrol'),[1,2])){
-            if($object->desmarcarSeleccion()){
-                $object->marcarSeleccion($idperiodo);
-                $upd = ['usu_periodo_seleccionado'=>$idperiodo];
-                $objectUsu->updateUsuario(session('idusuario'),$upd);
-                $data = [
-                    'idperiodo' => $idperiodo,
-                    'periodo' => $periodo
-                ];
-            }
-        }else{
-            $upd = ['usu_periodo_seleccionado'=>$idperiodo];
-            $objectUsu->updateUsuario(session('idusuario'),$upd);
-            $data = [
-                'idperiodo' => $idperiodo,
-                'periodo' => $periodo
-            ];
-        }
-        $session->set($data);
-    }
 }
