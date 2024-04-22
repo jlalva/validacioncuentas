@@ -64,11 +64,15 @@ $routes->get('subirdata', 'Subirdata::index');
 $routes->get('subirdata/add', 'Subirdata::add');
 $routes->post('subirdata/validar', 'Subirdata::validar');
 $routes->post('subirdata/guardararchivoexcel', 'Subirdata::guardararchivoexcel');
+$routes->get('subirdata/detalle/(:num)', 'Subirdata::detalle/$1');
 //Generar data
 $routes->get('generardata', 'Generardata::index');
 $routes->get('generardata/add', 'Generardata::add');
-$routes->post('generardata/validar', 'Generardata::validar');
+$routes->post('generardata/preview', 'Generardata::preview');
+$routes->post('generardata/procesar', 'Generardata::procesar');
 $routes->post('generardata/guardararchivoexcel', 'Generardata::guardararchivoexcel');
+$routes->get('generardata/detalle/(:num)', 'Generardata::detalle/$1');
+$routes->get('generardata/exportar/(:num)', 'Generardata::exportar/$1');
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';

@@ -39,11 +39,55 @@ class Subirdata extends Controller
         }
     }
 
+    public function detalle($arc_id)
+    {
+        if(session('authenticated') && accede()){
+            if(bloqueado()){
+                require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+                $object = new archivosModelo();
+                $objectD = new datosModelo();
+                $item = $object->archivo($arc_id);
+                $archivo = "public/".$item->arc_ruta;
+                $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
+                $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+                $objPHPExcel = $objPHPExcel->load($archivo);
+                $hoja = $objPHPExcel->getSheet(0);
+                $ultimaFila = $hoja->getHighestRow();
+                $html = "";
+                for($i = 2; $i <= $ultimaFila; $i++) {
+                    $completo = $hoja->getCell("A$i")->getValue()." ".$hoja->getCell("B$i")->getValue();
+                    $val = $objectD->validarNombres($completo);
+                    if($val){
+                        $icono ="<i class='bx bx-message-square-check' style='color:green'></i>";
+                    }else{
+                        $icono = "<i class='bx bx-message-square-x' style='color:red'></i>";
+                    }
+                    $html .="<tr>
+                                <td>".($i-1)."</td>
+                                <td>".$hoja->getCell("A$i")->getValue()."</td>
+                                <td>".$hoja->getCell("B$i")->getValue()."</td>
+                                <td>".$hoja->getCell("C$i")->getValue()."</td>
+                                <td>".$hoja->getCell("D$i")->getValue()."</td>
+                                <td>".$hoja->getCell("E$i")->getValue()."</td>
+                                <td>".$hoja->getCell("F$i")->getValue()."</td>
+                                <td>$icono</td>
+                            </tr>";
+                }
+                $datos = ['titulo' => 'Subir datos', 'table'=>$html];
+                return view('datos/subirdata/detalle', $datos);
+            }else{
+                return view('denegado');
+            }
+        }else{
+            return redirect()->to(base_url("/"));
+        }
+    }
+
     public function validar(){
         $object = new datosModelo();
         if(isset($_FILES["archivo"])) {
             $archivo = $_FILES["archivo"]["tmp_name"];
-            require_once APPPATH . 'Libraries/Excel/PHPExcel.php'; 
+            require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
             $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
             $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
             $objPHPExcel = $objPHPExcel->load($archivo);
@@ -108,8 +152,6 @@ class Subirdata extends Controller
                     $email = $hoja->getCell("C$i")->getValue();
                     $status = $hoja->getCell("D$i")->getValue();
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
-                    //$ultimoacceso = strtotime($ultimoacceso);
-                    //$ultimoacceso = date('Y-m-d H:i:s', $ultimoacceso);
                     $espacio = $hoja->getCell("F$i")->getValue();
                     $completo = $nombre.' '.$apellido;
                     if (validar_correo($email)){

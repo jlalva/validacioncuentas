@@ -40,7 +40,11 @@
                                     <td><?=$row->arc_subido?></td>
                                     <td><?=$row->usu_nombre?></td>
                                     <td><?=$row->arc_fecha_reg?></td>
-                                    <td></td>
+                                    <td>
+                                        <a href="<?=$app->baseURL?>generardata/detalle/<?=$row->arc_id?>" class="btn btn-info btn-sm" title="Ver detalle"><i class="bx bx-list-ul"></i></a>
+                                        <a href="<?=$app->baseURL?>generardata/exportar/<?=$row->arc_id?>" target="_blank" class="btn btn-success btn-sm" title="Exportar datos"><i class="bx bx-data"></i></a>
+                                        <a href="<?=$app->baseURL?>public/<?=$row->arc_ruta?>" class="btn btn-warning btn-sm" title="Descargar archivo"><i class="bx bx-arrow-from-top"></i></a>
+                                    </td>
                                 </tr>
                         <?php }?>
                     </tbody>

@@ -47,7 +47,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="mb-0 text-uppercase">Datos del archivo</h6>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h6 class="mb-0 text-uppercase">Datos del archivo</h6>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-success btn-sm" hidden id="btnprocesar">Procesar</button>
+                            </div>
+                        </div>
                         <hr/>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="tabla">
@@ -72,26 +79,33 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12"><hr></div>
+            <div class="col-md-12" id="resultado"></div>
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="mb-0 text-uppercase">Datos Observados</h6>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h6 class="mb-0 text-uppercase">Cuentas creadas</h6>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-success btn-sm" hidden id="btnconfirmar">Confirmar</button>
+                            </div>
+                        </div>
                         <hr/>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="observados">
+                            <table class="table table-striped table-bordered" id="procesados">
                                 <thead>
                                     <tr class="headings">
                                         <th class="column-title" style="text-align: center;">ITEM</th>
                                         <th class="column-title" style="text-align: center;">NOMBRE</th>
                                         <th class="column-title" style="text-align: center;">APELLIDO</th>
-                                        <th class="column-title" style="text-align: center;">CODIGO</th>
-                                        <th class="column-title" style="text-align: center;">DNI</th>
-                                        <th class="column-title" style="text-align: center;">CELULAR</th>
-                                        <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>
+                                        <th class="column-title" style="text-align: center;">CORREO CREADO</th>
+                                        <th class="column-title" style="text-align: center;">CLAVE</th>
                                         <th class="column-title" style="text-align: center;">OBSERVACION</th>
                                     </tr>
                                 </thead>
-                                <tbody id="datosobservados">
+                                <tbody id="datosprocesados">
                                 </tbody>
                             </table>
                         </div>

@@ -1,11 +1,9 @@
 <?php require_once APPPATH . 'Views/include/header.php' ?>
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-    <h6 class="mb-0 text-uppercase">Subir data</h6>
+    <h6 class="mb-0 text-uppercase">Detalle</h6>
     <div class="ms-auto">
         <div class="btn-group">
-        <?php if (agregar()) { ?>
-                <a href="subirdata/add" class="btn btn-primary btn-sm" style="color: #000;"><i class="fa fa-plus"></i> Nuevo</a>
-            <?php } ?>
+            <a href="<?=$app->baseURL?>subirdata" class="btn btn-warning btn-sm" style="color: #000;margin-top:-7px;"> Regresar </a>
         </div>
     </div>
 </div>
@@ -24,10 +22,11 @@
                             <th class="column-title" style="text-align: center;">STATUS</th>
                             <th class="column-title" style="text-align: center;">ULTIMO ACCESO</th>
                             <th class="column-title" style="text-align: center;">ESPACIO USO</th>
-                            <th class="column-title" style="text-align: center;">ACCI&Oacute;N</th>
+                            <th class="column-title" style="text-align: center;"></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?=$table?>
                     </tbody>
                 </table>
             </div>
