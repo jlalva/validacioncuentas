@@ -25,20 +25,6 @@ class Subirdata extends Controller
         }
     }
 
-    public function add()
-    {
-        if(session('authenticated') && accede()){
-            if(bloqueado()){
-                $datos = ['titulo' => 'Subir datos'];
-                return view('datos/subirdata/add', $datos);
-            }else{
-                return view('denegado');
-            }
-        }else{
-            return redirect()->to(base_url("/"));
-        }
-    }
-
     public function detalle($arc_id)
     {
         if(session('authenticated') && accede()){
@@ -48,32 +34,57 @@ class Subirdata extends Controller
                 $objectD = new datosModelo();
                 $item = $object->archivo($arc_id);
                 $archivo = "public/".$item->arc_ruta;
-                $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
-                $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
-                $objPHPExcel = $objPHPExcel->load($archivo);
-                $hoja = $objPHPExcel->getSheet(0);
-                $ultimaFila = $hoja->getHighestRow();
+                $ruta = $item->arc_ruta;
                 $html = "";
-                for($i = 2; $i <= $ultimaFila; $i++) {
-                    $completo = $hoja->getCell("A$i")->getValue()." ".$hoja->getCell("B$i")->getValue();
-                    $val = $objectD->validarNombres($completo);
-                    if($val){
-                        $icono ="<i class='bx bx-message-square-check' style='color:green'></i>";
-                    }else{
-                        $icono = "<i class='bx bx-message-square-x' style='color:red'></i>";
+                if($item->arc_tipo_archivo == 1){
+                    $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
+                    $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+                    $objPHPExcel = $objPHPExcel->load($archivo);
+                    $hoja = $objPHPExcel->getSheet(0);
+                    $ultimaFila = $hoja->getHighestRow();
+                    for($i = 2; $i <= $ultimaFila; $i++) {
+                        $completo = $hoja->getCell("A$i")->getValue()." ".$hoja->getCell("B$i")->getValue();
+                        $val = $objectD->validarNombres($completo);
+                        $color = "";
+                        if(!$val){
+                            $color ="style='background-color: red'";
+                        }
+                        $html .="<tr ".$color.">
+                                    <td>".($i-1)."</td>
+                                    <td>".$hoja->getCell("A$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("B$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("C$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("D$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("E$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("F$i")->getValue()."</td>
+                                </tr>";
                     }
-                    $html .="<tr>
-                                <td>".($i-1)."</td>
-                                <td>".$hoja->getCell("A$i")->getValue()."</td>
-                                <td>".$hoja->getCell("B$i")->getValue()."</td>
-                                <td>".$hoja->getCell("C$i")->getValue()."</td>
-                                <td>".$hoja->getCell("D$i")->getValue()."</td>
-                                <td>".$hoja->getCell("E$i")->getValue()."</td>
-                                <td>".$hoja->getCell("F$i")->getValue()."</td>
-                                <td>$icono</td>
-                            </tr>";
+                }else{
+                    $lineas = file($archivo);
+                    $c = 0;
+                    foreach ($lineas as $linea_num => $linea){
+                        if($c != 0){
+                            $datos = preg_split("/[;,]/", $linea);
+                            $completo = $datos[0]." ".$datos[1];
+                            $val = $objectD->validarNombres($completo);
+                            $color = "";
+                            if(!$val){
+                                $color ="style='background-color: red'";
+                            }
+                            $html .="<tr ".$color.">
+                                    <td>".$c."</td>
+                                    <td>".$datos[0]."</td>
+                                    <td>".$datos[1]."</td>
+                                    <td>".$datos[2]."</td>
+                                    <td>".$datos[3]."</td>
+                                    <td>".$datos[4]."</td>
+                                    <td>".$datos[5]."</td>
+                                </tr>";
+                        }
+                        $c++;
+                    }
                 }
-                $datos = ['titulo' => 'Subir datos', 'table'=>$html];
+                $datos = ['titulo' => 'Subir datos', 'table'=>$html, 'ruta'=>$ruta];
                 return view('datos/subirdata/detalle', $datos);
             }else{
                 return view('denegado');
@@ -86,84 +97,154 @@ class Subirdata extends Controller
     public function validar(){
         $object = new datosModelo();
         if(isset($_FILES["archivo"])) {
-            $archivo = $_FILES["archivo"]["tmp_name"];
-            require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
-            $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
-            $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
-            $objPHPExcel = $objPHPExcel->load($archivo);
-            $hoja = $objPHPExcel->getSheet(0);
-            $ultimaFila = $hoja->getHighestRow();
-            $resultado = '';
-            $dupli = 0;
-            $invalido = 0;
-            for($i = 2; $i <= $ultimaFila; $i++) {
-                $email = $hoja->getCell("C$i")->getValue();
-                if (validar_correo($email)){
-                    $val = $object->validarCorreo($email);
-                    if($val){
-                        $dupli ++;
-                    }
-                } else {
-                    $invalido ++;
-                }
-            }
-            $aregistrar = $ultimaFila-1 - $dupli -$invalido;
-            $resultado .= "Total registros ".($ultimaFila-1)."<br>";
-            $resultado .= "Valores dulpicado $dupli<br>";
-            $resultado .= "Correos invalidos $invalido<br>";
-            $resultado .= "Total a registrar $aregistrar<br>";
-            if($aregistrar>0){
-                $resultado .= "<button class='btn btn-success btn-sm' onclick='confirmarexcel()'>Confirmar validación</button>";
-            }
-            echo $resultado;
-        }
-    }
-
-    public function guardararchivoexcel(){
-        $object = new datosModelo();
-        $objectArc = new archivosModelo();
-        if(isset($_FILES["archivo"])) {
+            $tipoarchivo = $_POST['tipoarchivo'];
             $resultado = '';
             $dupli = 0;
             $invalido = 0;
             $archivo = $_FILES["archivo"]["tmp_name"];
-            $nombrearchivo = $_FILES["archivo"]["name"];
-            $nombreserver = 's'.date("YmdHis").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
-            $data = [
-                'arc_nombre'=>$nombrearchivo,
-                'arc_ruta'=>"archivos/subirdatos/".$nombreserver,
-                'arc_total'=>0,
-                'arc_subido'=>0,
-                'arc_usu_id'=>session('idusuario')
-            ];
-            if($objectArc->add($data)){
-                $arc_id = $objectArc->getInsertID();
+            $archivoext = $_FILES["archivo"]["name"];
+            $extension = pathinfo($archivoext, PATHINFO_EXTENSION);
+            if($extension == 'csv' && $tipoarchivo == 1){
+                echo "El tipo de archivo no coincide con el archivo seleccionado.";
+                exit;
+            }
+            if(in_array($extension, ['xlsx','xls']) && $tipoarchivo == 2){
+                echo "El tipo de archivo no coincide con el archivo seleccionado.";
+                exit;
+            }
+            if(!in_array($extension, ['xlsx','xls','csv'])){
+                echo "El archivo seleccionado no es permitido.";
+                exit;
+            }
+            if($tipoarchivo == 1){
                 require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
                 $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
                 $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
                 $objPHPExcel = $objPHPExcel->load($archivo);
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
-                $total = $ultimaFila - 1;
-                $datos = '';
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = $hoja->getCell("A$i")->getValue();
-                    $apellido = $hoja->getCell("B$i")->getValue();
                     $email = $hoja->getCell("C$i")->getValue();
-                    $status = $hoja->getCell("D$i")->getValue();
-                    $ultimoacceso = $hoja->getCell("E$i")->getValue();
-                    $espacio = $hoja->getCell("F$i")->getValue();
-                    $completo = $nombre.' '.$apellido;
                     if (validar_correo($email)){
                         $val = $object->validarCorreo($email);
                         if($val){
                             $dupli ++;
-                        }else{
-                            $datos .="('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario')."),";
                         }
-                    }else {
+                    } else {
                         $invalido ++;
                     }
+                }
+            }else{
+                $lineas = file($archivo);
+                $c = 0;
+                foreach ($lineas as $linea_num => $linea){
+                    if($c != 0){
+                        $datos = preg_split("/[;,]/", $linea);
+                        $email = $datos[2];
+                        if (validar_correo($email)){
+                            $val = $object->validarCorreo($email);
+                            if($val){
+                                $dupli ++;
+                            }
+                        } else {
+                            $invalido ++;
+                        }
+                    }
+                    $c++;
+                }
+                $ultimaFila = $c;
+            }
+
+            $aregistrar = $ultimaFila-1 - $dupli -$invalido;
+            $resultado .= "Total registros ".($ultimaFila-1)."<br>";
+            $resultado .= "Valores dulpicado $dupli<br>";
+            $resultado .= "Correos invalidos $invalido<br>";
+            $resultado .= "Total a registrar $aregistrar<br>";
+            if($aregistrar>0){
+                $resultado .= "<button class='btn btn-success btn-sm' onclick='confirmarexcel()'>Guardar</button>";
+            }
+            echo $resultado;
+        }
+    }
+
+    public function guardararchivo(){
+        $object = new datosModelo();
+        $objectArc = new archivosModelo();
+        $tipoarchivo = $_POST['tipoarchivo'];
+        $descripcion = $_POST['descripcion'];
+        if(isset($_FILES["archivo"])) {
+            $resultado = '';
+            $dupli = 0;
+            $invalido = 0;
+            $archivo = $_FILES["archivo"]["tmp_name"];
+            $nombrearchivo = $_FILES["archivo"]["name"];
+            $nombreserver = 'ws_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
+            $data = [
+                'arc_nombre'=>$nombrearchivo,
+                'arc_ruta'=>"archivos/subirdatos/".$nombreserver,
+                'arc_total'=>0,
+                'arc_subido'=>0,
+                'arc_usu_id'=>session('idusuario'),
+                'arc_tipo_archivo'=>$tipoarchivo,
+                'arc_descripcion'=>$descripcion
+            ];
+            if($objectArc->add($data)){
+                $arc_id = $objectArc->getInsertID();
+                $datos = '';
+                if($tipoarchivo == 1){
+                    require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+                    $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
+                    $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+                    $objPHPExcel = $objPHPExcel->load($archivo);
+                    $hoja = $objPHPExcel->getSheet(0);
+                    $ultimaFila = $hoja->getHighestRow();
+                    $total = $ultimaFila - 1;
+                    for($i = 2; $i <= $ultimaFila; $i++) {
+                        $nombre = $hoja->getCell("A$i")->getValue();
+                        $apellido = $hoja->getCell("B$i")->getValue();
+                        $email = $hoja->getCell("C$i")->getValue();
+                        $status = $hoja->getCell("D$i")->getValue();
+                        $ultimoacceso = $hoja->getCell("E$i")->getValue();
+                        $espacio = $hoja->getCell("F$i")->getValue();
+                        $completo = $nombre.' '.$apellido;
+                        if (validar_correo($email)){
+                            $val = $object->validarCorreo($email);
+                            if($val){
+                                $dupli ++;
+                            }else{
+                                $datos .="('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario')."),";
+                            }
+                        }else {
+                            $invalido ++;
+                        }
+                    }
+                }else{
+                    $lineas = file($archivo);
+                    $c = 0;
+                    foreach ($lineas as $linea_num => $linea){
+                        if($c != 0){
+                            $item = preg_split("/[;,]/", $linea);
+                            $nombre = $item[0];
+                            $apellido = $item[1];
+                            $email = $item[2];
+                            $status = $item[3];
+                            $ultimoacceso = $item[4];
+                            $espacio = $item[5];
+                            $completo = $nombre.' '.$apellido;
+                            if (validar_correo($email)){
+                                $val = $object->validarCorreo($email);
+                                if($val){
+                                    $dupli ++;
+                                }else{
+                                    $datos .="('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario')."),";
+                                }
+                            }else {
+                                $invalido ++;
+                            }
+                        }
+                        $c++;
+                    }
+                    $total = $c-1;
                 }
                 $aregistrar = $total - $dupli -$invalido;
                 $datos = substr($datos,0,-1);

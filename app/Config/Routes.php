@@ -63,7 +63,7 @@ $routes->post('empresa/eliminar', 'Empresa::eliminar');
 $routes->get('subirdata', 'Subirdata::index');
 $routes->get('subirdata/add', 'Subirdata::add');
 $routes->post('subirdata/validar', 'Subirdata::validar');
-$routes->post('subirdata/guardararchivoexcel', 'Subirdata::guardararchivoexcel');
+$routes->post('subirdata/guardararchivo', 'Subirdata::guardararchivo');
 $routes->get('subirdata/detalle/(:num)', 'Subirdata::detalle/$1');
 //Generar data
 $routes->get('generardata', 'Generardata::index');

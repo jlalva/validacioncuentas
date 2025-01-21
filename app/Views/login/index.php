@@ -43,7 +43,7 @@ $app = new App();
             <div class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex">
                 <div class="card shadow-none bg-transparent shadow-none rounded-0 mb-0">
                     <div class="card-body">
-                        <img src="<?=$app->baseURL?>public/images/FOTO_EMPRESA/<?=logo()?>" class="img-fluid auth-img-cover-login" width="650" alt="" />
+                        <img src="<?=$app->baseURL?>public/images/FOTO_EMPRESA/<?=logo()?>" class="img-fluid" width="650" alt="" />
                     </div>
                 </div>
             </div>

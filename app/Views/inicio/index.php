@@ -3,94 +3,59 @@
 <hr />
 <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
     <div class="col">
-        <div class="card radius-10 ">
+        <div class="card radius-10 bg-gradient-cosmic">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0">USUARIO</p>
-                        <h5 class="mb-0"></h5>
+                        <p class="mb-0 text-white">EMPRESAS</p>
+                        <h4 class="my-1 text-white"><?=$tempresas?></h4>
+                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('empresa')?>" style="color: #fff;">Ver empresas</a></p>
                     </div>
+                    <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto"><i class='lni lni-apartment'></i></div>
                 </div>
-                <div class="" id="w-chart1"></div>
             </div>
         </div>
     </div>
     <div class="col">
-        <div class="card radius-10">
+        <div class="card radius-10 bg-gradient-ibiza">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0">SUBIR DATA</p>
-                        <h5 class="mb-0"></h5>
+                        <p class="mb-0 text-white">USUARIOS</p>
+                        <h4 class="my-1 text-white"><?=$tusuarios?></h4>
+                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('usuarios')?>" style="color: #fff;">Ver usuarios</a></p>
                     </div>
+                    <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto"><i class='lni lni-users'></i></div>
                 </div>
-                <div class="" id="w-chart2"></div>
             </div>
         </div>
     </div>
     <div class="col">
-        <div class="card radius-10">
+        <div class="card radius-10 bg-gradient-kyoto">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0">GENERAR DATA</p>
-                        <h5 class="mb-0"></h5>
+                        <p class="mb-0 text-white">ROLES</p>
+                        <h4 class="my-1 text-white"><?=$troles?></h4>
+                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('roles')?>" style="color: #fff;">Ver roles</a></p>
                     </div>
+                    <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto"><i class='lni lni-user'></i></div>
                 </div>
-                <div class="" id="w-chart3"></div>
             </div>
         </div>
     </div>
     <div class="col">
-        <div class="card radius-10">
+        <div class="card radius-10 bg-gradient-ohhappiness">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0">VISUALIZAR DATA</p>
-                        <h5 class="mb-0"></h5>
+                        <p class="mb-0 text-white">CUENTAS CREADAS</p>
+                        <h4 class="my-1 text-white"><?=$tcuentas?></h4>
+                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('generardata')?>" style="color: #fff;">Ver cuentas creadas</a></p>
                     </div>
-                </div>
-                <div class="" id="w-chart4"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card radius-10 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <p class="mb-0">EXPORTAR DATA</p>
-                        <h5 class="mb-0"></h5>
-                    </div>
+                    <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class='lni lni-envelope'></i></div>
                 </div>
             </div>
-            <div class="" id="w-chart5"></div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card radius-10 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <p class="mb-0">EMPRESA</p>
-                        <h5 class="mb-0"></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="" id="w-chart6"></div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card radius-10 overflow-hidden">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <p class="mb-0">CONFIGURACION</p>
-                        <h5 class="mb-0"></h5>
-                    </div>
-                </div>
-            </div>
-            <div class="" id="w-chart7"></div>
         </div>
     </div>
 </div>

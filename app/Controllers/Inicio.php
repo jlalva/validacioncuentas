@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\configuracionModelo;
 use App\Models\inicioModelo;
-use App\Models\usuariosModelo;
 use CodeIgniter\Controller;
 
 class Inicio extends Controller
@@ -13,7 +11,16 @@ class Inicio extends Controller
     public function index()
     {
         if(session('authenticated')){
-            $datos = ['titulo' => 'Inicio'];
+            $objectI = new inicioModelo();
+            $respobjectE = $objectI->totalempresas();
+            $totalE = $respobjectE->total;
+            $respobjectU = $objectI->totalusuarios();
+            $totalU = $respobjectU->total;
+            $respobjectR = $objectI->totalroles();
+            $totalR = $respobjectR->total;
+            $respobjectC = $objectI->totalcuentas();
+            $totalC = $respobjectC->total;
+            $datos = ['titulo' => 'Inicio', 'tempresas' => $totalE, 'tusuarios' => $totalU, 'troles' => $totalR, 'tcuentas' => $totalC];
             return view('inicio/index', $datos);
         }else{
             return redirect()->to(base_url("/"));

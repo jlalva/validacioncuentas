@@ -4,7 +4,8 @@ use CodeIgniter\Model;
 class archivosModelo extends Model{
     protected $table = 'archivos';
     protected $primaryKey = 'arc_id';
-    protected $allowedFields = ['arc_nombre', 'arc_ruta', 'arc_total', 'arc_subido', 'arc_usu_id', 'arc_fecha_reg','arc_estado','arc_origen'];
+    protected $allowedFields = ['arc_nombre', 'arc_ruta', 'arc_total', 'arc_subido', 'arc_usu_id', 'arc_fecha_reg','arc_estado','arc_origen',
+                                'arc_tipo_archivo', 'arc_descripcion'];
 
     public function registros($origen){
         $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,arc_fecha_reg 

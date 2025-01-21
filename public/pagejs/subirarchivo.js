@@ -1,11 +1,26 @@
 $(document).ready(function() {
-    $('#subirexcel').on('click', function() {
+    $('#subirarchivo').on('click', function() {
+        const tipoarchivo = document.querySelector('input[name="tipoarchivo"]:checked');
+        const textarea = document.getElementById('descripcion');
+        const descripcion = textarea.value;
+        if(!tipoarchivo){
+            alertify.error('Seleccione el tipo de archivo');
+            return;
+        }
+        tipo = tipoarchivo.value;
         $(".carga").waitMe({text: 'Validando datos'});
         var formData = new FormData();
-        var fileInput = document.getElementById('excel');
+        var fileInput = document.getElementById('archivoec');
         if (fileInput.files.length > 0) {
+            if(descripcion == ''){
+                $(".carga").waitMe('hide');
+                alertify.error('Ingrese una descripción del archivo.');
+                return;
+            }
             var file = fileInput.files[0];
             formData.append('archivo', file);
+            formData.append('tipoarchivo', tipo);
+            formData.append('descripcion', descripcion);
             fetch(url + 'subirdata/validar', {
                 method: 'POST',
                 body: formData
@@ -27,12 +42,18 @@ $(document).ready(function() {
 
 function confirmarexcel(){
     alertify.confirm('Confirmar','Estas seguro de registrar el archivo, esta acción no se puede cancelar', function() {
+        const tipoarchivo = document.querySelector('input[name="tipoarchivo"]:checked');
+        const textarea = document.getElementById('descripcion');
+        const descripcion = textarea.value;
+        tipo = tipoarchivo.value;
         var formData = new FormData();
-        var fileInput = document.getElementById('excel');
+        var fileInput = document.getElementById('archivoec');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
-            fetch(url + 'subirdata/guardararchivoexcel', {
+            formData.append('tipoarchivo', tipo);
+            formData.append('descripcion', descripcion);
+            fetch(url + 'subirdata/guardararchivo', {
                 method: 'POST',
                 body: formData
             })

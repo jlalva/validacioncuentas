@@ -26,7 +26,7 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125);    // highest a
 
 define('hostname', 'localhost');
 define('username', 'root');
-define('database', 'sw_validacioncuentas');
+define('database', 'jl_validacioncuentas');
 define('password', '187715');
 
 /**
