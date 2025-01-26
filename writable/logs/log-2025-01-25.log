@@ -1,0 +1,48 @@
+CRITICAL - 2025-01-25 04:11:29 --> Too few arguments to function App\Controllers\Tipopersona::update(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php on line 934 and exactly 1 expected
+in APPPATH\Controllers\Tipopersona.php on line 69.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Tipopersona->update()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Tipopersona))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 04:11:40 --> Too few arguments to function App\Controllers\Tipopersona::update(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php on line 934 and exactly 1 expected
+in APPPATH\Controllers\Tipopersona.php on line 69.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Tipopersona->update()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Tipopersona))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 04:13:44 --> Too few arguments to function App\Controllers\Tipopersona::update(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php on line 934 and exactly 1 expected
+in APPPATH\Controllers\Tipopersona.php on line 69.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Tipopersona->update()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Tipopersona))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 04:26:09 --> Too few arguments to function App\Controllers\Tipopersona::update(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php on line 934 and exactly 1 expected
+in APPPATH\Controllers\Tipopersona.php on line 69.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Tipopersona->update()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Tipopersona))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 04:27:31 --> Too few arguments to function App\Controllers\Tipopersona::update(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php on line 934 and exactly 1 expected
+in APPPATH\Controllers\Tipopersona.php on line 69.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Tipopersona->update()
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Tipopersona))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 17:19:11 --> Archivo inválido: mantenedor/dominio/index.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('mantenedor/dominio/index.php')
+ 2 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('mantenedor/dominio/index', [], true)
+ 3 APPPATH\Controllers\Dominio.php(17): view('mantenedor/dominio/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Dominio->index()
+ 5 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dominio))
+ 6 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-25 17:21:38 --> Archivo inválido: mantenedor/dominio/add.php
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('mantenedor/dominio/add.php')
+ 2 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('mantenedor/dominio/add', [], true)
+ 3 APPPATH\Controllers\Dominio.php(31): view('mantenedor/dominio/add', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Dominio->add()
+ 5 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Dominio))
+ 6 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

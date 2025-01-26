@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\archivosModelo;
 use App\Models\datosModelo;
+use App\Models\dominioModelo;
+use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -16,7 +18,23 @@ class Generardata extends Controller
             if(bloqueado()){
                 $object = new archivosModelo();
                 $items = $object->registros(2);
-                $datos = ['titulo' => 'Generar datos','items'=>$items];
+                $objectTP = new tipopersonaModelo();
+                $objectD = new dominioModelo();
+                $tipo = $objectTP->reads();
+                $dominio = $objectD->reads();
+                $selTP = '';
+                $selDom = '';
+                foreach ($tipo as $row){
+                    if($row['tip_estado'] == 1){
+                        $selTP .= "<option value='".$row['tip_id']."'>".$row['tip_nombre']."</option>";
+                    }
+                }
+                foreach ($dominio as $row){
+                    if($row['dom_estado'] == 1){
+                        $selDom .= "<option value='".$row['dom_id']."'>".$row['dom_nombre']."</option>";
+                    }
+                }
+                $datos = ['titulo' => 'Generar datos','items'=>$items, 'tipopersona' => $selTP, 'dominio' => $selDom];
                 return view('datos/generardata/index', $datos);
             }else{
                 return view('denegado');
@@ -30,7 +48,23 @@ class Generardata extends Controller
     {
         if(session('authenticated') && accede()){
             if(bloqueado()){
-                $datos = ['titulo' => 'Generar datos'];
+                $objectTP = new tipopersonaModelo();
+                $objectD = new dominioModelo();
+                $tipo = $objectTP->reads();
+                $dominio = $objectD->reads();
+                $selTP = '';
+                $selDom = '';
+                foreach ($tipo as $row){
+                    if($row['tip_estado'] == 1){
+                        $selTP .= "<option value='".$row['tip_id']."'>".$row['tip_nombre']."</option>";
+                    }
+                }
+                foreach ($dominio as $row){
+                    if($row['dom_estado'] == 1){
+                        $selDom .= "<option value='".$row['dom_id']."'>".$row['dom_nombre']."</option>";
+                    }
+                }
+                $datos = ['titulo' => 'Generar datos', 'tipopersona' => $selTP, 'dominio' => $selDom];
                 return view('datos/generardata/add', $datos);
             }else{
                 return view('denegado');
@@ -100,15 +134,15 @@ class Generardata extends Controller
             $c = 0;
             for($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
-                $codigo = $hoja->getCell("A$i")->getValue();
-                $dni     = $hoja->getCell("B$i")->getValue();
-                $nombres = $hoja->getCell("C$i")->getValue();
-                $apellidos = $hoja->getCell("D$i")->getValue();
-                $celular = $hoja->getCell("F$i")->getValue();
-                $correop = $hoja->getCell("G$i")->getValue();
-                $facultad = $hoja->getCell("H$i")->getValue();
-                $escuela = $hoja->getCell("I$i")->getValue();
-                $sede = $hoja->getCell("J$i")->getValue();
+                $nombres = $hoja->getCell("A$i")->getValue();
+                $apellidos = $hoja->getCell("B$i")->getValue();
+                $codigo = $hoja->getCell("C$i")->getValue();
+                $dni     = $hoja->getCell("D$i")->getValue();
+                $celular = $hoja->getCell("E$i")->getValue();
+                $correop = $hoja->getCell("F$i")->getValue();
+                $facultad = $hoja->getCell("G$i")->getValue();
+                $escuela = $hoja->getCell("H$i")->getValue();
+                $sede = $hoja->getCell("I$i")->getValue();
                 $preview .="<tr>
                             <td>$c</td>
                             <td>$nombres</td>
@@ -129,7 +163,11 @@ class Generardata extends Controller
     public function procesar(){
         if(isset($_FILES["archivo"])) {
             $object = new datosModelo();
+            $objectD = new dominioModelo();
             $archivo = $_FILES["archivo"]["tmp_name"];
+            $dom_id = $_POST['dominio'];
+            $dom = $objectD->readDominio($dom_id);
+            $dominio = $dom['dom_nombre'];
             require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
             $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
             $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
@@ -140,9 +178,9 @@ class Generardata extends Controller
             $c = 0;
             for($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
-                $codigo = $hoja->getCell("A$i")->getValue();
-                $nombres = $hoja->getCell("C$i")->getValue();
-                $apellidos = $hoja->getCell("D$i")->getValue();
+                $nombres = $hoja->getCell("A$i")->getValue();
+                $apellidos = $hoja->getCell("B$i")->getValue();
+                $codigo = $hoja->getCell("C$i")->getValue();
                 $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -153,7 +191,7 @@ class Generardata extends Controller
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                     $nombres_limpio);
-                $nombrecompleto = $hoja->getCell("E$i")->getValue();
+                $nombrecompleto = $nombres_limpio. ' '. $apellido_limpio;
                 $val = $object->validarNombres(trim($nombrecompleto));
                 $correo = '';
                 $clave = strtoupper(substr($nombres,0,1)).strtolower(substr($apellidos,0,1)).$codigo.'*';
@@ -161,10 +199,10 @@ class Generardata extends Controller
                 if($val){
                     $observacion = 'Usuario existente';
                 }else{
-                    $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).'@miempresa.com';
+                    $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
                     $val = $object->validarCorreo($correo);
                     if($val){
-                        $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).'@miempresa.com';
+                        $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
                     }
                 }
                 $html .="<tr>
@@ -180,10 +218,14 @@ class Generardata extends Controller
         }
     }
 
-    public function guardararchivoexcel(){
+    public function guardararchivo(){
         $object = new datosModelo();
         $objectArc = new archivosModelo();
         if(isset($_FILES["archivo"])) {
+            $objectD = new dominioModelo();
+            $dom_id = $_POST['dominio'];
+            $dom = $objectD->readDominio($dom_id);
+            $dominio = $dom['dom_nombre'];
             $resultado = '';
             $dupli = 0;
             $invalido = 0;
@@ -210,16 +252,16 @@ class Generardata extends Controller
                 $datos = '';
                 $invalido = 0;
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $codigo = $hoja->getCell("A$i")->getValue();
-                    $dni = $hoja->getCell("B$i")->getValue();
-                    $nombres = $hoja->getCell("C$i")->getValue();
-                    $apellidos = $hoja->getCell("D$i")->getValue();
-                    $completo = $hoja->getCell("E$i")->getValue();
-                    $celular = $hoja->getCell("F$i")->getValue();
-                    $correopersonal = $hoja->getCell("G$i")->getValue();
-                    $facultad = $hoja->getCell("H$i")->getValue();
-                    $escuela = $hoja->getCell("I$i")->getValue();
-                    $sede = $hoja->getCell("J$i")->getValue();
+                    $nombres = $hoja->getCell("A$i")->getValue();
+                    $apellidos = $hoja->getCell("B$i")->getValue();
+                    $codigo = $hoja->getCell("C$i")->getValue();
+                    $dni = $hoja->getCell("D$i")->getValue();
+                    $completo = $nombres.' '.$apellidos;
+                    $celular = $hoja->getCell("E$i")->getValue();
+                    $correopersonal = $hoja->getCell("F$i")->getValue();
+                    $facultad = $hoja->getCell("G$i")->getValue();
+                    $escuela = $hoja->getCell("H$i")->getValue();
+                    $sede = $hoja->getCell("I$i")->getValue();
                     $completo = preg_replace('/\b\w{1,2}\b/', '', $completo);
                     $completo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -239,10 +281,10 @@ class Generardata extends Controller
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                         $nombres_limpio);
                     if(!$val){
-                        $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).'@miempresa.com';
+                        $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
                         $val = $object->validarCorreo($correo);
                         if($val){
-                            $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).'@miempresa.com';
+                            $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
                         }else{
                             if (validar_correo($correo)){
                                 $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',

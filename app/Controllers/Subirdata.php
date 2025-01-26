@@ -34,55 +34,75 @@ class Subirdata extends Controller
                 $objectD = new datosModelo();
                 $item = $object->archivo($arc_id);
                 $archivo = "public/".$item->arc_ruta;
-                $ruta = $item->arc_ruta;
                 $html = "";
-                if($item->arc_tipo_archivo == 1){
-                    $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
-                    $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
-                    $objPHPExcel = $objPHPExcel->load($archivo);
-                    $hoja = $objPHPExcel->getSheet(0);
-                    $ultimaFila = $hoja->getHighestRow();
-                    for($i = 2; $i <= $ultimaFila; $i++) {
-                        $completo = $hoja->getCell("A$i")->getValue()." ".$hoja->getCell("B$i")->getValue();
-                        $val = $objectD->validarNombres($completo);
-                        $color = "";
-                        if(!$val){
-                            $color ="style='background-color: red'";
-                        }
-                        $html .="<tr ".$color.">
-                                    <td>".($i-1)."</td>
-                                    <td>".$hoja->getCell("A$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("B$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("C$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("D$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("E$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("F$i")->getValue()."</td>
-                                </tr>";
-                    }
-                }else{
-                    $lineas = file($archivo);
-                    $c = 0;
-                    foreach ($lineas as $linea_num => $linea){
-                        if($c != 0){
-                            $datos = preg_split("/[;,]/", $linea);
-                            $completo = $datos[0]." ".$datos[1];
+                if (file_exists($archivo)) {
+                    $ruta = $item->arc_ruta;
+                    if($item->arc_tipo_archivo == 1){
+                        $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
+                        $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+                        $objPHPExcel = $objPHPExcel->load($archivo);
+                        $hoja = $objPHPExcel->getSheet(0);
+                        $ultimaFila = $hoja->getHighestRow();
+                        for($i = 2; $i <= $ultimaFila; $i++) {
+                            $completo = $hoja->getCell("A$i")->getValue()." ".$hoja->getCell("B$i")->getValue();
                             $val = $objectD->validarNombres($completo);
                             $color = "";
                             if(!$val){
                                 $color ="style='background-color: red'";
                             }
+
+                            $val = $objectD->validarArchivo($arc_id);
+                            foreach($val as $rowC){
+                                if($hoja->getCell("C$i")->getValue() == $rowC->dat_email){
+                                    $color ="style='background-color: green'";
+                                    break;
+                                }
+                            }
                             $html .="<tr ".$color.">
-                                    <td>".$c."</td>
-                                    <td>".$datos[0]."</td>
-                                    <td>".$datos[1]."</td>
-                                    <td>".$datos[2]."</td>
-                                    <td>".$datos[3]."</td>
-                                    <td>".$datos[4]."</td>
-                                    <td>".$datos[5]."</td>
-                                </tr>";
+                                        <td>".($i-1)."</td>
+                                        <td>".strtoupper($hoja->getCell("A$i")->getValue())."</td>
+                                        <td>".strtoupper($hoja->getCell("B$i")->getValue())."</td>
+                                        <td>".$hoja->getCell("C$i")->getValue()."</td>
+                                        <td>".strtoupper($hoja->getCell("D$i")->getValue())."</td>
+                                        <td>".$hoja->getCell("E$i")->getValue()."</td>
+                                        <td>".$hoja->getCell("F$i")->getValue()."</td>
+                                    </tr>";
                         }
-                        $c++;
+                    }else{
+                        $lineas = file($archivo);
+                        $c = 0;
+                        foreach ($lineas as $linea_num => $linea){
+                            if($c != 0){
+                                $datos = preg_split("/[;,]/", $linea);
+                                $completo = $datos[0]." ".$datos[1];
+                                $val = $objectD->validarNombres($completo);
+                                $color = "";
+                                if(!$val){
+                                    $color ="style='background-color: red'";
+                                }
+                                $val = $objectD->validarArchivo($arc_id);
+                                foreach($val as $rowC){
+                                    if($hoja->getCell("C$i")->getValue() == $rowC->dat_email){
+                                        $color ="style='background-color: green'";
+                                        break;
+                                    }
+                                }
+                                $html .="<tr ".$color.">
+                                        <td>".$c."</td>
+                                        <td>".strtoupper($datos[0])."</td>
+                                        <td>".strtoupper($datos[1])."</td>
+                                        <td>".$datos[2]."</td>
+                                        <td>".strtoupper($datos[3])."</td>
+                                        <td>".$datos[4]."</td>
+                                        <td>".$datos[5]."</td>
+                                    </tr>";
+                            }
+                            $c++;
+                        }
                     }
+                } else {
+                    $ruta = '';
+                    $html = "<tr><td colspan='7'>El archivo fue eliminado o no se encuentra en la ruta especificada</td></tr>";
                 }
                 $datos = ['titulo' => 'Subir datos', 'table'=>$html, 'ruta'=>$ruta];
                 return view('datos/subirdata/detalle', $datos);
@@ -200,10 +220,10 @@ class Subirdata extends Controller
                     $ultimaFila = $hoja->getHighestRow();
                     $total = $ultimaFila - 1;
                     for($i = 2; $i <= $ultimaFila; $i++) {
-                        $nombre = $hoja->getCell("A$i")->getValue();
-                        $apellido = $hoja->getCell("B$i")->getValue();
+                        $nombre = strtoupper($hoja->getCell("A$i")->getValue());
+                        $apellido = strtoupper($hoja->getCell("B$i")->getValue());
                         $email = $hoja->getCell("C$i")->getValue();
-                        $status = $hoja->getCell("D$i")->getValue();
+                        $status = strtoupper($hoja->getCell("D$i")->getValue());
                         $ultimoacceso = $hoja->getCell("E$i")->getValue();
                         $espacio = $hoja->getCell("F$i")->getValue();
                         $completo = $nombre.' '.$apellido;

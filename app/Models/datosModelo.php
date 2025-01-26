@@ -30,6 +30,11 @@ class datosModelo extends Model{
         return $query->getRow();
     }
 
+    public function validarArchivo($arc_id){
+        $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id");
+        return $query->getResult();
+    }
+
     public function exportar($arc_id){
         $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id");
         return $query->getResult();

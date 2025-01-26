@@ -1,0 +1,7 @@
+CRITICAL - 2025-01-24 20:05:39 --> Undefined property: stdClass::$arc_id
+in APPPATH\Controllers\Subirdata.php on line 56.
+ 1 APPPATH\Controllers\Subirdata.php(56): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$arc_id', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Subirdata.php', 56)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->detalle('10')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

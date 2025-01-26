@@ -8,7 +8,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipoarchivo" id="excel" value="1">
+                            <input class="form-check-input" type="radio" name="tipoarchivo" id="excel" value="1" checked>
                             <label class="form-check-label" for="tipoarchivo">EXCEL</label>
                         </div>
                     </div>

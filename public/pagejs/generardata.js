@@ -1,11 +1,13 @@
 $(document).ready(function() {
-    $('#subirexcel').on('click', function() {
+    $('#subirarchivo').on('click', function() {
         $(".carga").waitMe({text: 'Validando datos'});
         var formData = new FormData();
-        var fileInput = document.getElementById('excel');
+        var fileInput = document.getElementById('archivo');
+        var dominio = document.getElementById('dominio');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
+            formData.append('dominio', dominio.value);
             fetch(url + 'generardata/preview', {
                 method: 'POST',
                 body: formData
@@ -16,8 +18,8 @@ $(document).ready(function() {
                     $(".carga").waitMe('hide');
                     $("#btnprocesar").removeAttr("hidden");
                     document.getElementById('datos').innerHTML = data;
-                    $('#tabla').DataTable().destroy();
-                    tabla("tabla");
+                    $('#tablapreview').DataTable().destroy();
+                    tabla("tablapreview");
                 }else{
                     alertify.error('Ocurrio un error al mostrar los datos del archivo');
                 }
@@ -35,16 +37,17 @@ $(document).ready(function() {
         document.getElementById('datosprocesados').innerHTML = '';
         $(".carga").waitMe({text: 'Procesando información'});
         var formData = new FormData();
-        var fileInput = document.getElementById('excel');
+        var fileInput = document.getElementById('archivo');
+        var dominio = document.getElementById('dominio');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
+            formData.append('dominio', dominio.value);
             fetch(url + 'generardata/procesar', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
-            //.then(response => response.json())
             .then(data => {
                 if(data != ''){
                     $(".carga").waitMe('hide');
@@ -69,11 +72,13 @@ $(document).ready(function() {
         alertify.confirm('Confirmar','Estas seguro de registrar el archivo, esta acción no se puede cancelar', function() {
             $(".carga").waitMe({text: 'Guardando información'});
             var formData = new FormData();
-            var fileInput = document.getElementById('excel');
+            var fileInput = document.getElementById('archivo');
+            var dominio = document.getElementById('dominio');
             if (fileInput.files.length > 0) {
                 var file = fileInput.files[0];
                 formData.append('archivo', file);
-                fetch(url + 'generardata/guardararchivoexcel', {
+                formData.append('dominio', dominio.value);
+                fetch(url + 'generardata/guardararchivo', {
                     method: 'POST',
                     body: formData
                 })

@@ -70,9 +70,23 @@ $routes->get('generardata', 'Generardata::index');
 $routes->get('generardata/add', 'Generardata::add');
 $routes->post('generardata/preview', 'Generardata::preview');
 $routes->post('generardata/procesar', 'Generardata::procesar');
-$routes->post('generardata/guardararchivoexcel', 'Generardata::guardararchivoexcel');
+$routes->post('generardata/guardararchivo', 'Generardata::guardararchivo');
 $routes->get('generardata/detalle/(:num)', 'Generardata::detalle/$1');
 $routes->get('generardata/exportar/(:num)', 'Generardata::exportar/$1');
+//Tipo persona
+$routes->get('tipopersona', 'Tipopersona::index');
+$routes->get('tipopersona/add', 'Tipopersona::add');
+$routes->post('tipopersona/register', 'Tipopersona::register');
+$routes->get('tipopersona/edit/(:num)', 'Tipopersona::edit/$1');
+$routes->post('tipopersona/update', 'Tipopersona::update');
+$routes->post('tipopersona/eliminar', 'Tipopersona::eliminar');
+//Dominio
+$routes->get('dominio', 'Dominio::index');
+$routes->get('dominio/add', 'Dominio::add');
+$routes->post('dominio/register', 'Dominio::register');
+$routes->get('dominio/edit/(:num)', 'Dominio::edit/$1');
+$routes->post('dominio/update', 'Dominio::update');
+$routes->post('dominio/eliminar', 'Dominio::eliminar');
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
