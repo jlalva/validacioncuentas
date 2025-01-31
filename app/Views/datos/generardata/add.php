@@ -93,22 +93,6 @@
                         <hr />
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="tablapreview">
-                                <thead>
-                                    <tr class="headings">
-                                        <th class="column-title" style="text-align: center;">ITEM</th>
-                                        <th class="column-title" style="text-align: center;">NOMBRE</th>
-                                        <th class="column-title" style="text-align: center;">APELLIDO</th>
-                                        <th class="column-title" style="text-align: center;">CODIGO</th>
-                                        <th class="column-title" style="text-align: center;">DNI</th>
-                                        <th class="column-title" style="text-align: center;">CELULAR</th>
-                                        <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>
-                                        <th class="column-title" style="text-align: center;">FACULTAD</th>
-                                        <th class="column-title" style="text-align: center;">ESCUELA</th>
-                                        <th class="column-title" style="text-align: center;">SEDE</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="datos">
-                                </tbody>
                             </table>
                         </div>
                         <div class="col-md-12 text-center">

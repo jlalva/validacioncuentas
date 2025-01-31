@@ -42,6 +42,7 @@ $(document).ready(function() {
 
 function confirmarexcel(){
     alertify.confirm('Confirmar','Estas seguro de registrar el archivo, esta acción no se puede cancelar', function() {
+        $(".carga").waitMe({text: 'Cargando datos'});
         const tipoarchivo = document.querySelector('input[name="tipoarchivo"]:checked');
         const textarea = document.getElementById('descripcion');
         const descripcion = textarea.value;

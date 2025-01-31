@@ -3,6 +3,9 @@
     <h6 class="mb-0 text-uppercase">Detalle</h6>
     <div class="ms-auto">
         <div class="btn-group">
+            <?php if($ruta){?>
+                <a href="<?=$app->baseURL?>public/<?=$ruta?>" class="btn btn-success btn-sm" style="color: #000;margin-top:-7px;margin-right:5px"> Descargar</a>
+            <?php }?>
             <a href="<?=$app->baseURL?>generardata" class="btn btn-warning btn-sm" style="color: #000;margin-top:-7px;"> Regresar </a>
         </div>
     </div>
@@ -13,24 +16,7 @@
         <div class="col-md-12 col-sm-12">
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="tabla">
-                    <thead>
-                        <tr class="headings">
-                            <th class="column-title" style="text-align: center;">ITEM</th>
-                            <th class="column-title" style="text-align: center;">NOMBRE</th>
-                            <th class="column-title" style="text-align: center;">APELLIDO</th>
-                            <th class="column-title" style="text-align: center;">CODIGO</th>
-                            <th class="column-title" style="text-align: center;">DNI</th>
-                            <th class="column-title" style="text-align: center;">CELULAR</th>
-                            <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>
-                            <th class="column-title" style="text-align: center;">FACULTAD</th>
-                            <th class="column-title" style="text-align: center;">ESCUELA</th>
-                            <th class="column-title" style="text-align: center;">SEDE</th>
-                            <th class="column-title" style="text-align: center;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?=$table?>
-                    </tbody>
+                    <?=$table?>
                 </table>
             </div>
         </div>

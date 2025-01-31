@@ -1,0 +1,29 @@
+CRITICAL - 2025-01-27 20:08:44 --> Undefined variable $ruta
+in APPPATH\Views\datos\generardata\detalle.php on line 6.
+ 1 APPPATH\Views\datos\generardata\detalle.php(6): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $ruta', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php', 6)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/detalle', [], true)
+ 5 APPPATH\Controllers\Generardata.php(128): view('datos/generardata/detalle', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('11')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-27 20:47:38 --> Undefined variable $ruta
+in APPPATH\Views\datos\generardata\cuentas.php on line 6.
+ 1 APPPATH\Views\datos\generardata\cuentas.php(6): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $ruta', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\cuentas.php', 6)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\cuentas.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/cuentas', [], true)
+ 5 APPPATH\Controllers\Generardata.php(143): view('datos/generardata/cuentas', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->cuentas('11')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-01-27 21:52:07 --> Undefined array key "tipopersona"
+in APPPATH\Controllers\Generardata.php on line 255.
+ 1 APPPATH\Controllers\Generardata.php(255): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "tipopersona"', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 255)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

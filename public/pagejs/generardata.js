@@ -4,10 +4,12 @@ $(document).ready(function() {
         var formData = new FormData();
         var fileInput = document.getElementById('archivo');
         var dominio = document.getElementById('dominio');
+        var tipopersona = document.getElementById('tipopersona');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
             formData.append('dominio', dominio.value);
+            formData.append('tipopersona', tipopersona.value);
             fetch(url + 'generardata/preview', {
                 method: 'POST',
                 body: formData
@@ -17,7 +19,7 @@ $(document).ready(function() {
                 if(data != ''){
                     $(".carga").waitMe('hide');
                     $("#btnprocesar").removeAttr("hidden");
-                    document.getElementById('datos').innerHTML = data;
+                    document.getElementById('tablapreview').innerHTML = data;
                     $('#tablapreview').DataTable().destroy();
                     tabla("tablapreview");
                 }else{
@@ -74,10 +76,14 @@ $(document).ready(function() {
             var formData = new FormData();
             var fileInput = document.getElementById('archivo');
             var dominio = document.getElementById('dominio');
+            var tipopersona = document.getElementById('tipopersona');
+            var tipoarchivo = document.getElementById('tipoarchivo');
             if (fileInput.files.length > 0) {
                 var file = fileInput.files[0];
                 formData.append('archivo', file);
                 formData.append('dominio', dominio.value);
+                formData.append('tipopersona', tipopersona.value);
+                formData.append('tipoarchivo', tipoarchivo.value);
                 fetch(url + 'generardata/guardararchivo', {
                     method: 'POST',
                     body: formData
