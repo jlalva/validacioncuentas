@@ -7,6 +7,7 @@ use App\Models\datosModelo;
 use App\Models\dominioModelo;
 use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
+use FPDF;
 use PHPExcel;
 use PHPExcel_IOFactory;
 
@@ -276,27 +277,34 @@ class Generardata extends Controller
         }
     }
 
-    public function procesar(){
-        if(isset($_FILES["archivo"])) {
+    public function procesar() {
+        if (isset($_FILES["archivo"])) {
             $object = new datosModelo();
             $objectD = new dominioModelo();
             $archivo = $_FILES["archivo"]["tmp_name"];
             $dom_id = $_POST['dominio'];
             $dom = $objectD->readDominio($dom_id);
             $dominio = $dom['dom_nombre'];
+
             require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
             $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
             $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
             $objPHPExcel = $objPHPExcel->load($archivo);
             $hoja = $objPHPExcel->getSheet(0);
             $ultimaFila = $hoja->getHighestRow();
+
             $html = '';
             $c = 0;
-            for($i = 2; $i <= $ultimaFila; $i++) {
+
+            $nombresBD = array_flip(array_column($object->listarNombres(), 'dat_nombres_completos'));
+            $correosBD = array_flip(array_column($object->listarCorreos(), 'dat_email'));
+
+            for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
                 $nombres = $hoja->getCell("A$i")->getValue();
                 $apellidos = $hoja->getCell("B$i")->getValue();
                 $codigo = $hoja->getCell("C$i")->getValue();
+
                 $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -307,28 +315,25 @@ class Generardata extends Controller
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                     $nombres_limpio);
-                $nombrecompleto = $nombres_limpio. ' '. $apellido_limpio;
-                $val = $object->validarNombres(trim($nombrecompleto));
+
+                $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
+                $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
                 $correo = '';
-                $clave = strtoupper(substr($nombres,0,1)).strtolower(substr($apellidos,0,1)).$codigo.'*';
-                $observacion = '';
-                if($val){
-                    $observacion = 'Usuario existente';
-                }else{
-                    $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
-                    $val = $object->validarCorreo($correo);
-                    if($val){
-                        $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
+                $clave = strtoupper(substr($nombres, 0, 1)) . strtolower(substr($apellidos, 0, 1)) . $codigo . '*';
+                if (!$observacion) {
+                    $correo = generarCorreo(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                    if (isset($correosBD[$correo])) {
+                        $correo = generarCorreo2(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
                     }
                 }
-                $html .="<tr>
+                $html .= "<tr>
                             <td>$c</td>
                             <td>$nombres_limpio</td>
                             <td>$apellido_limpio</td>
                             <td>$correo</td>
                             <td>$clave</td>
                             <td>$observacion</td>
-                        </tr>";
+                          </tr>";
             }
             echo $html;
         }
@@ -507,6 +512,16 @@ class Generardata extends Controller
         }else{
             return redirect()->to(base_url("/"));
         }
+    }
+
+    public function pdf($arc_id)
+    {
+        require_once APPPATH . 'Libraries/fpdf/fpdf.php';
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'¡Hola, Mundo!');
+        $pdf->Output();
     }
 
     public function descargarcuentas($arc_id)

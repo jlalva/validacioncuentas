@@ -15,8 +15,20 @@ class datosModelo extends Model{
 
     public function insertarDatos($data){
         $query = $this->query("INSERT INTO datos(dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,
-                            dat_arc_id,dat_usu_id) VALUES $data");
+                            dat_arc_id,dat_usu_id) VALUES " . implode(',', $data));
         return $query;
+    }
+
+    public function listarNombres()
+    {
+        return $this->query("SELECT dat_nombres_completos FROM datos")
+                    ->getResult();
+    }
+
+    public function listarCorreos()
+    {
+        return $this->query("SELECT dat_email FROM datos")
+                    ->getResult();
     }
 
     public function insertarDatosGenerados($data,$tipopersona){

@@ -75,6 +75,7 @@ $routes->get('generardata/detalle/(:num)', 'Generardata::detalle/$1');
 $routes->get('generardata/cuentas/(:num)', 'Generardata::cuentas/$1');
 $routes->get('generardata/exportar/(:num)', 'Generardata::exportar/$1');
 $routes->get('generardata/descargarcuentas/(:num)', 'Generardata::descargarcuentas/$1');
+$routes->get('generardata/pdf/(:num)', 'Generardata::pdf/$1');
 //Tipo persona
 $routes->get('tipopersona', 'Tipopersona::index');
 $routes->get('tipopersona/add', 'Tipopersona::add');
