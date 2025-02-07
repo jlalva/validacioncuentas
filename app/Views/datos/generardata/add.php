@@ -109,9 +109,9 @@
                     <div class="col-md-12">
                     Para que la información se PROCESE CORRECTAMENTE, El archivo (csv o excel) (según lo que se seleccione en el radiobutton) debe contener la siguiente cabecera: Para
                     <ul>
-                        <li><b>TIPO PERSONA ADMINISTRATIVO:</b> NOMBRES, APELLIDOS, CODIGO, DNI, CELULAR, CORREO PERSONAL, UNIDAD/OFICINA.</li>
-                        <li><b>TIPO PERSONA DOCENTE:</b> NOMBRES, APELLIDOS, CODIGO, DNI, CELULAR, CORREO PERSONAL, DEPARTAMENTO.</li>
-                        <li><b>TIPO PERSONA ESTUDIANTE:</b> NOMBRES, APELLIDOS, CODIGO, DNI, CELULAR, CORREO PERSONAL, FACULTAD, ESCUELA, SEDE.</li>
+                        <li><b>TIPO PERSONA ADMINISTRATIVO:</b> CODIGO, NOMBRES, APELLIDOS, DNI, CELULAR, CORREO PERSONAL, UNIDAD/OFICINA.</li>
+                        <li><b>TIPO PERSONA DOCENTE:</b> CODIGO, NOMBRES, APELLIDOS, DNI, CELULAR, CORREO PERSONAL, DEPARTAMENTO.</li>
+                        <li><b>TIPO PERSONA ESTUDIANTE:</b> CODIGO, NOMBRES, APELLIDOS, DNI, CELULAR, CORREO PERSONAL, FACULTAD, ESCUELA, SEDE.</li>
                     </ul>
                     </div>
                 </div>

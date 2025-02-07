@@ -211,9 +211,9 @@ class Generardata extends Controller
             $preview = '<thead>
                             <tr class="headings">
                                 <th class="column-title" style="text-align: center;">ITEM</th>
+                                <th class="column-title" style="text-align: center;">CODIGO</th>
                                 <th class="column-title" style="text-align: center;">NOMBRE</th>
                                 <th class="column-title" style="text-align: center;">APELLIDO</th>
-                                <th class="column-title" style="text-align: center;">CODIGO</th>
                                 <th class="column-title" style="text-align: center;">DNI</th>
                                 <th class="column-title" style="text-align: center;">CELULAR</th>
                                 <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>';
@@ -234,9 +234,9 @@ class Generardata extends Controller
             $c = 0;
             for($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
-                $nombres = $hoja->getCell("A$i")->getValue();
-                $apellidos = $hoja->getCell("B$i")->getValue();
-                $codigo = $hoja->getCell("C$i")->getValue();
+                $nombres = $hoja->getCell("B$i")->getValue();
+                $apellidos = $hoja->getCell("C$i")->getValue();
+                $codigo = $hoja->getCell("A$i")->getValue();
                 $dni     = $hoja->getCell("D$i")->getValue();
                 $celular = $hoja->getCell("E$i")->getValue();
                 $correop = $hoja->getCell("F$i")->getValue();
@@ -253,9 +253,9 @@ class Generardata extends Controller
                 }
                 $preview .="<tr>
                             <td>$c</td>
+                            <td>$codigo</td>
                             <td>$nombres</td>
                             <td>$apellidos</td>
-                            <td>$codigo</td>
                             <td>$dni</td>
                             <td>$celular</td>
                             <td>$correop</td>";
@@ -301,9 +301,9 @@ class Generardata extends Controller
 
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
-                $nombres = $hoja->getCell("A$i")->getValue();
-                $apellidos = $hoja->getCell("B$i")->getValue();
-                $codigo = $hoja->getCell("C$i")->getValue();
+                $nombres = $hoja->getCell("B$i")->getValue();
+                $apellidos = $hoja->getCell("C$i")->getValue();
+                $codigo = $hoja->getCell("A$i")->getValue();
 
                 $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_limpio = str_replace(
@@ -377,9 +377,9 @@ class Generardata extends Controller
                 $datos = '';
                 $invalido = 0;
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombres = $hoja->getCell("A$i")->getValue();
-                    $apellidos = $hoja->getCell("B$i")->getValue();
-                    $codigo = $hoja->getCell("C$i")->getValue();
+                    $nombres = $hoja->getCell("B$i")->getValue();
+                    $apellidos = $hoja->getCell("C$i")->getValue();
+                    $codigo = $hoja->getCell("A$i")->getValue();
                     $dni = $hoja->getCell("D$i")->getValue();
                     $completo = $nombres.' '.$apellidos;
                     $celular = $hoja->getCell("E$i")->getValue();
@@ -517,11 +517,73 @@ class Generardata extends Controller
     public function pdf($arc_id)
     {
         require_once APPPATH . 'Libraries/fpdf/fpdf.php';
+        $quitarTildes = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                                'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                                'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                                'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                                'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+        $object = new datosModelo();
+        $objectA = new archivosModelo();
+        $itemA = $objectA->archivo($arc_id);
+        $tipopersona = $itemA->arc_tipo_persona;
+        $nombreArchivo = '';
         $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10,'¡Hola, Mundo!');
+        $pdf->AddPage('L');
+        $pdf->SetFont('Arial','B',7);
+        $x = [0=>10,1=>30,2=>30,3=>17,4=>14,5=>17,6=>30,7=>30,8=>34,9=>20,10=>30,11=>30,12=>28,13=>15];
+        $y = 5;
+        $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1);
+        $pdf->Cell($x[3],$y, utf8_decode('CODIGO'),1);
+        $pdf->Cell($x[4],$y, utf8_decode('DNI'),1);
+        $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1);
+        $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1);
+        $pdf->Cell($x[5],$y, utf8_decode('CELULAR'),1);
+        $pdf->Cell($x[6],$y, utf8_decode('CORREO PERSONAL'),1);
+        if($tipopersona == 1){
+            $nombreArchivo = 'Administrativo';
+            $pdf->Cell($x[7],$y,utf8_decode('UNIDAD/OFICINA'),1);
+        }
+        if($tipopersona == 2){
+            $nombreArchivo = 'Docente';
+            $pdf->Cell($x[10],$y,utf8_decode('DEPARTAMENTO'),1);
+        }
+        if($tipopersona == 3){
+            $nombreArchivo = 'Estudiante';
+            $pdf->Cell($x[11],$y,utf8_decode('FACULTAD'),1);
+            $pdf->Cell($x[12],$y,utf8_decode('ESCUELA'),1);
+            $pdf->Cell($x[13],$y,utf8_decode('SEDE'),1);
+        }
+        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1);
+        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1);
+        $items = $object->validarArchivo($arc_id);
+        $c = 0;
+        $pdf->SetFont('Arial','',6);
+        foreach($items as $row){
+            $c++;
+            $pdf->Cell($x[0],$y,$c,1);
+            $pdf->Cell($x[3],$y,utf8_decode($row->dat_codigo),1);
+            $pdf->Cell($x[4],$y,utf8_decode($row->dat_dni),1);
+            $pdf->Cell($x[1],$y,utf8_decode($row->dat_nombres),1);
+            $pdf->Cell($x[2],$y,utf8_decode($row->dat_apellidos),1);
+            $pdf->Cell($x[5],$y,utf8_decode($row->dat_celular),1);
+            $pdf->Cell($x[6],$y,utf8_decode($row->dat_correo_personal),1);
+            if($tipopersona == 1){
+                $pdf->Cell($x[7],$y,utf8_decode(strtr($row->dat_unidad, $quitarTildes)),1);
+            }
+            if($tipopersona == 2){
+                $pdf->Cell($x[10],$y,utf8_decode(strtr($row->dat_departamento, $quitarTildes)),1);
+            }
+            if($tipopersona == 3){
+                $pdf->Cell($x[11],$y,utf8_decode(strtr($row->dat_facultad, $quitarTildes)),1);
+                $pdf->Cell($x[12],$y,utf8_decode($row->dat_escuela),1);
+                $pdf->Cell($x[13],$y,utf8_decode($row->dat_sede),1);
+            }
+            $pdf->Cell($x[8],$y,utf8_decode($row->dat_email),1);
+            $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1);
+        }
+        $pdf->SetTitle($nombreArchivo);
         $pdf->Output();
+        exit;
     }
 
     public function descargarcuentas($arc_id)
@@ -543,10 +605,10 @@ class Generardata extends Controller
                 $objPHPExcel->setActiveSheetIndex(0);
                 $hoja = $objPHPExcel->getActiveSheet();
                 $hoja->setCellValue("A1",utf8_encode('ITEM'));
-                $hoja->setCellValue("B1",utf8_decode('NOMBRES'));
-                $hoja->setCellValue("C1",utf8_decode('APELLIDOS'));
-                $hoja->setCellValue("D1",utf8_decode('CODIGO'));
-                $hoja->setCellValue("E1",utf8_decode('DNI'));
+                $hoja->setCellValue("B1",utf8_decode('CODIGO'));
+                $hoja->setCellValue("C1",utf8_decode('DNI'));
+                $hoja->setCellValue("D1",utf8_decode('NOMBRES'));
+                $hoja->setCellValue("E1",utf8_decode('APELLIDOS'));
                 $hoja->setCellValue("F1",utf8_decode('CELULAR'));
                 $hoja->setCellValue("G1",utf8_decode('CORREO PERSONAL'));
                 if($tipopersona == 1){
@@ -576,10 +638,10 @@ class Generardata extends Controller
                     $c++;
                     $fila++;
                     $hoja->setCellValue("A$fila",$c);
-                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_nombres));
-                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_apellidos));
-                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_codigo));
-                    $hoja->setCellValue("E$fila",utf8_decode($row->dat_dni));
+                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_codigo));
+                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_dni));
+                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_nombres));
+                    $hoja->setCellValue("E$fila",utf8_decode($row->dat_apellidos));
                     $hoja->setCellValue("F$fila",utf8_decode($row->dat_celular));
                     $hoja->setCellValue("G$fila",utf8_decode($row->dat_correo_personal));
                     if($tipopersona == 1){
@@ -614,4 +676,99 @@ class Generardata extends Controller
             }
         }
     }
+
+    public function descargarrepoexcel($arc_id)
+    {
+        if(session('authenticated') && accede()){
+            if(bloqueado()){
+                $quitarTildes = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                                'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                                'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                                'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                                'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+                require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+                $object = new datosModelo();
+                $objectA = new archivosModelo();
+                $itemA = $objectA->archivo($arc_id);
+                $objPHPExcel = new PHPExcel();
+                $objPHPExcel->setActiveSheetIndex(0);
+                $hoja = $objPHPExcel->getActiveSheet();
+                $hoja->setCellValue("A1",utf8_encode('First Name'));
+                $hoja->setCellValue("B1",utf8_decode('Last Name'));
+                $hoja->setCellValue("C1",utf8_decode('Email Address'));
+                $hoja->setCellValue("D1",utf8_decode('Password'));
+                $hoja->setCellValue("E1",utf8_decode('Org Unit Path'));
+                $hoja->setCellValue("F1",utf8_decode('Recovery Email'));
+                $items = $object->validarArchivo($arc_id);
+                $fila = 1;
+                foreach($items as $row){
+                    $fila++;
+                    $hoja->setCellValue("A$fila",utf8_decode($row->dat_nombres));
+                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_apellidos));
+                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_email));
+                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_clave));
+                    $hoja->setCellValue("E$fila",'/');
+                    $hoja->setCellValue("F$fila",utf8_decode($row->dat_correo_personal));
+                }
+                header('Content-Type: application/vnd.ms-excel');
+                header('Content-Disposition: attachment;filename="Repositorio.xls"');
+                header('Cache-Control: max-age=0');
+                header('Cache-Control: max-age=1');
+                header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
+                header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+                header ('Cache-Control: cache, must-revalidate');
+                header ('Pragma: public'); 
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+                $objWriter->save('php://output');
+                exit;
+            }
+        }
+    }
+
+    public function descargarrepocsv($arc_id)
+{
+    if (session('authenticated') && accede()) {
+        if (bloqueado()) {
+            $quitarTildes = array(
+                'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
+                'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+                'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a',
+                'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
+                'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u',
+                'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y'
+            );
+            $object   = new datosModelo();
+            $objectA  = new archivosModelo();
+            $itemA    = $objectA->archivo($arc_id);
+            $items    = $object->validarArchivo($arc_id);
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename="Repositorio.csv"');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+            $output = fopen('php://output', 'w');
+            fputs($output, "\xEF\xBB\xBF");
+            fputcsv($output, array(
+                'First Name',
+                'Last Name',
+                'Email Address',
+                'Password',
+                'Org Unit Path',
+                'Recovery Email'
+            ));
+            foreach ($items as $row) {
+                fputcsv($output, array(
+                    utf8_decode($row->dat_nombres),
+                    utf8_decode($row->dat_apellidos),
+                    utf8_decode($row->dat_email),
+                    utf8_decode($row->dat_clave),
+                    '/',
+                    utf8_decode($row->dat_correo_personal)
+                ));
+            }
+            fclose($output);
+            exit;
+        }
+    }
+}
+
 }
