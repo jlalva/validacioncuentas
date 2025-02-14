@@ -25,107 +25,103 @@ class Subirdata extends Controller
         }
     }
 
-    public function detalle($arc_id)
-{
-    if (!session('authenticated') || !accede()) {
-        return redirect()->to(base_url("/"));
-    }
-
-    if (bloqueado()) {
-        require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
-        $object = new archivosModelo();
-        $objectD = new datosModelo();
-        $item = $object->archivo($arc_id);
-        $archivo = "public/" . $item->arc_ruta;
-
-        if (!file_exists($archivo)) {
-            return view('datos/subirdata/detalle', [
-                'titulo' => 'Subir datos',
-                'table' => "<tr><td colspan='7'>El archivo fue eliminado o no se encuentra en la ruta especificada</td></tr>",
-                'ruta' => ''
-            ]);
+    public function detalle($arc_id){
+        if (!session('authenticated') || !accede()) {
+            return redirect()->to(base_url("/"));
         }
 
-        $ruta = $item->arc_ruta;
-        $html = "";
-        // Obtener todos los nombres registrados
-        $nombresRegistrados = array_column($objectD->listarNombres(), 'dat_nombres_completos');
-        // Obtener todos los correos registrados con este archivo
-        $correosRegistrados = array_column($objectD->validarArchivo($arc_id), 'dat_email');
-        if ($item->arc_tipo_archivo == 1) {
-            // Procesar archivo Excel
-            $objPHPExcel = PHPExcel_IOFactory::load($archivo);
-            $hoja = $objPHPExcel->getSheet(0);
-            $ultimaFila = $hoja->getHighestRow();
-            for ($i = 2; $i <= $ultimaFila; $i++) {
-                $nombre = strtoupper($hoja->getCell("A$i")->getValue());
-                $apellido = strtoupper($hoja->getCell("B$i")->getValue());
-                $email = $hoja->getCell("C$i")->getValue();
-                $status = strtoupper($hoja->getCell("D$i")->getValue());
-                $ultimoacceso = $hoja->getCell("E$i")->getValue();
-                $espacio = $hoja->getCell("F$i")->getValue();
-                $completo = $nombre . " " . $apellido;
-                // Validar formato de fecha
-                if (is_numeric($ultimoacceso)) {
-                    $timestamp = \PHPExcel_Shared_Date::ExcelToPHP($ultimoacceso);
-                    $ultimoacceso = date('d/m/Y H:i:s', $timestamp);
-                }
-                // Determinar color
-                $color = "";
-                if (!in_array($completo, $nombresRegistrados)) {
-                    $color = "style='background-color: red'";
-                } elseif (in_array($email, $correosRegistrados)) {
-                    $color = "style='background-color: green'";
-                }
-                $html .= "<tr $color>
-                            <td>" . ($i - 1) . "</td>
-                            <td>$nombre</td>
-                            <td>$apellido</td>
-                            <td>$email</td>
-                            <td>$status</td>
-                            <td>$ultimoacceso</td>
-                            <td>$espacio</td>
-                          </tr>";
+        if (bloqueado()) {
+            require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+            $object = new archivosModelo();
+            $objectD = new datosModelo();
+            $item = $object->archivo($arc_id);
+            $archivo = "public/" . $item->arc_ruta;
+
+            if (!file_exists($archivo)) {
+                return view('datos/subirdata/detalle', [
+                    'titulo' => 'Subir datos',
+                    'table' => "<tr><td colspan='7'>El archivo fue eliminado o no se encuentra en la ruta especificada</td></tr>",
+                    'ruta' => ''
+                ]);
             }
+
+            $ruta = $item->arc_ruta;
+            $html = "";
+            $nombresRegistrados = array_column($objectD->listarNombres(), 'dat_nombres_completos');
+            $correosRegistrados = array_column($objectD->validarArchivo($arc_id), 'dat_email');
+            if ($item->arc_tipo_archivo == 1) {
+                // Procesar archivo Excel
+                $objPHPExcel = PHPExcel_IOFactory::load($archivo);
+                $hoja = $objPHPExcel->getSheet(0);
+                $ultimaFila = $hoja->getHighestRow();
+                for ($i = 2; $i <= $ultimaFila; $i++) {
+                    $nombre = strtoupper($hoja->getCell("A$i")->getValue());
+                    $apellido = strtoupper($hoja->getCell("B$i")->getValue());
+                    $email = $hoja->getCell("C$i")->getValue();
+                    $status = strtoupper($hoja->getCell("D$i")->getValue());
+                    $ultimoacceso = $hoja->getCell("E$i")->getValue();
+                    $espacio = $hoja->getCell("F$i")->getValue();
+                    $completo = $nombre . " " . $apellido;
+                    // Validar formato de fecha
+                    if (is_numeric($ultimoacceso)) {
+                        $timestamp = \PHPExcel_Shared_Date::ExcelToPHP($ultimoacceso);
+                        $ultimoacceso = date('d/m/Y H:i:s', $timestamp);
+                    }
+                    // Determinar color
+                    $color = "";
+                    if (!in_array($completo, $nombresRegistrados)) {
+                        $color = "style='background-color: red'";
+                    } elseif (in_array($email, $correosRegistrados)) {
+                        $color = "style='background-color: green'";
+                    }
+                    $html .= "<tr $color>
+                                <td>" . ($i - 1) . "</td>
+                                <td>$nombre</td>
+                                <td>$apellido</td>
+                                <td>$email</td>
+                                <td>$status</td>
+                                <td>$ultimoacceso</td>
+                                <td>$espacio</td>
+                            </tr>";
+                }
+            } else {
+                // Procesar archivo CSV
+                $lineas = file($archivo);
+                foreach ($lineas as $c => $linea) {
+                    if ($c == 0) continue; // Saltar encabezado
+                    $datos = preg_split("/[;,]/", $linea);
+                    $nombre = strtoupper($datos[0]);
+                    $apellido = strtoupper($datos[1]);
+                    $email = trim($datos[2]);
+                    $status = strtoupper($datos[3]);
+                    $ultimoacceso = trim($datos[4]);
+                    $espacio = trim($datos[5]);
+                    $completo = $nombre . " " . $apellido;
+                    // Determinar color
+                    $color = "";
+                    if (!in_array($completo, $nombresRegistrados)) {
+                        $color = "style='background-color: red'";
+                    } elseif (in_array($email, $correosRegistrados)) {
+                        $color = "style='background-color: green'";
+                    }
+
+                    $html .= "<tr $color>
+                                <td>$c</td>
+                                <td>$nombre</td>
+                                <td>$apellido</td>
+                                <td>$email</td>
+                                <td>$status</td>
+                                <td>$ultimoacceso</td>
+                                <td>$espacio</td>
+                            </tr>";
+                }
+            }
+
+            return view('datos/subirdata/detalle', ['titulo' => 'Subir datos','table' => $html,'ruta' => $ruta, 'id_arch'=>$arc_id]);
         } else {
-            // Procesar archivo CSV
-            $lineas = file($archivo);
-            foreach ($lineas as $c => $linea) {
-                if ($c == 0) continue; // Saltar encabezado
-                $datos = preg_split("/[;,]/", $linea);
-                $nombre = strtoupper($datos[0]);
-                $apellido = strtoupper($datos[1]);
-                $email = trim($datos[2]);
-                $status = strtoupper($datos[3]);
-                $ultimoacceso = trim($datos[4]);
-                $espacio = trim($datos[5]);
-                $completo = $nombre . " " . $apellido;
-                // Determinar color
-                $color = "";
-                if (!in_array($completo, $nombresRegistrados)) {
-                    $color = "style='background-color: red'";
-                } elseif (in_array($email, $correosRegistrados)) {
-                    $color = "style='background-color: green'";
-                }
-
-                $html .= "<tr $color>
-                            <td>$c</td>
-                            <td>$nombre</td>
-                            <td>$apellido</td>
-                            <td>$email</td>
-                            <td>$status</td>
-                            <td>$ultimoacceso</td>
-                            <td>$espacio</td>
-                          </tr>";
-            }
+            return view('denegado');
         }
-
-        return view('datos/subirdata/detalle', ['titulo' => 'Subir datos','table' => $html,'ruta' => $ruta
-        ]);
-    } else {
-        return view('denegado');
     }
-}
 
 
     public function validar(){
@@ -258,8 +254,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = strtoupper($hoja->getCell("A$i")->getValue());
-                    $apellido = strtoupper($hoja->getCell("B$i")->getValue());
+                    $nombre = strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue()));
+                    $apellido = strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue()));
                     $email = strtolower(trim($hoja->getCell("C$i")->getValue()));
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -287,7 +283,7 @@ class Subirdata extends Controller
                 $lineas = file($archivo);
                 foreach ($lineas as $indice => $linea) {
                     if ($indice == 0) continue; // Saltar la cabecera
-                    $item = preg_split("/[;,]/", $linea);
+                    $item = preg_split("/[;,]/", pg_escape_string($linea));
                     $nombre = strtoupper($item[0] ?? '');
                     $apellido = strtoupper($item[1] ?? '');
                     $email = strtolower(trim($item[2] ?? ''));

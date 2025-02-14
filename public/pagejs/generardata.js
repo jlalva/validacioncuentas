@@ -5,11 +5,13 @@ $(document).ready(function() {
         var fileInput = document.getElementById('archivo');
         var dominio = document.getElementById('dominio');
         var tipopersona = document.getElementById('tipopersona');
+        var generarcon = document.querySelector('input[name="generarcon"]:checked');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
             formData.append('dominio', dominio.value);
             formData.append('tipopersona', tipopersona.value);
+            formData.append('generarcon', generarcon.value);
             fetch(url + 'generardata/preview', {
                 method: 'POST',
                 body: formData
@@ -41,10 +43,12 @@ $(document).ready(function() {
         var formData = new FormData();
         var fileInput = document.getElementById('archivo');
         var dominio = document.getElementById('dominio');
+        var generarcon = document.querySelector('input[name="generarcon"]:checked');
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
             formData.append('archivo', file);
             formData.append('dominio', dominio.value);
+            formData.append('generarcon', generarcon.value);
             fetch(url + 'generardata/procesar', {
                 method: 'POST',
                 body: formData
@@ -78,12 +82,14 @@ $(document).ready(function() {
             var dominio = document.getElementById('dominio');
             var tipopersona = document.getElementById('tipopersona');
             var tipoarchivo = document.getElementById('tipoarchivo');
+            var generarcon = document.querySelector('input[name="generarcon"]:checked');
             if (fileInput.files.length > 0) {
                 var file = fileInput.files[0];
                 formData.append('archivo', file);
                 formData.append('dominio', dominio.value);
                 formData.append('tipopersona', tipopersona.value);
                 formData.append('tipoarchivo', tipoarchivo.value);
+                formData.append('generarcon', generarcon.value);
                 fetch(url + 'generardata/guardararchivo', {
                     method: 'POST',
                     body: formData
@@ -92,7 +98,7 @@ $(document).ready(function() {
                 .then(data => {
                     if(data == 'ok'){
                         $(".carga").waitMe('hide');
-                        document.getElementById('resultado').innerHTML = 'El archivo fue subido correctamente';
+                        alertify.success('El archivo fue subido correctamente');;
                         var redirige = url + 'generardata';
                         window.setTimeout($(location).attr('href',redirige), 3000 );
                     }else{

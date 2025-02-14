@@ -54,7 +54,7 @@
                                                         <td><?=$row->arc_ruta?></td>
                                                         <td><?=$row->arc_total?></td>
                                                         <td><?=$row->arc_subido?></td>
-                                                        <td><?=$row->usu_nombre?></td>
+                                                        <td><?=$row->usu_nombre.' '.$row->usu_apellido?></td>
                                                         <td><?=$row->arc_fecha_reg?></td>
                                                         <td>
                                                             <a href="<?=$app->baseURL?>subirdata/detalle/<?=$row->arc_id?>" class="btn btn-info btn-sm" title="Ver detalle"><i class="bx bx-list-ul"></i></a>

@@ -1,0 +1,72 @@
+CRITICAL - 2025-02-13 20:34:32 --> Undefined array key "generarcon"
+in APPPATH\Controllers\Generardata.php on line 289.
+ 1 APPPATH\Controllers\Generardata.php(289): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "generarcon"', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 289)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->procesar()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-13 21:22:43 --> Undefined array key "generarcon"
+in APPPATH\Controllers\Generardata.php on line 358.
+ 1 APPPATH\Controllers\Generardata.php(358): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "generarcon"', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 358)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2025-02-13 21:37:47 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2 in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('INSERT INTO dat...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO dat...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO dat...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('INSERT INTO dat...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\datosModelo.php(47): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Generardata.php(492): App\Models\datosModelo->insertarDatosGenerados('', '3')
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2025-02-13 21:37:47 --> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 5 APPPATH\Models\datosModelo.php(47): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Generardata.php(492): App\Models\datosModelo->insertarDatosGenerados('', '3')
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+ERROR - 2025-02-13 22:42:12 --> mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2 in C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\xampp\htdocs\validacioncuentas\system\Database\MySQLi\Connection.php(295): mysqli->query('INSERT INTO dat...', 0)
+#1 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO dat...')
+#2 C:\xampp\htdocs\validacioncuentas\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO dat...')
+#3 C:\xampp\htdocs\validacioncuentas\system\Model.php(836): CodeIgniter\Database\BaseConnection->query('INSERT INTO dat...')
+#4 C:\xampp\htdocs\validacioncuentas\app\Models\datosModelo.php(47): CodeIgniter\Model->__call('query', Array)
+#5 C:\xampp\htdocs\validacioncuentas\app\Controllers\Generardata.php(493): App\Models\datosModelo->insertarDatosGenerados('', '3')
+#6 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+#7 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+#8 C:\xampp\htdocs\validacioncuentas\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\validacioncuentas\index.php(30): CodeIgniter\CodeIgniter->run()
+#10 {main}
+CRITICAL - 2025-02-13 22:42:12 --> You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 2
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 295.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(295): mysqli->query('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 3 SYSTEMPATH\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 4 SYSTEMPATH\Model.php(836): CodeIgniter\Database\BaseConnection->query('INSERT INTO datos(dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_facultad,dat_escuela,dat_sede,
+            dat_clave,dat_estado,dat_ultimo_acceso,dat_espacio_uso,dat_origen,dat_arc_id,dat_usu_id) VALUES ')
+ 5 APPPATH\Models\datosModelo.php(47): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Controllers\Generardata.php(493): App\Models\datosModelo->insertarDatosGenerados('', '3')
+ 7 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->guardararchivo()
+ 8 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 9 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

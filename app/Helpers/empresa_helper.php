@@ -138,3 +138,4 @@ use App\Models\empresaModelo;
         $item = $object->ubigeo($ubigeo);
         return $item->distrito;
     }
+

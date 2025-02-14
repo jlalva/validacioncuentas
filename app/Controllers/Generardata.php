@@ -7,7 +7,7 @@ use App\Models\datosModelo;
 use App\Models\dominioModelo;
 use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
-use FPDF;
+use PDF;
 use PHPExcel;
 use PHPExcel_IOFactory;
 
@@ -146,10 +146,10 @@ class Generardata extends Controller
                 $tipopersona = $itemA->arc_tipo_persona;
                 $html ="<thead>
                         <th>ITEM</th>
-                        <th>NOMBRES</th>
-                        <th>APELLIDOS</th>
                         <th>CODIGO</th>
                         <th>DNI</th>
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
                         <th>CELULAR</th>
                         <th>CORREO PERSONAL</th>";
                 if($tipopersona == 1){
@@ -170,10 +170,10 @@ class Generardata extends Controller
                     $c++;
                     $html .="<tr>
                         <td>".$c."</td>
-                        <td>".$row->dat_nombres."</td>
-                        <td>".$row->dat_apellidos."</td>
                         <td>".$row->dat_codigo."</td>
                         <td>".$row->dat_dni."</td>
+                        <td>".$row->dat_nombres."</td>
+                        <td>".$row->dat_apellidos."</td>
                         <td>".$row->dat_celular."</td>
                         <td>".$row->dat_correo_personal."</td>";
                     if($tipopersona == 1){
@@ -206,6 +206,7 @@ class Generardata extends Controller
             $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
             $objPHPExcel = $objPHPExcel->load($archivo);
             $tipopersona = $_POST["tipopersona"];
+            $generarcon = $_POST["generarcon"];
             $hoja = $objPHPExcel->getSheet(0);
             $ultimaFila = $hoja->getHighestRow();
             $preview = '<thead>
@@ -283,6 +284,7 @@ class Generardata extends Controller
             $objectD = new dominioModelo();
             $archivo = $_FILES["archivo"]["tmp_name"];
             $dom_id = $_POST['dominio'];
+            $generarcon = $_POST['generarcon'];
             $dom = $objectD->readDominio($dom_id);
             $dominio = $dom['dom_nombre'];
 
@@ -304,6 +306,7 @@ class Generardata extends Controller
                 $nombres = $hoja->getCell("B$i")->getValue();
                 $apellidos = $hoja->getCell("C$i")->getValue();
                 $codigo = $hoja->getCell("A$i")->getValue();
+                $sede = $hoja->getCell("I$i")->getValue();
 
                 $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_limpio = str_replace(
@@ -319,11 +322,16 @@ class Generardata extends Controller
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
                 $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
                 $correo = '';
-                $clave = strtoupper(substr($nombres, 0, 1)) . strtolower(substr($apellidos, 0, 1)) . $codigo . '*';
+                $clave = strtoupper(substr($nombres, 0, 1)) . strtolower(substr($apellidos, 0, 1)) . $codigo . '*@';
                 if (!$observacion) {
-                    $correo = generarCorreo(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
-                    if (isset($correosBD[$correo])) {
-                        $correo = generarCorreo2(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                    switch($generarcon){
+                        case 1:$correo = generarCorreo(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                            if (isset($correosBD[$correo])) {
+                                $correo = generarCorreo2(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                            }
+                            break;
+                        case 2:$correo = generarCorreoCodigo(trim($nombres_limpio), trim($apellido_limpio), $codigo) . $dominio;break;
+                        case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio;break;
                     }
                 }
                 $html .= "<tr>
@@ -347,6 +355,7 @@ class Generardata extends Controller
             $dom_id = $_POST['dominio'];
             $tipopersona = $_POST['tipopersona'];
             $tipoarchivo = $_POST['tipoarchivo'];
+            $generarcon = $_POST['generarcon'];
             $dom = $objectD->readDominio($dom_id);
             $dominio = $dom['dom_nombre'];
             $resultado = '';
@@ -376,6 +385,7 @@ class Generardata extends Controller
                 $total = $ultimaFila - 1;
                 $datos = '';
                 $invalido = 0;
+                $correosBD = array_flip(array_column($object->listarCorreos(), 'dat_email'));
                 for($i = 2; $i <= $ultimaFila; $i++) {
                     $nombres = $hoja->getCell("B$i")->getValue();
                     $apellidos = $hoja->getCell("C$i")->getValue();
@@ -402,7 +412,7 @@ class Generardata extends Controller
                         $completo);
                     $val = $object->validarNombres(trim($completo));
                     $correo = '';
-                    $clave = strtoupper(substr($nombres,0,1)).strtolower(substr($apellidos,0,1)).$codigo.'*';
+                    $clave = strtoupper(substr($nombres,0,1)).strtolower(substr($apellidos,0,1)).$codigo.'*@';
                     $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                     $apellido_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -414,27 +424,66 @@ class Generardata extends Controller
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                         $nombres_limpio);
                     if(!$val){
-                        $correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
-                        $val = $object->validarCorreo($correo);
-                        if($val){
-                            $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
-                        }else{
-                            if (validar_correo($correo)){
-                                if($tipopersona == 1){
-                                    $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
-                                    '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                        switch($generarcon){
+                            case 1:$correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
+                                    //$val = $object->validarCorreo($correo);
+                                    if (isset($correosBD[$correo])) {
+                                        $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
+                                    }else{
+                                        if (validar_correo($correo)){
+                                            if($tipopersona == 1){
+                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
+                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            }
+                                            if($tipopersona == 2){
+                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
+                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            }
+                                            if($tipopersona == 3){
+                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
+                                                '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            }
+                                        }else{
+                                            $invalido++;
+                                        }
+                                    }
+                                break;
+                            case 2:$correo = generarCorreoCodigo(trim($nombres_limpio), trim($apellido_limpio), $codigo) . $dominio;
+                                    if (validar_correo($correo)){
+                                        if($tipopersona == 1){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        }
+                                        if($tipopersona == 2){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        }
+                                        if($tipopersona == 3){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
+                                            '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        }
+                                    }else{
+                                        $invalido++;
+                                    }
+                            break;
+                            case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio.'';
+                                if (validar_correo($correo)){
+                                    if($tipopersona == 1){
+                                        $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
+                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                    }
+                                    if($tipopersona == 2){
+                                        $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
+                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                    }
+                                    if($tipopersona == 3){
+                                        $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
+                                        '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                    }
+                                }else{
+                                    $invalido++;
                                 }
-                                if($tipopersona == 2){
-                                    $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
-                                    '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
-                                }
-                                if($tipopersona == 3){
-                                    $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
-                                    '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
-                                }
-                            }else{
-                                $invalido++;
-                            }
+                            break;
                         }
                     }
                 }
@@ -516,7 +565,7 @@ class Generardata extends Controller
 
     public function pdf($arc_id)
     {
-        require_once APPPATH . 'Libraries/fpdf/fpdf.php';
+        require_once APPPATH . 'Libraries/PDF.php';
         $quitarTildes = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
                                 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
                                 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
@@ -527,59 +576,60 @@ class Generardata extends Controller
         $itemA = $objectA->archivo($arc_id);
         $tipopersona = $itemA->arc_tipo_persona;
         $nombreArchivo = '';
-        $pdf = new FPDF();
+        $pdf = new PDF();
         $pdf->AddPage('L');
         $pdf->SetFont('Arial','B',7);
         $x = [0=>10,1=>30,2=>30,3=>17,4=>14,5=>17,6=>30,7=>30,8=>34,9=>20,10=>30,11=>30,12=>28,13=>15];
         $y = 5;
-        $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1);
-        $pdf->Cell($x[3],$y, utf8_decode('CODIGO'),1);
-        $pdf->Cell($x[4],$y, utf8_decode('DNI'),1);
-        $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1);
-        $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1);
-        $pdf->Cell($x[5],$y, utf8_decode('CELULAR'),1);
-        $pdf->Cell($x[6],$y, utf8_decode('CORREO PERSONAL'),1);
+        $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
+        $pdf->Cell($x[3],$y, utf8_decode('CODIGO'),1,0,'C');
+        $pdf->Cell($x[4],$y, utf8_decode('DNI'),1,0,'C');
+        $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1,0,'C');
+        $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1,0,'C');
+        $pdf->Cell($x[5],$y, utf8_decode('CELULAR'),1,0,'C');
+        $pdf->Cell($x[6],$y, utf8_decode('CORREO PERSONAL'),1,0,'C');
         if($tipopersona == 1){
             $nombreArchivo = 'Administrativo';
-            $pdf->Cell($x[7],$y,utf8_decode('UNIDAD/OFICINA'),1);
+            $pdf->Cell($x[7],$y,utf8_decode('UNIDAD/OFICINA'),1,0,'C');
         }
         if($tipopersona == 2){
             $nombreArchivo = 'Docente';
-            $pdf->Cell($x[10],$y,utf8_decode('DEPARTAMENTO'),1);
+            $pdf->Cell($x[10],$y,utf8_decode('DEPARTAMENTO'),1,0,'C');
         }
         if($tipopersona == 3){
             $nombreArchivo = 'Estudiante';
-            $pdf->Cell($x[11],$y,utf8_decode('FACULTAD'),1);
-            $pdf->Cell($x[12],$y,utf8_decode('ESCUELA'),1);
-            $pdf->Cell($x[13],$y,utf8_decode('SEDE'),1);
+            $pdf->Cell($x[11],$y,utf8_decode('FACULTAD'),1,0,'C');
+            $pdf->Cell($x[12],$y,utf8_decode('ESCUELA'),1,0,'C');
+            $pdf->Cell($x[13],$y,utf8_decode('SEDE'),1,0,'C');
         }
-        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1);
-        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1);
+        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1,0,'C');
+        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1,'C');
         $items = $object->validarArchivo($arc_id);
         $c = 0;
         $pdf->SetFont('Arial','',6);
         foreach($items as $row){
             $c++;
             $pdf->Cell($x[0],$y,$c,1);
-            $pdf->Cell($x[3],$y,utf8_decode($row->dat_codigo),1);
-            $pdf->Cell($x[4],$y,utf8_decode($row->dat_dni),1);
-            $pdf->Cell($x[1],$y,utf8_decode($row->dat_nombres),1);
-            $pdf->Cell($x[2],$y,utf8_decode($row->dat_apellidos),1);
-            $pdf->Cell($x[5],$y,utf8_decode($row->dat_celular),1);
-            $pdf->Cell($x[6],$y,utf8_decode($row->dat_correo_personal),1);
+            $pdf->Cell($x[3],$y,strtoupper(utf8_decode($row->dat_codigo)),1);
+            $pdf->Cell($x[4],$y,strtoupper(utf8_decode($row->dat_dni)),1);
+            $pdf->Cell($x[1],$y,strtoupper(utf8_decode($row->dat_nombres)),1);
+            $pdf->Cell($x[2],$y,strtoupper(utf8_decode($row->dat_apellidos)),1);
+            $pdf->Cell($x[5],$y,strtoupper(utf8_decode($row->dat_celular)),1);
+            $pdf->Cell($x[6],$y,strtoupper(utf8_decode($row->dat_correo_personal)),1);
             if($tipopersona == 1){
-                $pdf->Cell($x[7],$y,utf8_decode(strtr($row->dat_unidad, $quitarTildes)),1);
+                $pdf->Cell($x[7],$y,strtoupper(utf8_decode(strtr($row->dat_unidad, $quitarTildes))),1);
             }
             if($tipopersona == 2){
-                $pdf->Cell($x[10],$y,utf8_decode(strtr($row->dat_departamento, $quitarTildes)),1);
+                $pdf->Cell($x[10],$y,strtoupper(utf8_decode(strtr($row->dat_departamento, $quitarTildes))),1);
             }
             if($tipopersona == 3){
-                $pdf->Cell($x[11],$y,utf8_decode(strtr($row->dat_facultad, $quitarTildes)),1);
-                $pdf->Cell($x[12],$y,utf8_decode($row->dat_escuela),1);
-                $pdf->Cell($x[13],$y,utf8_decode($row->dat_sede),1);
+                $pdf->Cell($x[11],$y,strtoupper(utf8_decode(strtr($row->dat_facultad, $quitarTildes))),1);
+                $pdf->Cell($x[12],$y,strtoupper(utf8_decode($row->dat_escuela)),1);
+                $pdf->Cell($x[13],$y,strtoupper(utf8_decode($row->dat_sede)),1);
             }
-            $pdf->Cell($x[8],$y,utf8_decode($row->dat_email),1);
-            $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1);
+            $pdf->SetFillColor(0, 102, 51); // Verde oscuro
+            $pdf->Cell($x[8],$y,utf8_decode($row->dat_email),1,0,'L',true);
+            $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1,'L',true);
         }
         $pdf->SetTitle($nombreArchivo);
         $pdf->Output();
@@ -612,19 +662,19 @@ class Generardata extends Controller
                 $hoja->setCellValue("F1",utf8_decode('CELULAR'));
                 $hoja->setCellValue("G1",utf8_decode('CORREO PERSONAL'));
                 if($tipopersona == 1){
-                    $nombreArchivo = 'excel_administrativo';
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
                     $hoja->setCellValue("H1",utf8_decode('UNIDAD/OFICINA'));
                     $hoja->setCellValue("I1",utf8_decode('CORREO INSTITUCIONAL'));
                     $hoja->setCellValue("J1",utf8_decode('CONTRASENIA'));
                 }
                 if($tipopersona == 2){
-                    $nombreArchivo = 'excel_docente';
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
                     $hoja->setCellValue("H1",utf8_decode('DEPARTAMENTO'));
                     $hoja->setCellValue("I1",utf8_decode('CORREO INSTITUCIONAL'));
                     $hoja->setCellValue("J1",utf8_decode('CONTRASENIA'));
                 }
                 if($tipopersona == 3){
-                    $nombreArchivo = 'excel_estudiante';
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
                     $hoja->setCellValue("H1",utf8_decode('FACULTAD'));
                     $hoja->setCellValue("I1",utf8_decode('ESCUELA'));
                     $hoja->setCellValue("J1",utf8_decode('SEDE'));
@@ -741,8 +791,19 @@ class Generardata extends Controller
             $objectA  = new archivosModelo();
             $itemA    = $objectA->archivo($arc_id);
             $items    = $object->validarArchivo($arc_id);
+            $tipopersona = $itemA->arc_tipo_persona;
+            $nombreArchivo = '';
+            if($tipopersona == 1){
+                $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
+            }
+            if($tipopersona == 2){
+                $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
+            }
+            if($tipopersona == 3){
+                $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
+            }
             header('Content-Type: text/csv; charset=utf-8');
-            header('Content-Disposition: attachment; filename="Repositorio.csv"');
+            header('Content-Disposition: attachment; filename="'.$nombreArchivo.'.csv"');
             header('Pragma: no-cache');
             header('Expires: 0');
             $output = fopen('php://output', 'w');

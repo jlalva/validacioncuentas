@@ -114,3 +114,17 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $correo = strtolower($primeraLetraNombre . $segundaLetraNombre . $apellido1 . $segundaLetraApellido );
         return $correo;
     }
+
+    function generarCorreoCodigo($nombre, $apellido, $codigo) {
+        $partesNombre = explode(" ", $nombre);
+        $primeraLetraNombre = substr($partesNombre[0], 0, 1);
+        $primeraLetraApellido = substr($apellido[0], 0, 1);
+        $correo = strtolower($primeraLetraNombre . $primeraLetraApellido. $codigo);
+        return $correo;
+    }
+
+    function generarCorreoSedeCodigo($sede, $codigo) {
+        $primeraLetraSede = substr($sede[0], 0, 1);
+        $correo = strtolower($primeraLetraSede . $codigo);
+        return $correo;
+    }

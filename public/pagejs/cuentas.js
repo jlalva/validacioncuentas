@@ -1,6 +1,7 @@
 function tipodescarga(){
     const tipodescarga = document.querySelector('input[name="tipodescarga"]:checked');
     tipo = tipodescarga.value;
+    $("#modalTipo").modal('hide');
     if(tipo == 1){
        $("#modalCompartir").modal('show');
     }else{

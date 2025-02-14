@@ -8,10 +8,10 @@ class archivosModelo extends Model{
                                 'arc_tipo_archivo', 'arc_descripcion', 'arc_tipo_persona'];
 
     public function registros($origen){
-        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,arc_fecha_reg 
+        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,usu_apellido,arc_fecha_reg 
         FROM archivos arc
         INNER JOIN usuario usu ON usu.usu_id = arc.arc_usu_id
-        WHERE arc_origen = $origen
+        WHERE arc_origen = $origen AND arc_subido > 0
         ORDER BY arc_id DESC");
         return $query->getResult();
     }
