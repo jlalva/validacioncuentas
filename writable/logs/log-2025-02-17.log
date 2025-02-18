@@ -1,0 +1,57 @@
+CRITICAL - 2025-02-17 18:45:31 --> Undefined variable $html
+in APPPATH\Controllers\Subirdata.php on line 394.
+ 1 APPPATH\Controllers\Subirdata.php(394): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $html', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Subirdata.php', 394)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->pdf('2')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-17 18:59:54 --> Class "PDFS" not found
+in APPPATH\Controllers\Subirdata.php on line 349.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->pdf('2')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-17 21:03:12 --> Undefined variable $id_arch
+in APPPATH\Views\datos\generardata\detalle.php on line 31.
+ 1 APPPATH\Views\datos\generardata\detalle.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id_arch', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php', 31)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/detalle', [], true)
+ 5 APPPATH\Controllers\Generardata.php(130): view('datos/generardata/detalle', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('4')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-17 21:03:17 --> Undefined variable $id_arch
+in APPPATH\Views\datos\generardata\detalle.php on line 31.
+ 1 APPPATH\Views\datos\generardata\detalle.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id_arch', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php', 31)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/detalle', [], true)
+ 5 APPPATH\Controllers\Generardata.php(130): view('datos/generardata/detalle', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('3')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-17 21:03:56 --> Undefined variable $id_arch
+in APPPATH\Views\datos\generardata\detalle.php on line 31.
+ 1 APPPATH\Views\datos\generardata\detalle.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id_arch', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php', 31)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/detalle', [], true)
+ 5 APPPATH\Controllers\Generardata.php(130): view('datos/generardata/detalle', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('3')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-17 21:03:57 --> Undefined variable $id_arch
+in APPPATH\Views\datos\generardata\detalle.php on line 31.
+ 1 APPPATH\Views\datos\generardata\detalle.php(31): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $id_arch', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php', 31)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\datos\\generardata\\detalle.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('datos/generardata/detalle', [], true)
+ 5 APPPATH\Controllers\Generardata.php(130): view('datos/generardata/detalle', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('3')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

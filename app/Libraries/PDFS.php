@@ -2,7 +2,7 @@
 
 require_once APPPATH . 'Libraries/fpdf/fpdf.php';
 
-class PDF extends FPDF
+class PDFS extends FPDF
 {
     function Header()
     {
@@ -25,7 +25,7 @@ class PDF extends FPDF
         $this->SetFont('Arial', 'B', 12);
         $this->SetFillColor(0, 51, 102); // Azul oscuro
         $this->SetTextColor(255, 255, 255); // Texto blanco
-        $this->Cell(190, 10, 'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS USUARIOS', 1, 1, 'C', true);
+        $this->Cell(190, 10, 'LISTA DE USUARIOS SUBIDOS', 1, 1, 'C', true);
         $this->Ln(5);
     }
 //Pie de página

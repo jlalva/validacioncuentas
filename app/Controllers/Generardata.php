@@ -8,6 +8,7 @@ use App\Models\dominioModelo;
 use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
 use PDF;
+use PDFS;
 use PHPExcel;
 use PHPExcel_IOFactory;
 
@@ -57,7 +58,7 @@ class Generardata extends Controller
                 $selDom = '';
                 foreach ($tipo as $row){
                     if($row['tip_estado'] == 1){
-                        $selTP .= "<option value='".$row['tip_id']."'>".$row['tip_nombre']."</option>";
+                        $selTP .= "<option value='".$row['tip_id']."'>".strtoupper($row['tip_nombre'])."</option>";
                     }
                 }
                 foreach ($dominio as $row){
@@ -85,6 +86,7 @@ class Generardata extends Controller
                 $item = $object->archivo($arc_id);
                 $archivo = "public/".$item->arc_ruta;
                 $ruta = $item->arc_ruta;
+                $tipopersona = $item->arc_tipo_persona;
                 $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
                 $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
                 $objPHPExcel = $objPHPExcel->load($archivo);
@@ -99,10 +101,12 @@ class Generardata extends Controller
                             <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("D1")->getValue())."</th>
                             <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("E1")->getValue())."</th>
                             <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("F1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("G1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("H1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("I1")->getValue())."</th>
-                        </tr>
+                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("G1")->getValue())."</th>";
+                            if($tipopersona == 3){
+                                $html .= "<th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("H1")->getValue())."</th>
+                                <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("I1")->getValue())."</th>";
+                            }
+                    $html .= "</tr>
                     </thead>
                     <tbody>";
                 for($i = 2; $i <= $ultimaFila; $i++) {
@@ -120,13 +124,15 @@ class Generardata extends Controller
                                 <td>".$hoja->getCell("D$i")->getValue()."</td>
                                 <td>".$hoja->getCell("E$i")->getValue()."</td>
                                 <td>".$hoja->getCell("F$i")->getValue()."</td>
-                                <td>".$hoja->getCell("G$i")->getValue()."</td>
-                                <td>".$hoja->getCell("H$i")->getValue()."</td>
-                                <td>".$hoja->getCell("I$i")->getValue()."</td>
-                            </tr>";
+                                <td>".$hoja->getCell("G$i")->getValue()."</td>";
+                                if($tipopersona == 3){
+                                    $html .="<td>".$hoja->getCell("H$i")->getValue()."</td>
+                                    <td>".$hoja->getCell("I$i")->getValue()."</td>";
+                                }
+                            $html .="</tr>";
                 }
                 $html .="</tbody>";
-                $datos = ['titulo' => 'Subir datos', 'table'=>$html, 'ruta' => $ruta];
+                $datos = ['titulo' => 'Subir datos', 'table'=>$html, 'ruta' => $ruta, 'id_arch'=>$arc_id];
                 return view('datos/generardata/detalle', $datos);
             }else{
                 return view('denegado');
@@ -322,7 +328,7 @@ class Generardata extends Controller
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
                 $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
                 $correo = '';
-                $clave = strtoupper(substr($nombres, 0, 1)) . strtolower(substr($apellidos, 0, 1)) . $codigo . '*@';
+                $clave = strtoupper(substr($nombres_limpio, 0, 1)) . strtolower(substr($apellido_limpio, 0, 1)) . $codigo . '*@';
                 if (!$observacion) {
                     switch($generarcon){
                         case 1:$correo = generarCorreo(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
@@ -336,8 +342,8 @@ class Generardata extends Controller
                 }
                 $html .= "<tr>
                             <td>$c</td>
-                            <td>$nombres_limpio</td>
-                            <td>$apellido_limpio</td>
+                            <td>$nombres</td>
+                            <td>$apellidos</td>
                             <td>$correo</td>
                             <td>$clave</td>
                             <td>$observacion</td>
@@ -346,7 +352,6 @@ class Generardata extends Controller
             echo $html;
         }
     }
-
     public function guardararchivo(){
         $object = new datosModelo();
         $objectArc = new archivosModelo();
@@ -412,7 +417,6 @@ class Generardata extends Controller
                         $completo);
                     $val = $object->validarNombres(trim($completo));
                     $correo = '';
-                    $clave = strtoupper(substr($nombres,0,1)).strtolower(substr($apellidos,0,1)).$codigo.'*@';
                     $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                     $apellido_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -423,6 +427,7 @@ class Generardata extends Controller
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                         $nombres_limpio);
+                        $clave = strtoupper(substr($nombres_limpio,0,1)).strtolower(substr($apellido_limpio,0,1)).$codigo.'*@';
                     if(!$val){
                         switch($generarcon){
                             case 1:$correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
@@ -578,6 +583,7 @@ class Generardata extends Controller
         $nombreArchivo = '';
         $pdf = new PDF();
         $pdf->AddPage('L');
+        $pdf->AliasNbPages();
         $pdf->SetFont('Arial','B',7);
         $x = [0=>10,1=>30,2=>30,3=>17,4=>14,5=>17,6=>30,7=>30,8=>34,9=>20,10=>30,11=>30,12=>28,13=>15];
         $y = 5;
@@ -776,60 +782,129 @@ class Generardata extends Controller
     }
 
     public function descargarrepocsv($arc_id)
-{
-    if (session('authenticated') && accede()) {
-        if (bloqueado()) {
-            $quitarTildes = array(
-                'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
-                'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
-                'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a',
-                'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
-                'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u',
-                'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y'
-            );
-            $object   = new datosModelo();
-            $objectA  = new archivosModelo();
-            $itemA    = $objectA->archivo($arc_id);
-            $items    = $object->validarArchivo($arc_id);
-            $tipopersona = $itemA->arc_tipo_persona;
-            $nombreArchivo = '';
-            if($tipopersona == 1){
-                $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
-            }
-            if($tipopersona == 2){
-                $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
-            }
-            if($tipopersona == 3){
-                $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
-            }
-            header('Content-Type: text/csv; charset=utf-8');
-            header('Content-Disposition: attachment; filename="'.$nombreArchivo.'.csv"');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-            $output = fopen('php://output', 'w');
-            fputs($output, "\xEF\xBB\xBF");
-            fputcsv($output, array(
-                'First Name',
-                'Last Name',
-                'Email Address',
-                'Password',
-                'Org Unit Path',
-                'Recovery Email'
-            ));
-            foreach ($items as $row) {
+    {
+        if (session('authenticated') && accede()) {
+            if (bloqueado()) {
+                $quitarTildes = array(
+                    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
+                    'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+                    'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a',
+                    'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
+                    'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u',
+                    'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y'
+                );
+                $object   = new datosModelo();
+                $objectA  = new archivosModelo();
+                $itemA    = $objectA->archivo($arc_id);
+                $items    = $object->validarArchivo($arc_id);
+                $tipopersona = $itemA->arc_tipo_persona;
+                $nombreArchivo = '';
+                if($tipopersona == 1){
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
+                }
+                if($tipopersona == 2){
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
+                }
+                if($tipopersona == 3){
+                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
+                }
+                header('Content-Type: text/csv; charset=utf-8');
+                header('Content-Disposition: attachment; filename="'.$nombreArchivo.'.csv"');
+                header('Pragma: no-cache');
+                header('Expires: 0');
+                $output = fopen('php://output', 'w');
+                fputs($output, "\xEF\xBB\xBF");
                 fputcsv($output, array(
-                    utf8_decode($row->dat_nombres),
-                    utf8_decode($row->dat_apellidos),
-                    utf8_decode($row->dat_email),
-                    utf8_decode($row->dat_clave),
-                    '/',
-                    utf8_decode($row->dat_correo_personal)
+                    'First Name',
+                    'Last Name',
+                    'Email Address',
+                    'Password',
+                    'Org Unit Path',
+                    'Recovery Email'
                 ));
+                foreach ($items as $row) {
+                    fputcsv($output, array(
+                        utf8_decode($row->dat_nombres),
+                        utf8_decode($row->dat_apellidos),
+                        utf8_decode($row->dat_email),
+                        utf8_decode($row->dat_clave),
+                        '/',
+                        utf8_decode($row->dat_correo_personal)
+                    ));
+                }
+                fclose($output);
+                exit;
             }
-            fclose($output);
-            exit;
         }
     }
-}
+
+    public function pdfdescargar($arc_id)
+    {
+        if(session('authenticated') && accede()){
+            if(bloqueado()){
+                require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+                require_once APPPATH . 'Libraries/PDFS.php';
+                $object = new archivosModelo();
+                $item = $object->archivo($arc_id);
+                $archivo = "public/".$item->arc_ruta;
+                $tipopersona = $item->arc_tipo_persona;
+                $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
+                $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+                $objPHPExcel = $objPHPExcel->load($archivo);
+                $hoja = $objPHPExcel->getSheet(0);
+                $ultimaFila = $hoja->getHighestRow();
+                $pdf = new PDFS();
+                $pdf->AddPage('L');
+                $pdf->AliasNbPages();
+                $pdf->SetFont('Arial','B',8);
+                $x = [0=>10,1=>25,2=>40,3=>40,4=>20,5=>30,6=>40,7=>30];
+                $y = 5;
+                $sal = 1;
+                if($tipopersona == 3){
+                    $sal = 0;
+                }
+                $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
+                $pdf->Cell($x[1],$y, strtoupper($hoja->getCell("A1")->getValue()),1,0,'C');
+                $pdf->Cell($x[2],$y, strtoupper(utf8_encode($hoja->getCell("B1")->getValue())),1,0,'C');
+                $pdf->Cell($x[3],$y, strtoupper(utf8_encode($hoja->getCell("C1")->getValue())),1,0,'C');
+                $pdf->Cell($x[4],$y, strtoupper(utf8_encode($hoja->getCell("D1")->getValue())),1,0,'C');
+                $pdf->Cell($x[5],$y, strtoupper(utf8_encode($hoja->getCell("E1")->getValue())),1,0,'C');
+                $pdf->Cell($x[6],$y, strtoupper(utf8_encode($hoja->getCell("F1")->getValue())),1,0,'C');
+                $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("G1")->getValue())),1,$sal,'C');
+                if($tipopersona == 3){
+                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("H1")->getValue())),1,0,'C');
+                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("I1")->getValue())),1,1,'C');
+                }
+                $pdf->SetFont('Arial','',8);
+                for($i = 2; $i <= $ultimaFila; $i++) {
+                    $completo = $hoja->getCell("A$i")->getValue(). ' '.$hoja->getCell("B$i")->getValue();
+                    //$val = $objectD->validarNombres($completo);
+                    $color = '';
+                    /*if($val){
+                        $color = "style='background:green'";
+                    }*/
+                    $pdf->Cell($x[0],$y, ($i-1),1,0,'C');
+                    $pdf->Cell($x[1],$y, strtoupper(utf8_encode($hoja->getCell("A$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[2],$y, strtoupper(utf8_encode($hoja->getCell("B$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[3],$y, strtoupper(utf8_encode($hoja->getCell("C$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[4],$y, strtoupper(utf8_encode($hoja->getCell("D$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[5],$y, strtoupper(utf8_encode($hoja->getCell("E$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[6],$y, strtoupper(utf8_encode($hoja->getCell("F$i")->getValue())),1,0,'C');
+                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("G$i")->getValue())),1,$sal,'C');
+                    if($tipopersona == 3){
+                        $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("H$i")->getValue())),1,0,'C');
+                        $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("I$i")->getValue())),1,1,'C');
+                    }
+                }
+                $pdf->SetTitle("Data Subida");
+                $pdf->Output();
+                exit;
+            }else{
+                return view('denegado');
+            }
+        }else{
+            return redirect()->to(base_url("/"));
+        }
+    }
 
 }

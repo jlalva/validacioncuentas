@@ -65,6 +65,7 @@ $routes->get('subirdata/add', 'Subirdata::add');
 $routes->post('subirdata/validar', 'Subirdata::validar');
 $routes->post('subirdata/guardararchivo', 'Subirdata::guardararchivo');
 $routes->get('subirdata/detalle/(:num)', 'Subirdata::detalle/$1');
+$routes->get('subirdata/pdf/(:num)', 'Subirdata::pdf/$1');
 //Generar data
 $routes->get('generardata', 'Generardata::index');
 $routes->get('generardata/add', 'Generardata::add');
@@ -78,6 +79,7 @@ $routes->get('generardata/descargarcuentas/(:num)', 'Generardata::descargarcuent
 $routes->get('generardata/pdf/(:num)', 'Generardata::pdf/$1');
 $routes->get('generardata/descargarrepoexcel/(:num)', 'Generardata::descargarrepoexcel/$1');
 $routes->get('generardata/descargarrepocsv/(:num)', 'Generardata::descargarrepocsv/$1');
+$routes->get('generardata/pdfdescargar/(:num)', 'Generardata::pdfdescargar/$1');
 //Tipo persona
 $routes->get('tipopersona', 'Tipopersona::index');
 $routes->get('tipopersona/add', 'Tipopersona::add');
