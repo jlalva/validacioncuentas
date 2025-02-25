@@ -50,6 +50,7 @@
                                             <th class="column-title" style="text-align: center;">TOTAL</th>
                                             <th class="column-title" style="text-align: center;">SUBIDOS</th>
                                             <th class="column-title" style="text-align: center;">USUARIO</th>
+                                            <th class="column-title" style="text-align: center;">TIEMPO</th>
                                             <th class="column-title" style="text-align: center;">REGISTRADO</th>
                                             <th class="column-title" style="text-align: center;">ACCI&Oacute;N</th>
                                         </tr>
@@ -67,6 +68,7 @@
                                                 <td><?= $row->arc_total ?></td>
                                                 <td><?= $row->arc_subido ?></td>
                                                 <td><?= $row->usu_nombre.' '.$row->usu_apellido ?></td>
+                                                <td><?= number_format($row->arc_tiempo,2)?> m</td>
                                                 <td><?= $row->arc_fecha_reg ?></td>
                                                 <td>
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>

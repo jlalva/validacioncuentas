@@ -200,6 +200,7 @@ class Subirdata extends Controller
             echo "No se ha seleccionado ningún archivo.";
             exit;
         }
+        $inicio = microtime(true);
         $tipoarchivo = $_POST['tipoarchivo'];
         $descripcion = $_POST['descripcion'];
         $archivo = $_FILES["archivo"]["tmp_name"];
@@ -310,9 +311,13 @@ class Subirdata extends Controller
             if (!move_uploaded_file($_FILES['archivo']['tmp_name'], $rutaArchivo)) {
                 throw new Exception("Error al mover el archivo.");
             }
+            $fin = microtime(true);
+            $tiempoTotalSegundos = $fin - $inicio;
+            $tiempoTotalMinutos = $tiempoTotalSegundos / 60;
             $objectArc->upd($arc_id, [
                 'arc_total' => $totalRegistros,
-                'arc_subido' => $aregistrar
+                'arc_subido' => $aregistrar,
+                'arc_tiempo' => $tiempoTotalMinutos
             ]);
             echo 'ok';
         } catch (Exception $e) {

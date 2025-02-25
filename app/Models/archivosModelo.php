@@ -5,13 +5,13 @@ class archivosModelo extends Model{
     protected $table = 'archivos';
     protected $primaryKey = 'arc_id';
     protected $allowedFields = ['arc_nombre', 'arc_ruta', 'arc_total', 'arc_subido', 'arc_usu_id', 'arc_fecha_reg','arc_estado','arc_origen',
-                                'arc_tipo_archivo', 'arc_descripcion', 'arc_tipo_persona'];
+                                'arc_tipo_archivo', 'arc_descripcion', 'arc_tipo_persona', 'arc_tiempo'];
 
     public function registros($origen){
-        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,usu_apellido,arc_fecha_reg,tip_nombre
+        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,usu_apellido,arc_fecha_reg,tip_nombre, arc_tiempo
         FROM archivos arc
         INNER JOIN usuario usu ON usu.usu_id = arc.arc_usu_id
-        INNER JOIN tipopersona tip ON tip.tip_id = arc.arc_tipo_persona
+        LEFT JOIN tipopersona tip ON tip.tip_id = arc.arc_tipo_persona
         WHERE arc_origen = $origen AND arc_subido > 0
         ORDER BY arc_id DESC");
         return $query->getResult();

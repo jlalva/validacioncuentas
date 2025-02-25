@@ -98,9 +98,15 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $primeraLetraNombre = substr($partesNombre[0], 0, 1);
         $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
         $partesApellido = explode(" ", $apellido);
-        $apellido1 = $partesApellido[0];
-        $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
-        $correo = strtolower($primeraLetraNombre . $segundaLetraNombre . $apellido1 . $segundaLetraApellido );
+        // Verificar si el apellido comienza con dos palabras de 2 letras cada una
+        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) == 2) {
+            $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3))); // Unir tres palabras
+            $correo = strtolower($primeraLetraNombre . $apellidoCompuesto);
+        } else {
+            $apellido1 = $partesApellido[0];
+            $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
+            $correo = strtolower($primeraLetraNombre . $segundaLetraNombre . $apellido1 . $segundaLetraApellido);
+        }
         return $correo;
     }
 

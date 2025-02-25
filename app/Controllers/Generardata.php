@@ -12,6 +12,10 @@ use PDF;
 use PDFS;
 use PHPExcel;
 use PHPExcel_IOFactory;
+use PHPExcel_Style_Border;
+use PHPExcel_Style_Alignment;
+use PHPExcel_Style_Fill;
+use PHPExcel_Worksheet_Drawing;
 
 class Generardata extends Controller
 {
@@ -475,27 +479,24 @@ class Generardata extends Controller
                 $codigo = $hoja->getCell("A$i")->getValue();
                 $sede = $hoja->getCell("I$i")->getValue();
 
-                $apellido_correo = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_correo = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
-                    $apellido_correo);
-                $nombres_correo = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                    $apellidos);
                 $nombres_correo = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
-                    $nombres_correo);
+                    $nombres);
 
-                $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                 $apellido_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
-                    $apellido_limpio);
-                $nombres_limpio = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                    $apellidos);
+
                 $nombres_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
-                    $nombres_limpio);
+                    $nombres);
 
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
                 $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
@@ -530,6 +531,7 @@ class Generardata extends Controller
         $object = new datosModelo();
         $objectArc = new archivosModelo();
         if(isset($_FILES["archivo"])) {
+            $inicio = microtime(true);
             $objectD = new dominioModelo();
             $dom_id = $_POST['dominio'];
             $tipopersona = $_POST['tipopersona'];
@@ -609,33 +611,30 @@ class Generardata extends Controller
                         $escuela = strtoupper($escuela);
                         $sede = strtoupper($sede);
                     }
-                    $completo = preg_replace('/\b\w{1,2}\b/', '', $completo);
                     $completo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
                         $completo);
                     $val = $object->validarNombres(trim($completo));
                     $correo = '';
-                    $apellido_correo = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
                     $apellido_correo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
-                        $apellido_correo);
-                    $nombres_correo = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                        $apellidos);
                     $nombres_correo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
-                        $nombres_correo);
-                    $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
+                        $nombres);
+
                     $apellido_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
-                        $apellido_limpio);
-                    $nombres_limpio = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                        $apellidos);
+
                     $nombres_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
-                        $nombres_limpio);
+                        $nombres);
                         $clave = strtoupper(substr($nombres_limpio,0,1)).strtolower(substr($apellido_limpio,0,1)).$codigo.'*@';
                     if(!$val){
                         switch($generarcon){
@@ -705,9 +704,13 @@ class Generardata extends Controller
                 $datos = substr($datos,0,-1);
                 if(move_uploaded_file($_FILES['archivo']['tmp_name'],"public/archivos/generardatos/".$nombreserver)){
                     if($object->insertarDatosGenerados($datos,$tipopersona)){
+                        $fin = microtime(true);
+                        $tiempoTotalSegundos = $fin - $inicio;
+                        $tiempoTotalMinutos = $tiempoTotalSegundos / 60;
                         $data = [
                             'arc_total'=>$total,
-                            'arc_subido'=>$aregistrar
+                            'arc_subido'=>$aregistrar,
+                            'arc_tiempo' => $tiempoTotalMinutos
                         ];
                         $objectArc->upd($arc_id, $data);
                         $resultado = 'ok';
@@ -877,36 +880,89 @@ class Generardata extends Controller
                 $objPHPExcel = new PHPExcel();
                 $objPHPExcel->setActiveSheetIndex(0);
                 $hoja = $objPHPExcel->getActiveSheet();
-                $hoja->setCellValue("A1",utf8_encode('ITEM'));
-                $hoja->setCellValue("B1",utf8_decode('CODIGO'));
-                $hoja->setCellValue("C1",utf8_decode('DNI'));
-                $hoja->setCellValue("D1",utf8_decode('NOMBRES'));
-                $hoja->setCellValue("E1",utf8_decode('APELLIDOS'));
-                $hoja->setCellValue("F1",utf8_decode('CELULAR'));
-                $hoja->setCellValue("G1",utf8_decode('CORREO PERSONAL'));
+                $style = array(
+                    'font' => array('bold' => true),  // Hacer la letra en negrita
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,  // Tipo de relleno sólido
+                        'startcolor' => array('rgb' => '008000'),  // Color de fondo (en este caso, verde)
+                    ),
+                );
+
+                $style_azul = [
+                    'alignment' => [
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ],
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,  // Tipo de relleno sólido
+                        'startcolor' => array('rgb' => '0883F8'),  // Color de fondo (en este caso, Azul)
+                    ),
+                    'font' => [
+                        'color' => ['rgb' => 'FFFFFF'],
+                    ],
+                ];
+                $objDrawing = new PHPExcel_Worksheet_Drawing();
+
+                $objDrawing->setName('Logo');
+                $objDrawing->setDescription('Logo');
+                $objDrawing->setPath('public/images/FOTO_EMPRESA/'.logo());
+                $objDrawing->setHeight(80);
+                $objDrawing->setCoordinates('A1');
+                $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+
+                $hoja->mergeCells('C2:H2');
+                $hoja->setCellValue("C2",utf8_decode(razonsocial()));
+                $hoja->mergeCells('C4:H4');
+
+                $hoja->setCellValue("A7",utf8_encode('ITEM'));
+                $hoja->setCellValue("B7",utf8_decode('CODIGO'));
+                $hoja->setCellValue("C7",utf8_decode('DNI'));
+                $hoja->setCellValue("D7",utf8_decode('NOMBRES'));
+                $hoja->setCellValue("E7",utf8_decode('APELLIDOS'));
+                $hoja->setCellValue("F7",utf8_decode('CELULAR'));
+                $hoja->setCellValue("G7",utf8_decode('CORREO PERSONAL'));
+                $hoja->getStyle("C4")->applyFromArray($style_azul);
                 if($tipopersona == 1){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
-                    $hoja->setCellValue("H1",utf8_decode('UNIDAD/OFICINA'));
-                    $hoja->setCellValue("I1",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->setCellValue("J1",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("C4",'LISTA DE CORREO INSTITUCIONALES DE NUEVOS ADMINISTRATIVOS');
+                    $hoja->getStyle("I7:J7")->applyFromArray($style);
+                    $hoja->setCellValue("I2",'SISTEMA');
+                    $hoja->setCellValue("I3",'FECHA/HORA');
+                    $hoja->setCellValue("J2", '[Nombre del sistema]');
+                    $hoja->setCellValue("J3",date('d-m-Y H:i '));
+                    $hoja->setCellValue("H7",utf8_decode('UNIDAD/OFICINA'));
+                    $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
+                    $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
                 }
                 if($tipopersona == 2){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
-                    $hoja->setCellValue("H1",utf8_decode('DEPARTAMENTO'));
-                    $hoja->setCellValue("I1",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->setCellValue("J1",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("C4",'LISTA DE CORREO INSTITUCIONALES DE NUEVOS DOCENTES');
+                    $hoja->getStyle("I7:J7")->applyFromArray($style);
+                    $hoja->setCellValue("I2",'SISTEMA');
+                    $hoja->setCellValue("I3",'FECHA/HORA');
+                    $hoja->setCellValue("J2", '[Nombre del sistema]');
+                    $hoja->setCellValue("J3",date('d-m-Y H:i '));
+                    $hoja->setCellValue("H7",utf8_decode('DEPARTAMENTO'));
+                    $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
+                    $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
                 }
                 if($tipopersona == 3){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
-                    $hoja->setCellValue("H1",utf8_decode('FACULTAD'));
-                    $hoja->setCellValue("I1",utf8_decode('ESCUELA'));
-                    $hoja->setCellValue("J1",utf8_decode('SEDE'));
-                    $hoja->setCellValue("K1",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->setCellValue("L1",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("C4",'LISTA DE CORREO INSTITUCIONALES DE NUEVOS ESTUDIANTES');
+                    $hoja->getStyle("K7:L7")->applyFromArray($style);
+                    $hoja->setCellValue("K2",'SISTEMA');
+                    $hoja->setCellValue("K3",'FECHA/HORA');
+                    $hoja->setCellValue("L2", '[Nombre del sistema]');
+                    $hoja->setCellValue("L3",date('d-m-Y H:i '));
+                    $hoja->setCellValue("H7",utf8_decode('FACULTAD'));
+                    $hoja->setCellValue("I7",utf8_decode('ESCUELA'));
+                    $hoja->setCellValue("J7",utf8_decode('SEDE'));
+                    $hoja->setCellValue("K7",utf8_decode('CORREO INSTITUCIONAL'));
+                    $hoja->setCellValue("L7",utf8_decode('CONTRASENIA'));
                 }
                 $items = $object->validarArchivo($arc_id);
                 $c = 0;
-                $fila = 1;
+                $fila = 7;
                 foreach($items as $row){
                     $c++;
                     $fila++;
@@ -918,23 +974,28 @@ class Generardata extends Controller
                     $hoja->setCellValue("F$fila",utf8_decode($row->dat_celular));
                     $hoja->setCellValue("G$fila",utf8_decode($row->dat_correo_personal));
                     if($tipopersona == 1){
+                        $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
                         $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_unidad, $quitarTildes)));
                         $hoja->setCellValue("I$fila",utf8_decode($row->dat_email));
                         $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
                     }
                     if($tipopersona == 2){
                         $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_departamento, $quitarTildes)));
+                        $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
                         $hoja->setCellValue("I$fila",utf8_decode($row->dat_email));
                         $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
                     }
                     if($tipopersona == 3){
                         $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_facultad, $quitarTildes)));
+                        $hoja->getStyle("K$fila:L$fila")->applyFromArray($style);
                         $hoja->setCellValue("I$fila",utf8_decode($row->dat_escuela));
                         $hoja->setCellValue("J$fila",utf8_decode($row->dat_sede));
                         $hoja->setCellValue("K$fila",utf8_decode($row->dat_email));
                         $hoja->setCellValue("L$fila",utf8_decode($row->dat_clave));
                     }
                 }
+                $fila = $fila + 2;
+                $hoja->setCellValue("I$fila",'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))));
                 header('Content-Type: application/vnd.ms-excel');
                 header('Content-Disposition: attachment;filename="'.$nombreArchivo.'.xls"');
                 header('Cache-Control: max-age=0');
