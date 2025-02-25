@@ -31,7 +31,7 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="tipodescarga" id="compartir" value="1">
+                        <input class="form-check-input" type="radio" name="tipodescarga" id="compartir" value="1" checked>
                         <label class="form-check-label" for="compartir">Para compartir</label>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="tipoarchivodescargar" id="excel" value="1">
+                        <input class="form-check-input" type="radio" name="tipoarchivodescargar" id="excel" value="1" checked>
                         <label class="form-check-label" for="excel">EXCEL</label>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="tipoarchivosubir" id="excelrepo" value="1">
+                        <input class="form-check-input" type="radio" name="tipoarchivosubir" id="excelrepo" value="1" checked>
                         <label class="form-check-label" for="excelrepo">EXCEL</label>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="descargarepositorio()">OK</button>
+                <button type="button" class="btn btn-primary" onclick="descargarepositorio()">Exportar</button>
             </div>
         </div>
     </div>

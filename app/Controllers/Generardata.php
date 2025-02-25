@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\archivosModelo;
 use App\Models\datosModelo;
 use App\Models\dominioModelo;
+use App\Models\peyorativosModelo;
 use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
 use PDF;
@@ -22,8 +23,11 @@ class Generardata extends Controller
                 $items = $object->registros(2);
                 $objectTP = new tipopersonaModelo();
                 $objectD = new dominioModelo();
+                $objectP = new peyorativosModelo();
+                $objectDa = new datosModelo();
                 $tipo = $objectTP->reads();
                 $dominio = $objectD->reads();
+                $peyorativo = $objectP->validarPeyorativo();
                 $selTP = '';
                 $selDom = '';
                 foreach ($tipo as $row){
@@ -36,7 +40,19 @@ class Generardata extends Controller
                         $selDom .= "<option value='".$row['dom_id']."'>".$row['dom_nombre']."</option>";
                     }
                 }
-                $datos = ['titulo' => 'Generar datos','items'=>$items, 'tipopersona' => $selTP, 'dominio' => $selDom];
+                for($i = 0; $i < count($items); $i++){
+                    $items[$i]->peyorativo = 'no';
+                    $itemsD = $objectDa->validarArchivo($items[$i]->arc_id);
+                    foreach($itemsD as $row){
+                        foreach($peyorativo as $rowP){
+                            if (str_contains($row->dat_email, $rowP->pey_nombre)) {
+                                $items[$i]->peyorativo = 'si';
+                                break;
+                            }
+                        }
+                    }
+                }
+                $datos = ['titulo' => 'Generar datos','items'=>$items, 'tipopersona' => $selTP, 'dominio' => $selDom, 'peyorativo' => $peyorativo];
                 return view('datos/generardata/index', $datos);
             }else{
                 return view('denegado');
@@ -92,42 +108,100 @@ class Generardata extends Controller
                 $objPHPExcel = $objPHPExcel->load($archivo);
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
-                $html = "<thead>
-                        <tr class='headings'>
-                            <th class='column-title' style='text-align: center;'>ITEM</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("A1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("B1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("C1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("D1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("E1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("F1")->getValue())."</th>
-                            <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("G1")->getValue())."</th>";
-                            if($tipopersona == 3){
-                                $html .= "<th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("H1")->getValue())."</th>
-                                <th class='column-title' style='text-align: center;'>".strtoupper($hoja->getCell("I1")->getValue())."</th>";
-                            }
-                    $html .= "</tr>
-                    </thead>
-                    <tbody>";
+                $html = '<thead>
+                            <tr class="headings">
+                                <th class="column-title" style="text-align: center;">ITEM</th>
+                                <th class="column-title" style="text-align: center;">CODIGO</th>
+                                <th class="column-title" style="text-align: center;">NOMBRE</th>
+                                <th class="column-title" style="text-align: center;">APELLIDO</th>
+                                <th class="column-title" style="text-align: center;">DNI</th>
+                                <th class="column-title" style="text-align: center;">CELULAR</th>
+                                <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>';
+                        if($tipopersona == 1){
+                            $html .= '<th class="column-title" style="text-align: center;">UNIDAD/OFICINA</th>';
+                        }
+                        if($tipopersona == 2){
+                            $html .= '<th class="column-title" style="text-align: center;">DEPARTAMENTO</th>';
+                        }
+                        if($tipopersona == 3){
+                            $html .= '<th class="column-title" style="text-align: center;">FACULTAD</th>
+                                <th class="column-title" style="text-align: center;">ESCUELA</th>
+                                <th class="column-title" style="text-align: center;">SEDE</th>';
+                        }
+                $html .= '</tr>
+                        </thead>
+                        <tbody>';
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $completo = $hoja->getCell("A$i")->getValue(). ' '.$hoja->getCell("B$i")->getValue();
-                    //$val = $objectD->validarNombres($completo);
-                    $color = '';
-                    /*if($val){
-                        $color = "style='background:green'";
-                    }*/
-                    $html .="<tr $color>
+                    $nombres = $hoja->getCell("B$i")->getValue();
+                $apellidos = $hoja->getCell("C$i")->getValue();
+                $codigo = $hoja->getCell("A$i")->getValue();
+                $dni     = $hoja->getCell("D$i")->getValue();
+                $celular = $hoja->getCell("E$i")->getValue();
+                $correop = $hoja->getCell("F$i")->getValue();
+                $apellido = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $apellidos);
+                $nombres = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $nombres);
+                if($tipopersona == 1){
+                    $unidad = $hoja->getCell("G$i")->getValue();
+                    $unidad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $unidad);
+                    $unidad = strtoupper($unidad);
+                }
+                if($tipopersona == 2){
+                    $departamento = $hoja->getCell("G$i")->getValue();
+                    $departamento = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $departamento);
+                    $departamento = strtoupper($departamento);
+                }
+                if($tipopersona == 3){
+                    $facultad = $hoja->getCell("G$i")->getValue();
+                    $facultad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $facultad);
+                    $escuela = $hoja->getCell("H$i")->getValue();
+                    $escuela = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $escuela);
+                    $sede = $hoja->getCell("I$i")->getValue();
+                    $sede = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $sede);
+                    $facultad = strtoupper($facultad);
+                    $escuela = strtoupper($escuela);
+                    $sede = strtoupper($sede);
+                }
+                $nombres = strtoupper($nombres);
+                $apellido = strtoupper($apellido);
+                    $html .="<tr>
                                 <td>".($i-1)."</td>
-                                <td>".$hoja->getCell("A$i")->getValue()."</td>
-                                <td>".$hoja->getCell("B$i")->getValue()."</td>
-                                <td>".$hoja->getCell("C$i")->getValue()."</td>
-                                <td>".$hoja->getCell("D$i")->getValue()."</td>
-                                <td>".$hoja->getCell("E$i")->getValue()."</td>
-                                <td>".$hoja->getCell("F$i")->getValue()."</td>
-                                <td>".$hoja->getCell("G$i")->getValue()."</td>";
+                                <td>".$codigo."</td>
+                                <td>".$nombres."</td>
+                                <td>".$apellido."</td>
+                                <td>".$dni."</td>
+                                <td>".$celular."</td>
+                                <td>".$correop."</td>";
+                                if($tipopersona == 1){
+                                    $html .="<td>$unidad</td>";
+                                }
+                                if($tipopersona == 2){
+                                    $html .="<td>$departamento</td>";
+                                }
                                 if($tipopersona == 3){
-                                    $html .="<td>".$hoja->getCell("H$i")->getValue()."</td>
-                                    <td>".$hoja->getCell("I$i")->getValue()."</td>";
+                                    $html .="<td>$facultad</td>
+                                        <td>$escuela</td>
+                                        <td>$sede</td>";
                                 }
                             $html .="</tr>";
                 }
@@ -150,7 +224,7 @@ class Generardata extends Controller
                 $objectA = new archivosModelo();
                 $itemA = $objectA->archivo($arc_id);
                 $tipopersona = $itemA->arc_tipo_persona;
-                $html ="<thead>
+                $html ="<thead style='text-align: center'>
                         <th>ITEM</th>
                         <th>CODIGO</th>
                         <th>DNI</th>
@@ -178,17 +252,17 @@ class Generardata extends Controller
                         <td>".$c."</td>
                         <td>".$row->dat_codigo."</td>
                         <td>".$row->dat_dni."</td>
-                        <td>".$row->dat_nombres."</td>
-                        <td>".$row->dat_apellidos."</td>
+                        <td>".strtoupper($row->dat_nombres)."</td>
+                        <td>".strtoupper($row->dat_apellidos)."</td>
                         <td>".$row->dat_celular."</td>
                         <td>".$row->dat_correo_personal."</td>";
                     if($tipopersona == 1){
-                        $html .="<td>".$row->dat_unidad."</td>";
+                        $html .="<td>".strtoupper($row->dat_unidad)."</td>";
                     }
                     if($tipopersona == 3){
-                        $html .="<td>".$row->dat_facultad."</td>
-                        <td>".$row->dat_escuela."</td>
-                        <td>".$row->dat_sede."</td>";
+                        $html .="<td>".strtoupper($row->dat_facultad)."</td>
+                        <td>".strtoupper($row->dat_escuela)."</td>
+                        <td>".strtoupper($row->dat_sede)."</td>";
                     }
                     $html .="<td style='background:green'>".$row->dat_email."</td>
                         <td style='background:green'>".$row->dat_clave."</td>
@@ -196,6 +270,59 @@ class Generardata extends Controller
                 }
                 $datos = ['titulo' => 'Cuentas Creadas', 'tabla'=>$html, 'idarchivo' => $arc_id];
                 return view('datos/generardata/cuentas', $datos);
+            }else{
+                return view('denegado');
+            }
+        }else{
+            return redirect()->to(base_url("/"));
+        }
+    }
+
+    public function cacafonias($arc_id)
+    {
+        if(session('authenticated') && accede()){
+            if(bloqueado()){
+                $object = new datosModelo();
+                $objectA = new archivosModelo();
+                $objectP = new peyorativosModelo();
+                $peyorativo = $objectP->validarPeyorativo();
+                $html ="<thead style='text-align: center'>
+                        <th>ITEM</th>
+                        <th>CODIGO</th>
+                        <th>DNI</th>
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
+                        <th>CELULAR</th>
+                        <th>CORREO PERSONAL</th>
+                        <th style='background:green'>CORREO INSTITUCIONAL</th>
+                        <th style='background:green'>CONTRASEÑA</th>
+                        <th>ACCION</th>
+                    </thead>
+                    <tbody>";
+                $items = $object->validarArchivo($arc_id);
+                $c = 0;
+                foreach($items as $row){
+                    foreach($peyorativo as $rowP){
+                        if (str_contains($row->dat_email, $rowP->pey_nombre)) {
+                            $c++;
+                            $html .="<tr>
+                                <td>".$c."</td>
+                                <td>".$row->dat_codigo."</td>
+                                <td>".$row->dat_dni."</td>
+                                <td>".strtoupper($row->dat_nombres)."</td>
+                                <td>".strtoupper($row->dat_apellidos)."</td>
+                                <td>".$row->dat_celular."</td>
+                                <td>".$row->dat_correo_personal."</td>";
+                            $html .="<td style='background:green'>".$row->dat_email."</td>
+                                <td style='background:green'>".$row->dat_clave."</td>";
+                            $html .='<td><button class="btn btn-success btn-sm" title="EDITAR" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="datoseditarcacafonia('.$row->dat_id.',\''.$row->dat_email.'\')"><i class="bx bx-edit"></i></button></td>
+                            </tr>';
+                            break;
+                        }
+                    }
+                }
+                $datos = ['titulo' => 'Cacafonías', 'tabla'=>$html, 'idarchivo' => $arc_id];
+                return view('datos/generardata/cacafonias', $datos);
             }else{
                 return view('denegado');
             }
@@ -212,7 +339,6 @@ class Generardata extends Controller
             $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
             $objPHPExcel = $objPHPExcel->load($archivo);
             $tipopersona = $_POST["tipopersona"];
-            $generarcon = $_POST["generarcon"];
             $hoja = $objPHPExcel->getSheet(0);
             $ultimaFila = $hoja->getHighestRow();
             $preview = '<thead>
@@ -247,22 +373,57 @@ class Generardata extends Controller
                 $dni     = $hoja->getCell("D$i")->getValue();
                 $celular = $hoja->getCell("E$i")->getValue();
                 $correop = $hoja->getCell("F$i")->getValue();
+                $apellido = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $apellidos);
+                $nombres = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $nombres);
                 if($tipopersona == 1){
                     $unidad = $hoja->getCell("G$i")->getValue();
+                    $unidad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $unidad);
+                    $unidad = strtoupper($unidad);
                 }
                 if($tipopersona == 2){
                     $departamento = $hoja->getCell("G$i")->getValue();
+                    $departamento = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $departamento);
+                    $departamento = strtoupper($departamento);
                 }
                 if($tipopersona == 3){
                     $facultad = $hoja->getCell("G$i")->getValue();
+                    $facultad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $facultad);
                     $escuela = $hoja->getCell("H$i")->getValue();
+                    $escuela = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $escuela);
                     $sede = $hoja->getCell("I$i")->getValue();
+                    $sede = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $sede);
+                    $facultad = strtoupper($facultad);
+                    $escuela = strtoupper($escuela);
+                    $sede = strtoupper($sede);
                 }
+                $nombres = strtoupper($nombres);
+                $apellido = strtoupper($apellido);
                 $preview .="<tr>
                             <td>$c</td>
                             <td>$codigo</td>
                             <td>$nombres</td>
-                            <td>$apellidos</td>
+                            <td>$apellido</td>
                             <td>$dni</td>
                             <td>$celular</td>
                             <td>$correop</td>";
@@ -314,32 +475,45 @@ class Generardata extends Controller
                 $codigo = $hoja->getCell("A$i")->getValue();
                 $sede = $hoja->getCell("I$i")->getValue();
 
-                $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
-                $apellido_limpio = str_replace(
+                $apellido_correo = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
+                $apellido_correo = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                     ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                    $apellido_correo);
+                $nombres_correo = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                $nombres_correo = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                    $nombres_correo);
+
+                $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
+                $apellido_limpio = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
                     $apellido_limpio);
                 $nombres_limpio = preg_replace('/\b\w{1,2}\b/', '', $nombres);
                 $nombres_limpio = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
                     $nombres_limpio);
 
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
                 $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
                 $correo = '';
-                $clave = strtoupper(substr($nombres_limpio, 0, 1)) . strtolower(substr($apellido_limpio, 0, 1)) . $codigo . '*@';
+                $clave = strtoupper(substr($nombres_correo, 0, 1)) . strtolower(substr($apellido_correo, 0, 1)) . $codigo . '*@';
                 if (!$observacion) {
                     switch($generarcon){
-                        case 1:$correo = generarCorreo(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                        case 1:$correo = generarCorreo(trim($nombres_correo), trim($apellido_correo)) . $dominio;
                             if (isset($correosBD[$correo])) {
-                                $correo = generarCorreo2(trim($nombres_limpio), trim($apellido_limpio)) . $dominio;
+                                $correo = generarCorreo2(trim($nombres_correo), trim($apellido_correo)) . $dominio;
                             }
                             break;
-                        case 2:$correo = generarCorreoCodigo(trim($nombres_limpio), trim($apellido_limpio), $codigo) . $dominio;break;
+                        case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;break;
                         case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio;break;
                     }
                 }
+                $nombres = strtoupper($nombres_limpio);
+                $apellidos = strtoupper($apellido_limpio);
                 $html .= "<tr>
                             <td>$c</td>
                             <td>$nombres</td>
@@ -368,7 +542,7 @@ class Generardata extends Controller
             $invalido = 0;
             $archivo = $_FILES["archivo"]["tmp_name"];
             $nombrearchivo = $_FILES["archivo"]["name"];
-            $nombreserver = 'g'.date("YmdHis").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
+            $nombreserver = 'gs_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
             $data = [
                 'arc_nombre'=>$nombrearchivo,
                 'arc_ruta'=>"archivos/generardatos/".$nombreserver,
@@ -392,8 +566,8 @@ class Generardata extends Controller
                 $invalido = 0;
                 $correosBD = array_flip(array_column($object->listarCorreos(), 'dat_email'));
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombres = $hoja->getCell("B$i")->getValue();
-                    $apellidos = $hoja->getCell("C$i")->getValue();
+                    $nombres = strtoupper($hoja->getCell("B$i")->getValue());
+                    $apellidos = strtoupper($hoja->getCell("C$i")->getValue());
                     $codigo = $hoja->getCell("A$i")->getValue();
                     $dni = $hoja->getCell("D$i")->getValue();
                     $completo = $nombres.' '.$apellidos;
@@ -401,14 +575,39 @@ class Generardata extends Controller
                     $correopersonal = $hoja->getCell("F$i")->getValue();
                     if($tipopersona == 1){
                         $unidad = $hoja->getCell("G$i")->getValue();
+                        $unidad = str_replace(
+                            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            $unidad);
+                        $unidad = strtoupper($unidad);
                     }
                     if($tipopersona == 2){
                         $departamento = $hoja->getCell("G$i")->getValue();
+                        $departamento = str_replace(
+                            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            $departamento);
+                        $departamento = strtoupper($departamento);
                     }
                     if($tipopersona == 3){
                         $facultad = $hoja->getCell("G$i")->getValue();
+                        $facultad = str_replace(
+                            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            $facultad);
                         $escuela = $hoja->getCell("H$i")->getValue();
+                        $escuela = str_replace(
+                            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            $escuela);
                         $sede = $hoja->getCell("I$i")->getValue();
+                        $sede = str_replace(
+                            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            $sede);
+                        $facultad = strtoupper($facultad);
+                        $escuela = strtoupper($escuela);
+                        $sede = strtoupper($sede);
                     }
                     $completo = preg_replace('/\b\w{1,2}\b/', '', $completo);
                     $completo = str_replace(
@@ -417,23 +616,33 @@ class Generardata extends Controller
                         $completo);
                     $val = $object->validarNombres(trim($completo));
                     $correo = '';
-                    $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
-                    $apellido_limpio = str_replace(
+                    $apellido_correo = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
+                    $apellido_correo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
                         ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        $apellido_correo);
+                    $nombres_correo = preg_replace('/\b\w{1,2}\b/', '', $nombres);
+                    $nombres_correo = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        $nombres_correo);
+                    $apellido_limpio = preg_replace('/\b\w{1,2}\b/', '', $apellidos);
+                    $apellido_limpio = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
                         $apellido_limpio);
                     $nombres_limpio = preg_replace('/\b\w{1,2}\b/', '', $nombres);
                     $nombres_limpio = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
                         $nombres_limpio);
                         $clave = strtoupper(substr($nombres_limpio,0,1)).strtolower(substr($apellido_limpio,0,1)).$codigo.'*@';
                     if(!$val){
                         switch($generarcon){
-                            case 1:$correo = generarCorreo(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
+                            case 1:$correo = generarCorreo(trim($nombres_correo),trim($apellido_correo)).$dominio;
                                     //$val = $object->validarCorreo($correo);
                                     if (isset($correosBD[$correo])) {
-                                        $correo = generarCorreo2(trim($nombres_limpio),trim($apellido_limpio)).$dominio;
+                                        $correo = generarCorreo2(trim($nombres_correo),trim($apellido_correo)).$dominio;
                                     }else{
                                         if (validar_correo($correo)){
                                             if($tipopersona == 1){
@@ -453,7 +662,7 @@ class Generardata extends Controller
                                         }
                                     }
                                 break;
-                            case 2:$correo = generarCorreoCodigo(trim($nombres_limpio), trim($apellido_limpio), $codigo) . $dominio;
+                            case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;
                                     if (validar_correo($correo)){
                                         if($tipopersona == 1){
                                             $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
@@ -584,7 +793,14 @@ class Generardata extends Controller
         $pdf = new PDF();
         $pdf->AddPage('L');
         $pdf->AliasNbPages();
+        $pdf->SetXY(50, 30);
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFillColor(0, 51, 102); // Azul oscuro
+        $pdf->SetTextColor(255, 255, 255); // Texto blanco
+        $pdf->Cell(190, 10, 'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS '.$itemA->tip_nombre, 1, 1, 'C', true);
+        $pdf->Ln();
         $pdf->SetFont('Arial','B',7);
+        $pdf->SetTextColor(0, 0, 0); // Texto negro
         $x = [0=>10,1=>30,2=>30,3=>17,4=>14,5=>17,6=>30,7=>30,8=>34,9=>20,10=>30,11=>30,12=>28,13=>15];
         $y = 5;
         $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
@@ -637,6 +853,7 @@ class Generardata extends Controller
             $pdf->Cell($x[8],$y,utf8_decode($row->dat_email),1,0,'L',true);
             $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1,'L',true);
         }
+        $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
         $pdf->SetTitle($nombreArchivo);
         $pdf->Output();
         exit;
@@ -746,6 +963,7 @@ class Generardata extends Controller
                 $object = new datosModelo();
                 $objectA = new archivosModelo();
                 $itemA = $objectA->archivo($arc_id);
+                $tipopersona = $itemA->arc_tipo_persona;
                 $objPHPExcel = new PHPExcel();
                 $objPHPExcel->setActiveSheetIndex(0);
                 $hoja = $objPHPExcel->getActiveSheet();
@@ -766,8 +984,17 @@ class Generardata extends Controller
                     $hoja->setCellValue("E$fila",'/');
                     $hoja->setCellValue("F$fila",utf8_decode($row->dat_correo_personal));
                 }
+                if($tipopersona == 1){
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
+                }
+                if($tipopersona == 2){
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Docente_'.date('dmYHi');
+                }
+                if($tipopersona == 3){
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
+                }
                 header('Content-Type: application/vnd.ms-excel');
-                header('Content-Disposition: attachment;filename="Repositorio.xls"');
+                header('Content-Disposition: attachment;filename="'.$nombreArchivo.'.xls"');
                 header('Cache-Control: max-age=0');
                 header('Cache-Control: max-age=1');
                 header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); 
@@ -800,13 +1027,13 @@ class Generardata extends Controller
                 $tipopersona = $itemA->arc_tipo_persona;
                 $nombreArchivo = '';
                 if($tipopersona == 1){
-                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Administrativo_'.date('dmYHi');
                 }
                 if($tipopersona == 2){
-                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmYHi');
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Docente_'.date('dmYHi');
                 }
                 if($tipopersona == 3){
-                    $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
+                    $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Estudiante_'.date('dmYHi');
                 }
                 header('Content-Type: text/csv; charset=utf-8');
                 header('Content-Disposition: attachment; filename="'.$nombreArchivo.'.csv"');
@@ -856,46 +1083,112 @@ class Generardata extends Controller
                 $pdf = new PDFS();
                 $pdf->AddPage('L');
                 $pdf->AliasNbPages();
+                   // Título principal
+                $pdf->SetXY(50, 30);
+                $pdf->SetFont('Arial', 'B', 12);
+                $pdf->SetFillColor(0, 51, 102); // Azul oscuro
+                $pdf->SetTextColor(255, 255, 255); // Texto blanco
+                $pdf->Cell(220, 10, utf8_decode('LISTA DE TIPO DE PERSONA: '.$item->tip_nombre.' PARA LA CREACIÓN DE CORREOS INSTITUCIONES'), 1, 1, 'C', true);
+                $pdf->Ln(5);
                 $pdf->SetFont('Arial','B',8);
                 $x = [0=>10,1=>25,2=>40,3=>40,4=>20,5=>30,6=>40,7=>30];
                 $y = 5;
-                $sal = 1;
-                if($tipopersona == 3){
-                    $sal = 0;
-                }
+                $pdf->SetTextColor(0, 0, 0);
                 $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
-                $pdf->Cell($x[1],$y, strtoupper($hoja->getCell("A1")->getValue()),1,0,'C');
-                $pdf->Cell($x[2],$y, strtoupper(utf8_encode($hoja->getCell("B1")->getValue())),1,0,'C');
-                $pdf->Cell($x[3],$y, strtoupper(utf8_encode($hoja->getCell("C1")->getValue())),1,0,'C');
-                $pdf->Cell($x[4],$y, strtoupper(utf8_encode($hoja->getCell("D1")->getValue())),1,0,'C');
-                $pdf->Cell($x[5],$y, strtoupper(utf8_encode($hoja->getCell("E1")->getValue())),1,0,'C');
-                $pdf->Cell($x[6],$y, strtoupper(utf8_encode($hoja->getCell("F1")->getValue())),1,0,'C');
-                $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("G1")->getValue())),1,$sal,'C');
+                $pdf->Cell($x[1],$y, 'CODIGO',1,0,'C');
+                $pdf->Cell($x[2],$y, 'NOMBRE',1,0,'C');
+                $pdf->Cell($x[3],$y, 'APELLIDO',1,0,'C');
+                $pdf->Cell($x[4],$y, 'DNI',1,0,'C');
+                $pdf->Cell($x[5],$y, 'CELULAR',1,0,'C');
+                $pdf->Cell($x[6],$y, 'CORREO PERSONAL',1,0,'C');
+                if($tipopersona == 1){
+                    $pdf->Cell($x[7],$y, 'UNIDAD/OFICINA',1,1,'C');
+                }
+                if($tipopersona == 2){
+                    $pdf->Cell($x[7],$y, 'DEPARTAMENTO',1,1,'C');
+                }
                 if($tipopersona == 3){
-                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("H1")->getValue())),1,0,'C');
-                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("I1")->getValue())),1,1,'C');
+                    $pdf->Cell($x[7],$y, 'FACULTAD',1,0,'C');
+                    $pdf->Cell($x[7],$y, 'ESCUELA',1,0,'C');
+                    $pdf->Cell($x[7],$y, 'SEDE',1,1,'C');
                 }
                 $pdf->SetFont('Arial','',8);
+                $c = 0;
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $completo = $hoja->getCell("A$i")->getValue(). ' '.$hoja->getCell("B$i")->getValue();
-                    //$val = $objectD->validarNombres($completo);
-                    $color = '';
-                    /*if($val){
-                        $color = "style='background:green'";
-                    }*/
-                    $pdf->Cell($x[0],$y, ($i-1),1,0,'C');
-                    $pdf->Cell($x[1],$y, strtoupper(utf8_encode($hoja->getCell("A$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[2],$y, strtoupper(utf8_encode($hoja->getCell("B$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[3],$y, strtoupper(utf8_encode($hoja->getCell("C$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[4],$y, strtoupper(utf8_encode($hoja->getCell("D$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[5],$y, strtoupper(utf8_encode($hoja->getCell("E$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[6],$y, strtoupper(utf8_encode($hoja->getCell("F$i")->getValue())),1,0,'C');
-                    $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("G$i")->getValue())),1,$sal,'C');
+                    $c++;
+                $nombres = $hoja->getCell("B$i")->getValue();
+                $apellidos = $hoja->getCell("C$i")->getValue();
+                $codigo = $hoja->getCell("A$i")->getValue();
+                $dni     = $hoja->getCell("D$i")->getValue();
+                $celular = $hoja->getCell("E$i")->getValue();
+                $correop = $hoja->getCell("F$i")->getValue();
+                $apellido = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $apellidos);
+                $nombres = str_replace(
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    $nombres);
+                if($tipopersona == 1){
+                    $unidad = $hoja->getCell("G$i")->getValue();
+                    $unidad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $unidad);
+                    $unidad = strtoupper($unidad);
+                }
+                if($tipopersona == 2){
+                    $departamento = $hoja->getCell("G$i")->getValue();
+                    $departamento = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $departamento);
+                    $departamento = strtoupper($departamento);
+                }
+                if($tipopersona == 3){
+                    $facultad = $hoja->getCell("G$i")->getValue();
+                    $facultad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $facultad);
+                    $escuela = $hoja->getCell("H$i")->getValue();
+                    $escuela = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $escuela);
+                    $sede = $hoja->getCell("I$i")->getValue();
+                    $sede = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        $sede);
+                    $facultad = strtoupper($facultad);
+                    $escuela = strtoupper($escuela);
+                    $sede = strtoupper($sede);
+                }
+                $nombres = utf8_decode(strtoupper($nombres));
+                $apellido = utf8_decode(strtoupper($apellido));
+                    $pdf->Cell($x[0],$y, $c,1,0,'C');
+                    $pdf->Cell($x[1],$y, $codigo,1,0,'C');
+                    $pdf->Cell($x[2],$y, $nombres,1,0,'C');
+                    $pdf->Cell($x[3],$y, $apellido,1,0,'C');
+                    $pdf->Cell($x[4],$y, $dni,1,0,'C');
+                    $pdf->Cell($x[5],$y, $celular,1,0,'C');
+                    $pdf->Cell($x[6],$y, $correop,1,0,'C');
+                    if($tipopersona == 1){
+                        $pdf->Cell($x[7],$y, $unidad,1,1,'C');
+                    }
+                    if($tipopersona == 2){
+                        $pdf->Cell($x[7],$y, $departamento,1,1,'C');
+                    }
                     if($tipopersona == 3){
-                        $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("H$i")->getValue())),1,0,'C');
-                        $pdf->Cell($x[7],$y, strtoupper(utf8_encode($hoja->getCell("I$i")->getValue())),1,1,'C');
+                            $pdf->Cell($x[7],$y, $facultad,1,0,'C');
+                            $pdf->Cell($x[7],$y, $escuela,1,0,'C');
+                            $pdf->Cell($x[7],$y, $sede,1,1,'C');
                     }
                 }
+                $pdf->Ln();
+                $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
                 $pdf->SetTitle("Data Subida");
                 $pdf->Output();
                 exit;
@@ -904,6 +1197,20 @@ class Generardata extends Controller
             }
         }else{
             return redirect()->to(base_url("/"));
+        }
+    }
+
+    public function meditarcacafonia(){
+        $object = new datosModelo();
+        $id = $_POST['id'];
+        $correo = $_POST['correo'];
+        $data = [
+            'dat_email' => $correo
+        ];
+        if($object->updateCacafonias($id, $data)){
+            echo 'ok';
+        }else{
+            echo 'error';
         }
     }
 

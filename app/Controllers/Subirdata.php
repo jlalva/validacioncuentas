@@ -350,7 +350,7 @@ class Subirdata extends Controller
             $pdf->AddPage('L');
             $pdf->AliasNbPages();
             $pdf->SetFont('Arial','B',8);
-            $x = [0=>10,1=>50,2=>50,3=>60,4=>20,5=>35,6=>30];
+            $x = [0=>11,1=>60,2=>60,3=>60,4=>20,5=>35,6=>30];
             $y = 5;
 
             $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
@@ -422,6 +422,8 @@ class Subirdata extends Controller
                     $pdf->Cell($x[6],$y, utf8_decode($espacio),1,1,'C',true);
                 }
             }
+            $pdf->Ln();
+            $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
             $pdf->SetTitle("Data Subida");
             $pdf->Output();
             exit;

@@ -46,6 +46,7 @@
                                             <th class="column-title" style="text-align: center;">ITEM</th>
                                             <th class="column-title" style="text-align: center;">ARCHIVO</th>
                                             <th class="column-title" style="text-align: center;">RUTA</th>
+                                            <th class="column-title" style="text-align: center;">TIPO CUENTA</th>
                                             <th class="column-title" style="text-align: center;">TOTAL</th>
                                             <th class="column-title" style="text-align: center;">SUBIDOS</th>
                                             <th class="column-title" style="text-align: center;">USUARIO</th>
@@ -57,18 +58,23 @@
                                         <?php
                                         $c = 0;
                                         foreach ($items as $row) {
-                                            $c++; ?>
+                                            $c++;?>
                                             <tr>
                                                 <td><?= $c ?></td>
                                                 <td><?= $row->arc_nombre ?></td>
                                                 <td><?= $row->arc_ruta ?></td>
+                                                <td><?= $row->tip_nombre ?></td>
                                                 <td><?= $row->arc_total ?></td>
                                                 <td><?= $row->arc_subido ?></td>
-                                                <td><?= $row->usu_nombre ?></td>
+                                                <td><?= $row->usu_nombre.' '.$row->usu_apellido ?></td>
                                                 <td><?= $row->arc_fecha_reg ?></td>
                                                 <td>
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>
-                                                    <a href="<?= $app->baseURL ?>generardata/cuentas/<?= $row->arc_id ?>" class="btn btn-success btn-sm" title="DATA PROCESADA"><i class="bx bx-data"></i></a>
+                                                    <?php if($row->peyorativo == 'si'){?>
+                                                        <a href="<?= $app->baseURL ?>generardata/cacafonias/<?= $row->arc_id ?>" class="btn btn-warning btn-sm" title="CACAFONIAS"><i class="bx bx-error"></i></a>
+                                                    <?php }else{?>
+                                                        <a href="<?= $app->baseURL ?>generardata/cuentas/<?= $row->arc_id ?>" class="btn btn-success btn-sm" title="DATA PROCESADA"><i class="bx bx-data"></i></a>
+                                                    <?php }?>
                                                 </td>
                                             </tr>
                                         <?php } ?>

@@ -80,6 +80,8 @@ $routes->get('generardata/pdf/(:num)', 'Generardata::pdf/$1');
 $routes->get('generardata/descargarrepoexcel/(:num)', 'Generardata::descargarrepoexcel/$1');
 $routes->get('generardata/descargarrepocsv/(:num)', 'Generardata::descargarrepocsv/$1');
 $routes->get('generardata/pdfdescargar/(:num)', 'Generardata::pdfdescargar/$1');
+$routes->get('generardata/cacafonias/(:num)', 'Generardata::cacafonias/$1');
+$routes->post('generardata/meditarcacafonia', 'Generardata::meditarcacafonia');
 //Tipo persona
 $routes->get('tipopersona', 'Tipopersona::index');
 $routes->get('tipopersona/add', 'Tipopersona::add');
@@ -94,6 +96,13 @@ $routes->post('dominio/register', 'Dominio::register');
 $routes->get('dominio/edit/(:num)', 'Dominio::edit/$1');
 $routes->post('dominio/update', 'Dominio::update');
 $routes->post('dominio/eliminar', 'Dominio::eliminar');
+//Peyorativo
+$routes->get('peyorativos', 'Peyorativos::index');
+$routes->get('peyorativos/add', 'Peyorativos::add');
+$routes->post('peyorativos/register', 'Peyorativos::register');
+$routes->get('peyorativos/edit/(:num)', 'Peyorativos::edit/$1');
+$routes->post('peyorativos/update', 'Peyorativos::update');
+$routes->post('peyorativos/eliminar', 'Peyorativos::eliminar');
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';

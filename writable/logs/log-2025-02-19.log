@@ -1,0 +1,21 @@
+CRITICAL - 2025-02-19 20:52:56 --> Undefined variable $color
+in APPPATH\Controllers\Generardata.php on line 165.
+ 1 APPPATH\Controllers\Generardata.php(165): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $color', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 165)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('1')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-19 20:53:05 --> Undefined variable $correo
+in APPPATH\Controllers\Generardata.php on line 172.
+ 1 APPPATH\Controllers\Generardata.php(172): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $correo', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 172)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('1')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-02-19 20:53:19 --> Undefined variable $preview
+in APPPATH\Controllers\Generardata.php on line 182.
+ 1 APPPATH\Controllers\Generardata.php(182): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $preview', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 182)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->detalle('1')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

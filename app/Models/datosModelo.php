@@ -63,4 +63,8 @@ class datosModelo extends Model{
         return $query->getResult();
     }
 
+    public function updateCacafonias($id, $data){
+        return $this->update($id, $data);
+    }
+
 }

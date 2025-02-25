@@ -20,12 +20,6 @@ class PDFS extends FPDF
         // Línea separadora
         $this->SetXY(50, 25);
         $this->Cell(220, 0, '', 'B', 1, 'C');
-        // Título principal
-        $this->SetXY(50, 30);
-        $this->SetFont('Arial', 'B', 12);
-        $this->SetFillColor(0, 51, 102); // Azul oscuro
-        $this->SetTextColor(255, 255, 255); // Texto blanco
-        $this->Cell(190, 10, 'LISTA DE USUARIOS SUBIDOS', 1, 1, 'C', true);
         $this->Ln(5);
     }
 //Pie de página

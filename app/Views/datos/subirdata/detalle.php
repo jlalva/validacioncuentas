@@ -46,7 +46,7 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="tipoarchivodescargar" id="excel" value="1">
+                        <input class="form-check-input" type="radio" name="tipoarchivodescargar" id="excel" value="1" checked>
                         <label class="form-check-label" for="excel">EXCEL</label>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" onclick="descargar()">Exportar</button>
+                <button type="button" class="btn btn-primary" onclick="descargar()" data-bs-dismiss="modal">Exportar</button>
             </div>
         </div>
     </div>
