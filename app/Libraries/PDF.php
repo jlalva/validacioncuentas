@@ -6,7 +6,7 @@ class PDF extends FPDF
 {
     function Header()
     {
-        $this->Image(base_url('public/images/FOTO_EMPRESA/').logo(), 10, 8, 30); // (ruta, x, y, tamaño)
+        $this->Image(base_url('public/images/FOTO_EMPRESA/').logo(), 10, 8, 25); // (ruta, x, y, tamaño)
         // Razón Social
         $this->SetFont('Arial', 'B', 10);
         $this->SetXY(80, 10);
@@ -14,12 +14,12 @@ class PDF extends FPDF
         // Información del sistema
         $this->SetXY(210, 10);
         $this->SetFont('Arial', 'B', 9);
-        $this->Cell(50, 5, 'SISTEMA: [Nombre del sistema]', 0, 2, 'L');
+        $this->Cell(50, 5, 'SISTEMA: GENERADOR DE CUENTAS', 0, 2, 'L');
         $this->Cell(50, 5, 'FECHA/HORA: '.date('d-m-Y H:i'), 0, 2, 'L');
         //$this->Cell(50, 5, 'TIPO CUENTA: Estudiante/Docente o Administrativo', 0, 2, 'L');
         // Línea separadora
-        $this->SetXY(50, 25);
-        $this->Cell(220, 0, '', 'B', 1, 'C');
+        $this->SetXY(35, 25);
+        $this->Cell(250, 0, '', 'B', 1, 'C');
         // Título principal
         $this->Ln(5);
     }

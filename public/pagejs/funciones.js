@@ -2,6 +2,22 @@ $(function(){
     //CargarCaptcha();
 })
 
+function empresaactiva(idempresa){
+    $.ajax({
+		url:url+'empresa/marcaractivo',
+		type:'post',
+		data:{idempresa:idempresa},
+		success:function(data){
+			if(data == 'ok'){
+                alertify.success("La empresa ahora se encuenta activa");
+                location.reload();
+            }else{
+                alertify.error("Ocurrio un error al activar la empresa");
+            }
+		}
+	})
+}
+
 function modal(div,op){
   if(op == 'open'){
     $("#"+div).css('display','block');

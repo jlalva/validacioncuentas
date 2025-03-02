@@ -56,9 +56,9 @@
                                                         <td><?=$row->arc_total?></td>
                                                         <td><?=$row->arc_subido?></td>
                                                         <td><?=$row->usu_nombre.' '.$row->usu_apellido?></td>
-                                                        <td><?=number_format($row->arc_tiempo,2)?> m</td>
+                                                        <td><?=$row->arc_tiempo?></td>
                                                         <td><?=$row->arc_fecha_reg?></td>
-                                                        <td>
+                                                        <td style="text-align: center;">
                                                             <a href="<?=$app->baseURL?>subirdata/detalle/<?=$row->arc_id?>" class="btn btn-info btn-sm" title="Ver detalle"><i class="bx bx-list-ul"></i></a>
                                                         </td>
                                                     </tr>

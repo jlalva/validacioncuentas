@@ -75,7 +75,7 @@ class Dominio extends Controller
             'dom_nombre' => $dominio,
             'dom_descripcion' => $descripcion
         ];
-        if($object->updateTipo($id, $data)){
+        if($object->updateDominio($id, $data)){
             echo 1;
         }else{
             echo 'error';

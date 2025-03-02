@@ -24,15 +24,6 @@
                     </div>
                 </a>
             </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" href="#visualizar" role="tab" aria-selected="false">
-                    <div class="d-flex align-items-center">
-                        <div class="tab-icon"><i class='bx bx-search font-18 me-1'></i>
-                        </div>
-                        <div class="tab-title">Visualizar Cuentas Nuevas</div>
-                    </div>
-                </a>
-            </li>
         </ul>
         <div class="tab-content py-3">
             <div class="tab-pane fade show active" id="listar" role="tabpanel">
@@ -68,7 +59,7 @@
                                                 <td><?= $row->arc_total ?></td>
                                                 <td><?= $row->arc_subido ?></td>
                                                 <td><?= $row->usu_nombre.' '.$row->usu_apellido ?></td>
-                                                <td><?= number_format($row->arc_tiempo,2)?> m</td>
+                                                <td><?= $row->arc_tiempo?></td>
                                                 <td><?= $row->arc_fecha_reg ?></td>
                                                 <td>
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>
@@ -89,9 +80,6 @@
             </div>
             <div class="tab-pane fade" id="subir" role="tabpanel">
                 <?php require_once APPPATH . 'Views/datos/generardata/add.php' ?>
-            </div>
-            <div class="tab-pane fade" id="visualizar" role="tabpanel">
-                ssssssssss
             </div>
         </div>
     </div>

@@ -15,7 +15,9 @@ class Subirdata extends Controller
         if(session('authenticated') && accede()){
             if(bloqueado()){
                 $object = new archivosModelo();
-                $items = $object->registros(1);
+                $idempresa = empresaActiva();
+                $emp_id = $idempresa->emp_id;
+                $items = $object->registros(1,$emp_id);
                 $datos = ['titulo' => 'Subir datos','items'=>$items];
                 return view('datos/subirdata/index', $datos);
             }else{
@@ -45,10 +47,12 @@ class Subirdata extends Controller
                     'ruta' => ''
                 ]);
             }
+            $idempresa = empresaActiva();
+            $emp_id = $idempresa->emp_id;
 
             $ruta = $item->arc_ruta;
             $html = "";
-            $nombresRegistrados = array_column($objectD->listarNombres(), 'dat_nombres_completos');
+            $nombresRegistrados = array_column($objectD->listarNombres($emp_id), 'dat_nombres_completos');
             $correosRegistrados = array_column($objectD->validarArchivo($arc_id), 'dat_email');
             if ($item->arc_tipo_archivo == 1) {
                 $objPHPExcel = PHPExcel_IOFactory::load($archivo);
@@ -120,6 +124,8 @@ class Subirdata extends Controller
     public function validar(){
         $object = new datosModelo();
         if(isset($_FILES["archivo"])) {
+            $idempresa = empresaActiva();
+            $emp_id = $idempresa->emp_id;
             $tipoarchivo = $_POST['tipoarchivo'];
             $resultado = '';
             $dupli = 0;
@@ -136,7 +142,7 @@ class Subirdata extends Controller
                 echo "El archivo seleccionado no es permitido.";
                 exit;
             }
-            $correosExistentes = array_column($object->query("SELECT dat_email FROM datos")->getResultArray(), 'dat_email');
+            $correosExistentes = array_column($object->query("SELECT dat_email FROM datos WHERE dat_emp_id = $emp_id")->getResultArray(), 'dat_email');
             $emailsProcesados = [];
 
             if($tipoarchivo == 1){
@@ -201,13 +207,16 @@ class Subirdata extends Controller
             exit;
         }
         $inicio = microtime(true);
+        $idempresa = empresaActiva();
+        $emp_id = $idempresa->emp_id;
         $tipoarchivo = $_POST['tipoarchivo'];
         $descripcion = $_POST['descripcion'];
         $archivo = $_FILES["archivo"]["tmp_name"];
         $nombrearchivo = $_FILES["archivo"]["name"];
         $extension = pathinfo($nombrearchivo, PATHINFO_EXTENSION);
         $nombreserver = 'ws_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
-        $rutaArchivo = "public/archivos/subirdatos/".$nombreserver;
+        $ruta = crearCarpetasPorFecha("public/archivos/CUENTAS_EXISTENTES_GSUITE/");
+        $rutaArchivo = $ruta."/".$nombreserver;
         if (($extension == 'csv' && $tipoarchivo == 1) || (in_array($extension, ['xlsx', 'xls']) && $tipoarchivo == 2)) {
             echo "El tipo de archivo no coincide con el archivo seleccionado.";
             exit;
@@ -216,16 +225,17 @@ class Subirdata extends Controller
             echo "El archivo seleccionado no es permitido.";
             exit;
         }
-        $correosExistentes = array_column($object->query("SELECT dat_email FROM datos")->getResultArray(), 'dat_email');
+        $correosExistentes = array_column($object->query("SELECT dat_email FROM datos WHERE dat_emp_id = $emp_id")->getResultArray(), 'dat_email');
         try {
             $data = [
                 'arc_nombre' => $nombrearchivo,
-                'arc_ruta' => "archivos/subirdatos/".$nombreserver,
+                'arc_ruta' => $rutaArchivo,
                 'arc_total' => 0,
                 'arc_subido' => 0,
                 'arc_usu_id' => session('idusuario'),
                 'arc_tipo_archivo' => $tipoarchivo,
-                'arc_descripcion' => $descripcion
+                'arc_descripcion' => $descripcion,
+                'arc_emp_id'=>$emp_id
             ];
             if (!$objectArc->add($data)) {
                 throw new Exception("Error al registrar el archivo en la base de datos.");
@@ -293,7 +303,7 @@ class Subirdata extends Controller
                             if (in_array($email, $correosExistentes)) {
                                 $dupli++;
                             } else {
-                                $datosInsertar[] = "('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario').")";
+                                $datosInsertar[] = "('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario').",$emp_id)";
                             }
                         } else {
                             $invalido++;
@@ -312,12 +322,16 @@ class Subirdata extends Controller
                 throw new Exception("Error al mover el archivo.");
             }
             $fin = microtime(true);
+
             $tiempoTotalSegundos = $fin - $inicio;
-            $tiempoTotalMinutos = $tiempoTotalSegundos / 60;
+            $horas = floor($tiempoTotalSegundos / 3600);
+            $minutos = floor(($tiempoTotalSegundos % 3600) / 60);
+            $segundos = floor($tiempoTotalSegundos % 60);
+            $tiempoFormateado = sprintf("%02d:%02d:%02d", $horas, $minutos, $segundos);
             $objectArc->upd($arc_id, [
                 'arc_total' => $totalRegistros,
                 'arc_subido' => $aregistrar,
-                'arc_tiempo' => $tiempoTotalMinutos
+                'arc_tiempo' => $tiempoFormateado
             ]);
             echo 'ok';
         } catch (Exception $e) {
@@ -355,14 +369,17 @@ class Subirdata extends Controller
             $pdf->AddPage('L');
             $pdf->AliasNbPages();
             $pdf->SetFont('Arial','B',8);
+
             $x = [0=>11,1=>60,2=>60,3=>60,4=>20,5=>35,6=>30];
             $y = 5;
-
+            $pdf->SetXY(50, 30);
+            $pdf->Cell(220, $y, 'Cuentas Institucionales Oficiales de Usuarios', 'B', 0, 'C');
+            $pdf->Ln(5);
             $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
             $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1,0,'C');
             $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1,0,'C');
             $pdf->Cell($x[3],$y, utf8_decode('EMAIL'),1,0,'C');
-            $pdf->Cell($x[4],$y, utf8_decode('STATUS'),1,0,'C');
+            $pdf->Cell($x[4],$y, utf8_decode('ESTADO'),1,0,'C');
             $pdf->Cell($x[5],$y, utf8_decode('ULTIMO ACCESO'),1,0,'C');
             $pdf->Cell($x[6],$y, utf8_decode('ESPACIO USO'),1,1,'C');
 

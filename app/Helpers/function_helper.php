@@ -134,3 +134,17 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $correo = strtolower($primeraLetraSede . $codigo);
         return $correo;
     }
+
+    function crearCarpetasPorFecha($rutaBase) {
+        $anio = date("Y");
+        $mes = date("m");
+        $rutaAnio = $rutaBase . $anio;
+        $rutaMes = $rutaAnio . '/' . $mes;
+        if (!file_exists($rutaAnio)) {
+            mkdir($rutaAnio, 0777, true);
+        }
+        if (!file_exists($rutaMes)) {
+            mkdir($rutaMes, 0777, true);
+        }
+        return $rutaMes;
+    }

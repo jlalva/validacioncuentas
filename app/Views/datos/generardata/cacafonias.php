@@ -63,7 +63,11 @@
                 alertify.success('Correo modificado correctamente');
                 location.reload();
             }else{
-                alertify.error('Ocurrio un error al editar la informaci+ón');
+                if(data == 'existe'){
+                    alertify.error('El correo ingresado ya existe');
+                }else{
+                    alertify.error('Ocurrio un error al editar la información');
+                }
             }
 		}
 	})

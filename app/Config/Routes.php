@@ -59,6 +59,7 @@ $routes->post('empresa/register', 'Empresa::register');
 $routes->get('empresa/edit/(:num)', 'Empresa::edit/$1');
 $routes->post('empresa/update', 'Empresa::update');
 $routes->post('empresa/eliminar', 'Empresa::eliminar');
+$routes->post('empresa/marcaractivo', 'Empresa::marcaractivo');
 //Subir data
 $routes->get('subirdata', 'Subirdata::index');
 $routes->get('subirdata/add', 'Subirdata::add');

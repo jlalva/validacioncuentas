@@ -6,7 +6,7 @@ class empresaModelo extends Model{
     protected $primaryKey = 'emp_id';
     protected $allowedFields = ['emp_razonsocial', 'emp_ruc', 'emp_siglas', 'emp_ubi_id', 'emp_direccion', 'emp_telefono',
     'emp_fechafundacion', 'emp_logo', 'emp_imgmarcaagua', 'emp_imgfondo', 'emp_banner', 'emp_fecharegistro', 'emp_sitioweb', 'emp_facebook', 'emp_youtube',
-    'emp_instagram', 'emp_twitter', 'emp_correo','emp_descripcion', 'emp_estado'];
+    'emp_instagram', 'emp_twitter', 'emp_correo','emp_descripcion', 'emp_estado', 'emp_activo'];
 
     public function reads(){
         return $this->orderBy('emp_id DESC')->findAll();
@@ -29,12 +29,27 @@ class empresaModelo extends Model{
         return $this->db->query($sql, array(0));
     }
 
+    public function desactivar(){
+        $sql = "UPDATE empresa SET emp_activo = ?";
+        return $this->db->query($sql, array(0));
+    }
+
     public function datosEmpresa(){
         return $this->where('emp_estado', 1)->first();
     }
 
     public function ubigeo($ubigeo){
         $query = $this->query("SELECT * FROM ubigeo WHERE ubigeo1 = '$ubigeo'");
+        return $query->getRow();
+    }
+
+    public function empresasActivas(){
+        $query = $this->query("SELECT * FROM empresa WHERE emp_estado = 1");
+        return $query->getResult();
+    }
+
+    public function empresasActiva(){
+        $query = $this->query("SELECT * FROM empresa WHERE emp_activo = 1");
         return $query->getRow();
     }
 }

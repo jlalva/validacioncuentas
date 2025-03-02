@@ -267,4 +267,27 @@ class Usuarios extends Controller
             }
         }
     }
+
+    public function provincia(){
+        $object = new usuariosModelo();
+        $departamento = $_POST['departamento'];
+        $prov = $object->ubigeoProvincia($departamento);
+        $sel = "<option value='0'>SELECCIONE</option>";
+        foreach ($prov as $row) {
+            $sel .="<option value='$row->prov'>".strtoupper($row->prov)."</option>";
+        }
+        echo $sel;
+    }
+
+    public function distrito(){
+        $object = new usuariosModelo();
+        $departamento = $_POST['departamento'];
+        $provincia = $_POST['provincia'];
+        $dist = $object->ubigeoDistrito($departamento, $provincia);
+        $sel = "<option value='0'>SELECCIONE</option>";
+        foreach ($dist as $row) {
+            $sel .="<option value='$row->ubigeo1'>".strtoupper($row->distrito)."</option>";
+        }
+        echo $sel;
+    }
 }

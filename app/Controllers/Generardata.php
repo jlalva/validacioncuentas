@@ -23,8 +23,10 @@ class Generardata extends Controller
     {
         if(session('authenticated') && accede()){
             if(bloqueado()){
+                $idempresa = empresaActiva();
+                $emp_id = $idempresa->emp_id;
                 $object = new archivosModelo();
-                $items = $object->registros(2);
+                $items = $object->registros(2,$emp_id);
                 $objectTP = new tipopersonaModelo();
                 $objectD = new dominioModelo();
                 $objectP = new peyorativosModelo();
@@ -298,8 +300,8 @@ class Generardata extends Controller
                         <th>APELLIDOS</th>
                         <th>CELULAR</th>
                         <th>CORREO PERSONAL</th>
-                        <th style='background:green'>CORREO INSTITUCIONAL</th>
-                        <th style='background:green'>CONTRASEÑA</th>
+                        <th style='background:red'>CORREO INSTITUCIONAL</th>
+                        <th>CONTRASEÑA</th>
                         <th>ACCION</th>
                     </thead>
                     <tbody>";
@@ -317,8 +319,8 @@ class Generardata extends Controller
                                 <td>".strtoupper($row->dat_apellidos)."</td>
                                 <td>".$row->dat_celular."</td>
                                 <td>".$row->dat_correo_personal."</td>";
-                            $html .="<td style='background:green'>".$row->dat_email."</td>
-                                <td style='background:green'>".$row->dat_clave."</td>";
+                            $html .="<td style='background:red'>".$row->dat_email."</td>
+                                <td>".$row->dat_clave."</td>";
                             $html .='<td><button class="btn btn-success btn-sm" title="EDITAR" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="datoseditarcacafonia('.$row->dat_id.',\''.$row->dat_email.'\')"><i class="bx bx-edit"></i></button></td>
                             </tr>';
                             break;
@@ -451,6 +453,8 @@ class Generardata extends Controller
 
     public function procesar() {
         if (isset($_FILES["archivo"])) {
+            $idempresa = empresaActiva();
+            $emp_id = $idempresa->emp_id;
             $object = new datosModelo();
             $objectD = new dominioModelo();
             $archivo = $_FILES["archivo"]["tmp_name"];
@@ -469,8 +473,8 @@ class Generardata extends Controller
             $html = '';
             $c = 0;
 
-            $nombresBD = array_flip(array_column($object->listarNombres(), 'dat_nombres_completos'));
-            $correosBD = array_flip(array_column($object->listarCorreos(), 'dat_email'));
+            $nombresBD = array_flip(array_column($object->listarNombres($emp_id), 'dat_nombres_completos'));
+            $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
 
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
@@ -532,6 +536,8 @@ class Generardata extends Controller
         $objectArc = new archivosModelo();
         if(isset($_FILES["archivo"])) {
             $inicio = microtime(true);
+            $idempresa = empresaActiva();
+            $emp_id = $idempresa->emp_id;
             $objectD = new dominioModelo();
             $dom_id = $_POST['dominio'];
             $tipopersona = $_POST['tipopersona'];
@@ -544,16 +550,16 @@ class Generardata extends Controller
             $invalido = 0;
             $archivo = $_FILES["archivo"]["tmp_name"];
             $nombrearchivo = $_FILES["archivo"]["name"];
-            $nombreserver = 'gs_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
+            $nombreserver = 'g_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
             $data = [
                 'arc_nombre'=>$nombrearchivo,
-                'arc_ruta'=>"archivos/generardatos/".$nombreserver,
                 'arc_total'=>0,
                 'arc_subido'=>0,
                 'arc_usu_id'=>session('idusuario'),
                 'arc_tipo_persona'=>$tipopersona,
                 'arc_tipo_archivo'=>$tipoarchivo,
-                'arc_origen'=>2
+                'arc_origen'=>2,
+                'arc_emp_id'=>$emp_id
             ];
             if($objectArc->add($data)){
                 $arc_id = $objectArc->getInsertID();
@@ -566,7 +572,7 @@ class Generardata extends Controller
                 $total = $ultimaFila - 1;
                 $datos = '';
                 $invalido = 0;
-                $correosBD = array_flip(array_column($object->listarCorreos(), 'dat_email'));
+                $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
                 for($i = 2; $i <= $ultimaFila; $i++) {
                     $nombres = strtoupper($hoja->getCell("B$i")->getValue());
                     $apellidos = strtoupper($hoja->getCell("C$i")->getValue());
@@ -579,7 +585,7 @@ class Generardata extends Controller
                         $unidad = $hoja->getCell("G$i")->getValue();
                         $unidad = str_replace(
                             ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                             $unidad);
                         $unidad = strtoupper($unidad);
                     }
@@ -587,7 +593,7 @@ class Generardata extends Controller
                         $departamento = $hoja->getCell("G$i")->getValue();
                         $departamento = str_replace(
                             ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                             $departamento);
                         $departamento = strtoupper($departamento);
                     }
@@ -595,17 +601,17 @@ class Generardata extends Controller
                         $facultad = $hoja->getCell("G$i")->getValue();
                         $facultad = str_replace(
                             ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                             $facultad);
                         $escuela = $hoja->getCell("H$i")->getValue();
                         $escuela = str_replace(
                             ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                             $escuela);
                         $sede = $hoja->getCell("I$i")->getValue();
                         $sede = str_replace(
                             ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                            ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                             $sede);
                         $facultad = strtoupper($facultad);
                         $escuela = strtoupper($escuela);
@@ -613,7 +619,7 @@ class Generardata extends Controller
                     }
                     $completo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U', 'N', 'N'],
                         $completo);
                     $val = $object->validarNombres(trim($completo));
                     $correo = '';
@@ -628,14 +634,14 @@ class Generardata extends Controller
 
                     $apellido_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                         $apellidos);
 
                     $nombres_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                         $nombres);
-                        $clave = strtoupper(substr($nombres_limpio,0,1)).strtolower(substr($apellido_limpio,0,1)).$codigo.'*@';
+                        $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
                     if(!$val){
                         switch($generarcon){
                             case 1:$correo = generarCorreo(trim($nombres_correo),trim($apellido_correo)).$dominio;
@@ -646,15 +652,15 @@ class Generardata extends Controller
                                         if (validar_correo($correo)){
                                             if($tipopersona == 1){
                                                 $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
-                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                             }
                                             if($tipopersona == 2){
                                                 $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
-                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                             }
                                             if($tipopersona == 3){
                                                 $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
-                                                '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                                '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                             }
                                         }else{
                                             $invalido++;
@@ -665,15 +671,15 @@ class Generardata extends Controller
                                     if (validar_correo($correo)){
                                         if($tipopersona == 1){
                                             $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
-                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                         }
                                         if($tipopersona == 2){
                                             $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
-                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                         }
                                         if($tipopersona == 3){
                                             $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
-                                            '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                            '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                         }
                                     }else{
                                         $invalido++;
@@ -683,15 +689,15 @@ class Generardata extends Controller
                                 if (validar_correo($correo)){
                                     if($tipopersona == 1){
                                         $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
-                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                     }
                                     if($tipopersona == 2){
                                         $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
-                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                     }
                                     if($tipopersona == 3){
                                         $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
-                                        '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario')."),";
+                                        '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                     }
                                 }else{
                                     $invalido++;
@@ -702,15 +708,20 @@ class Generardata extends Controller
                 }
                 $aregistrar = $total -$invalido;
                 $datos = substr($datos,0,-1);
-                if(move_uploaded_file($_FILES['archivo']['tmp_name'],"public/archivos/generardatos/".$nombreserver)){
+                $ruta = crearCarpetasPorFecha("public/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/");
+                if(move_uploaded_file($_FILES['archivo']['tmp_name'],$ruta.'/'.$nombreserver)){
                     if($object->insertarDatosGenerados($datos,$tipopersona)){
                         $fin = microtime(true);
                         $tiempoTotalSegundos = $fin - $inicio;
-                        $tiempoTotalMinutos = $tiempoTotalSegundos / 60;
+                        $horas = floor($tiempoTotalSegundos / 3600);
+                        $minutos = floor(($tiempoTotalSegundos % 3600) / 60);
+                        $segundos = floor($tiempoTotalSegundos % 60);
+                        $tiempoFormateado = sprintf("%02d:%02d:%02d", $horas, $minutos, $segundos);
                         $data = [
                             'arc_total'=>$total,
                             'arc_subido'=>$aregistrar,
-                            'arc_tiempo' => $tiempoTotalMinutos
+                            'arc_ruta'=>$ruta.'/'.$nombreserver,
+                            'arc_tiempo' => $tiempoFormateado
                         ];
                         $objectArc->upd($arc_id, $data);
                         $resultado = 'ok';
@@ -840,7 +851,7 @@ class Generardata extends Controller
             $pdf->Cell($x[1],$y,strtoupper(utf8_decode($row->dat_nombres)),1);
             $pdf->Cell($x[2],$y,strtoupper(utf8_decode($row->dat_apellidos)),1);
             $pdf->Cell($x[5],$y,strtoupper(utf8_decode($row->dat_celular)),1);
-            $pdf->Cell($x[6],$y,strtoupper(utf8_decode($row->dat_correo_personal)),1);
+            $pdf->Cell($x[6],$y,utf8_decode($row->dat_correo_personal),1);
             if($tipopersona == 1){
                 $pdf->Cell($x[7],$y,strtoupper(utf8_decode(strtr($row->dat_unidad, $quitarTildes))),1);
             }
@@ -1149,10 +1160,14 @@ class Generardata extends Controller
                 $pdf->SetFont('Arial', 'B', 12);
                 $pdf->SetFillColor(0, 51, 102); // Azul oscuro
                 $pdf->SetTextColor(255, 255, 255); // Texto blanco
-                $pdf->Cell(220, 10, utf8_decode('LISTA DE TIPO DE PERSONA: '.$item->tip_nombre.' PARA LA CREACIÓN DE CORREOS INSTITUCIONES'), 1, 1, 'C', true);
+                $pdf->Cell(220, 10, utf8_decode('LISTA DE '.$item->tip_nombre.' PARA LA CREACIÓN DE CORREOS INSTITUCIONALES'), 1, 1, 'C', true);
                 $pdf->Ln(5);
                 $pdf->SetFont('Arial','B',8);
-                $x = [0=>10,1=>25,2=>40,3=>40,4=>20,5=>30,6=>40,7=>30];
+                $x = [0=>10,1=>25,2=>45,3=>45,4=>20,5=>30,6=>55,7=>45];
+                if($tipopersona == 3){
+                    $pdf->SetFont('Arial','B',6);
+                    $x = [0=>9,1=>20,2=>35,3=>35,4=>15,5=>25,6=>40,7=>33];
+                }
                 $y = 5;
                 $pdf->SetTextColor(0, 0, 0);
                 $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
@@ -1162,6 +1177,7 @@ class Generardata extends Controller
                 $pdf->Cell($x[4],$y, 'DNI',1,0,'C');
                 $pdf->Cell($x[5],$y, 'CELULAR',1,0,'C');
                 $pdf->Cell($x[6],$y, 'CORREO PERSONAL',1,0,'C');
+                $pdf->SetFont('Arial','',8);
                 if($tipopersona == 1){
                     $pdf->Cell($x[7],$y, 'UNIDAD/OFICINA',1,1,'C');
                 }
@@ -1172,8 +1188,8 @@ class Generardata extends Controller
                     $pdf->Cell($x[7],$y, 'FACULTAD',1,0,'C');
                     $pdf->Cell($x[7],$y, 'ESCUELA',1,0,'C');
                     $pdf->Cell($x[7],$y, 'SEDE',1,1,'C');
+                    $pdf->SetFont('Arial','',6);
                 }
-                $pdf->SetFont('Arial','',8);
                 $c = 0;
                 for($i = 2; $i <= $ultimaFila; $i++) {
                     $c++;
@@ -1265,13 +1281,18 @@ class Generardata extends Controller
         $object = new datosModelo();
         $id = $_POST['id'];
         $correo = $_POST['correo'];
-        $data = [
-            'dat_email' => $correo
-        ];
-        if($object->updateCacafonias($id, $data)){
-            echo 'ok';
+        $val = $object->validarCorreo($correo);
+        if(empty($val)){
+            $data = [
+                'dat_email' => $correo
+            ];
+            if($object->updateCacafonias($id, $data)){
+                echo 'ok';
+            }else{
+                echo 'error';
+            }
         }else{
-            echo 'error';
+            echo 'existe';
         }
     }
 

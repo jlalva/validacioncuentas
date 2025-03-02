@@ -92,7 +92,6 @@ class Empresa extends Controller
                 if(move_uploaded_file($_FILES['banner']['tmp_name'],"public/images/FOTO_EMPRESA/".$banner)){
                     if(move_uploaded_file($_FILES['marcaagua']['tmp_name'],"public/images/FOTO_EMPRESA/".$marcaagua)){
                         $fcarga = 1;
-                        $object->cerrar();
                     }
                 }
             }
@@ -217,6 +216,22 @@ class Empresa extends Controller
             'emp_estado' => 0
         ];
         if($object->upd($id, $data)){
+            echo 'ok';
+        }else{
+            echo 'error';
+        }
+    }
+
+    public function marcaractivo(){
+        $object = new empresaModelo();
+        $id = $_POST['idempresa'];
+        $object->desactivar();
+        $data = [
+            'emp_activo' => 1
+        ];
+        if($object->upd($id, $data)){
+            $session = session();
+            $session->set('empresa_activa', $id);
             echo 'ok';
         }else{
             echo 'error';

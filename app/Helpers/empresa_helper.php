@@ -139,3 +139,15 @@ use App\Models\empresaModelo;
         return $item->distrito;
     }
 
+    function selEmpresas(){
+        $object = new empresaModelo();
+        $items = $object->empresasActivas();
+        return $items;
+    }
+
+    function empresaActiva(){
+        $object = new empresaModelo();
+        $item = $object->empresasActiva();
+        return $item;
+    }
+

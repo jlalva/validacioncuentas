@@ -56,6 +56,11 @@ class Index extends Controller
                 $nombre = $nombres[0];
                 $apellido_uno = $apellidos[0];
                 $apellido_dos = '';
+                $empresaA = empresaActiva();
+                $idempresa = 0;
+                if($empresaA){
+                    $idempresa = $empresaA->emp_id;
+                }
                 if(isset($apellidos[1])){
                     $apellido_dos = $apellidos[1];
                 }
@@ -70,6 +75,7 @@ class Index extends Controller
                     'apellido_dos' => $apellido_dos,
                     'nombres' => $item->usu_nombre,
                     'apellidos' => $item->usu_apellido,
+                    'empresa_activa' => $idempresa
                 ];
                 $session = session();
                 $session->set($data);
