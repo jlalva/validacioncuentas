@@ -38,13 +38,14 @@ class Subirdata extends Controller
             $object = new archivosModelo();
             $objectD = new datosModelo();
             $item = $object->archivo($arc_id);
-            $archivo = "public/" . $item->arc_ruta;
+            $archivo = $item->arc_ruta;
 
             if (!file_exists($archivo)) {
                 return view('datos/subirdata/detalle', [
                     'titulo' => 'Subir datos',
                     'table' => "<tr><td colspan='7'>El archivo fue eliminado o no se encuentra en la ruta especificada</td></tr>",
-                    'ruta' => ''
+                    'ruta' => '',
+                    'id_arch'=>$arc_id
                 ]);
             }
             $idempresa = empresaActiva();
@@ -273,7 +274,7 @@ class Subirdata extends Controller
                             if (in_array($email, $correosExistentes)) {
                                 $dupli++;
                             } else {
-                                $datosInsertar[] = "('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario').")";
+                                $datosInsertar[] = "('$nombre','$apellido','$completo','$email','$status','$ultimoacceso','$espacio',1,$arc_id,".session('idusuario').",$emp_id)";
                             }
                         } else {
                             $invalido++;

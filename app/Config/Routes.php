@@ -104,6 +104,11 @@ $routes->post('peyorativos/register', 'Peyorativos::register');
 $routes->get('peyorativos/edit/(:num)', 'Peyorativos::edit/$1');
 $routes->post('peyorativos/update', 'Peyorativos::update');
 $routes->post('peyorativos/eliminar', 'Peyorativos::eliminar');
+//Backup
+$routes->get('backup', 'Backup::index');
+$routes->post('backup/generarBackup', 'Backup::generarBackup');
+$routes->post('backup/eliminar', 'Backup::eliminar');
+$routes->post('backup/restaurar', 'Backup::restaurar');
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
