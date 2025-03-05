@@ -356,7 +356,10 @@ class Subirdata extends Controller
             $object = new archivosModelo();
             $objectD = new datosModelo();
             $item = $object->archivo($arc_id);
-            $archivo = "public/" . $item->arc_ruta;
+            $archivo =  $item->arc_ruta;
+
+            $idempresa = empresaActiva();
+            $emp_id = $idempresa->emp_id;
 
             if (!file_exists($archivo)) {
                 return view('datos/subirdata/detalle', [
@@ -384,7 +387,7 @@ class Subirdata extends Controller
             $pdf->Cell($x[5],$y, utf8_decode('ULTIMO ACCESO'),1,0,'C');
             $pdf->Cell($x[6],$y, utf8_decode('ESPACIO USO'),1,1,'C');
 
-            $nombresRegistrados = array_column($objectD->listarNombres(), 'dat_nombres_completos');
+            $nombresRegistrados = array_column($objectD->listarNombres($emp_id), 'dat_nombres_completos');
             $correosRegistrados = array_column($objectD->validarArchivo($arc_id), 'dat_email');
             $pdf->SetFont('Arial','',8);
             if ($item->arc_tipo_archivo == 1) {

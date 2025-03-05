@@ -106,7 +106,7 @@ class Generardata extends Controller
                 $object = new archivosModelo();
                 $objectD = new datosModelo();
                 $item = $object->archivo($arc_id);
-                $archivo = "public/".$item->arc_ruta;
+                $archivo = $item->arc_ruta;
                 $ruta = $item->arc_ruta;
                 $tipopersona = $item->arc_tipo_persona;
                 $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
@@ -1145,7 +1145,7 @@ class Generardata extends Controller
                 require_once APPPATH . 'Libraries/PDFS.php';
                 $object = new archivosModelo();
                 $item = $object->archivo($arc_id);
-                $archivo = "public/".$item->arc_ruta;
+                $archivo = $item->arc_ruta;
                 $tipopersona = $item->arc_tipo_persona;
                 $objPHPExcel = PHPExcel_IOFactory::identify($archivo);
                 $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);

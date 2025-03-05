@@ -58,7 +58,7 @@
         var idarchivo = $("#idarchivo").val();
         archivo = descargar.value;
         if(archivo == 1){
-            var urli = "<?=$app->baseURL?>public/<?=$ruta?>";
+            var urli = "<?=$app->baseURL.$ruta?>";
             $(location).attr('href',urli)
         }else{
             var urli = url + "generardata/pdfdescargar/"+idarchivo;
