@@ -4,15 +4,15 @@ use CodeIgniter\Model;
 class peyorativosModelo extends Model{
     protected $table = 'peyorativo';
     protected $primaryKey = 'pey_id';
-    protected $allowedFields = ['pey_nombre', 'pey_descripcion', 'pey_estado'];
+    protected $allowedFields = ['pey_nombre', 'pey_descripcion', 'pey_emp_id'];
 
-    public function reads(){
-        return $this->orderBy('pey_id DESC')->findAll();
+    public function reads($emp_id){
+        return $this->where("pey_emp_id = $emp_id")->orderBy('pey_id DESC')->findAll();
     }
 
-    public function validarPeyorativo()
+    public function validarPeyorativo($emp_id)
     {
-        return $this->query("SELECT pey_nombre FROM peyorativo WHERE pey_estado = 1")
+        return $this->query("SELECT pey_nombre FROM peyorativo WHERE pey_estado = 1 AND pey_emp_id = $emp_id")
                     ->getResult();
     }
 

@@ -6,7 +6,7 @@ use App\Models\archivosModelo;
 use App\Models\datosModelo;
 use CodeIgniter\Controller;
 use PHPExcel_IOFactory;
-use PDFS;
+use PDFSUBIR;
 
 class Subirdata extends Controller
 {
@@ -350,13 +350,17 @@ class Subirdata extends Controller
         if (!session('authenticated') || !accede()) {
             return redirect()->to(base_url("/"));
         }
-        require_once APPPATH . 'Libraries/PDFS.php';
+        require_once APPPATH . 'Libraries/PDFSUBIR.php';
         if (bloqueado()) {
             require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
             $object = new archivosModelo();
             $objectD = new datosModelo();
             $item = $object->archivo($arc_id);
             $archivo =  $item->arc_ruta;
+            $nombreArchivo  =  $item->arc_nombre;
+            $nombreArchivo = explode('.',$nombreArchivo);
+            $titulo = $nombreArchivo[0];
+            $nombreArchivo = $nombreArchivo[0].'.pdf';
 
             $idempresa = empresaActiva();
             $emp_id = $idempresa->emp_id;
@@ -369,23 +373,13 @@ class Subirdata extends Controller
                 ]);
             }
 
-            $pdf = new PDFS();
+            $pdf = new PDFSUBIR();
             $pdf->AddPage('L');
             $pdf->AliasNbPages();
-            $pdf->SetFont('Arial','B',8);
 
             $x = [0=>11,1=>60,2=>60,3=>60,4=>20,5=>35,6=>30];
             $y = 5;
-            $pdf->SetXY(50, 30);
-            $pdf->Cell(220, $y, 'Cuentas Institucionales Oficiales de Usuarios', 'B', 0, 'C');
-            $pdf->Ln(5);
-            $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
-            $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1,0,'C');
-            $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1,0,'C');
-            $pdf->Cell($x[3],$y, utf8_decode('EMAIL'),1,0,'C');
-            $pdf->Cell($x[4],$y, utf8_decode('ESTADO'),1,0,'C');
-            $pdf->Cell($x[5],$y, utf8_decode('ULTIMO ACCESO'),1,0,'C');
-            $pdf->Cell($x[6],$y, utf8_decode('ESPACIO USO'),1,1,'C');
+            $pdf->SetFont('Arial','B',8);
 
             $nombresRegistrados = array_column($objectD->listarNombres($emp_id), 'dat_nombres_completos');
             $correosRegistrados = array_column($objectD->validarArchivo($arc_id), 'dat_email');
@@ -450,8 +444,8 @@ class Subirdata extends Controller
             }
             $pdf->Ln();
             $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
-            $pdf->SetTitle("Data Subida");
-            $pdf->Output();
+            $pdf->SetTitle($titulo);
+            $pdf->Output($nombreArchivo, 'I');
             exit;
         } else {
             return view('denegado');

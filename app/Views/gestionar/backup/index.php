@@ -31,11 +31,16 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="col-md-12 col-sm-12">
-                                        <?php if(agregar()){?>
-                                            <button class="btn btn-primary btn-sm" style="color: #000;" onclick="generar()"><i class="fa fa-plus"></i> Generar Backup</button>
-                                        <?php }?>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <div></div>
+                                            <?php if(agregar()){?>
+                                                <button class="btn btn-primary btn-sm" style="color: #000;" onclick="generar()">
+                                                    <i class="fa fa-plus"></i> Generar Backup
+                                                </button>
+                                            <?php }?>
+                                        </div>
                                         <div class="table-responsive">
-                                            <table class="table table-bordered jambo_table bulk_action" id="tablaBackup">
+                                            <table class="table table-striped table-bordered" id="tablaBackup">
                                                 <thead>
                                                     <tr class="headings">
                                                         <th class="column-title" style="text-align: center;">ITEM</th>
@@ -52,15 +57,15 @@
                                                         foreach ($items as $row){
                                                             $c ++;
                                                         ?>
-                                                            <tr>
+                                                            <tr class="even pointer">
                                                                 <td><?=$c?></td>
                                                                 <td><?=$row->bac_nombre?></td>
                                                                 <td><?=$row->bac_tamanio?> MB</td>
                                                                 <td><?=$row->fecha?></td>
                                                                 <td><?=$row->usu_usuario?></td>
                                                                 <td>
-                                                                    <a href="<?=$app->baseURL?>public/backups/<?=$row->bac_nombre?>" download class="btn btn-sm btn-info"><i class="fa fa-cloud-download"></i></a>
-                                                                    <button onclick="eliminar(<?=$row->bac_id?>)" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                                                    <a href="<?=$app->baseURL?>public/backups/<?=$row->bac_nombre?>" download class="btn btn-sm btn-info"><i class="bx bx-arrow-to-bottom"></i></a>
+                                                                    <button onclick="eliminar(<?=$row->bac_id?>)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></i></button>
                                                                 </td>
                                                             </tr>
                                                     <?php }?>

@@ -12,7 +12,9 @@ class Peyorativos extends Controller
         if(session('authenticated') && accede()){
             if(bloqueado()){
                 $object = new peyorativosModelo();
-                $items = $object->reads();
+                $idempresa = empresaActiva();
+                $emp_id = $idempresa->emp_id;
+                $items = $object->reads($emp_id);
                 $datos = ['titulo' => 'Peyorativos', 'items' => $items];
                 return view('mantenedor/peyorativos/index', $datos);
             }else{
@@ -53,11 +55,14 @@ class Peyorativos extends Controller
     }
     public function register(){
         $object = new peyorativosModelo();
+        $idempresa = empresaActiva();
+        $emp_id = $idempresa->emp_id;
         $peyorativo = $_POST['peyorativo'];
         $descripcion = $_POST['descripcion'];
         $data = [
             'pey_nombre' => $peyorativo,
-            'pey_descripcion' => $descripcion
+            'pey_descripcion' => $descripcion,
+            'pey_emp_id' => $emp_id
         ];
         if($object->save($data)){
             echo 1;

@@ -12,7 +12,7 @@ class PDF extends FPDF
         $this->SetXY(80, 10);
         $this->Cell(110, 10, 'RAZON SOCIAL: '.razonsocial(), 0, 0, 'L');
         // Información del sistema
-        $this->SetXY(210, 10);
+        $this->SetXY(225, 10);
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(50, 5, 'SISTEMA: GENERADOR DE CUENTAS', 0, 2, 'L');
         $this->Cell(50, 5, 'FECHA/HORA: '.date('d-m-Y H:i'), 0, 2, 'L');

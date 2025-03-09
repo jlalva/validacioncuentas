@@ -12,7 +12,9 @@ class Dominio extends Controller
         if(session('authenticated') && accede()){
             if(bloqueado()){
                 $object = new dominioModelo();
-                $items = $object->reads();
+                $idempresa = empresaActiva();
+                $emp_id = $idempresa->emp_id;
+                $items = $object->reads($emp_id);
                 $datos = ['titulo' => 'Dominio', 'items' => $items];
                 return view('mantenedor/dominio/index', $datos);
             }else{
@@ -53,11 +55,14 @@ class Dominio extends Controller
     }
     public function register(){
         $object = new dominioModelo();
+        $idempresa = empresaActiva();
+        $emp_id = $idempresa->emp_id;
         $dominio = $_POST['dominio'];
         $descripcion = $_POST['descripcion'];
         $data = [
             'dom_nombre' => $dominio,
-            'dom_descripcion' => $descripcion
+            'dom_descripcion' => $descripcion,
+            'dom_emp_id' => $emp_id
         ];
         if($object->save($data)){
             echo 1;

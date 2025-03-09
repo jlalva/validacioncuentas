@@ -52,16 +52,16 @@
                                         foreach ($items as $row) {
                                             $c++;?>
                                             <tr>
-                                                <td><?= $c ?></td>
-                                                <td><?= $row->arc_nombre ?></td>
-                                                <td><?= $row->arc_ruta ?></td>
-                                                <td><?= $row->tip_nombre ?></td>
-                                                <td><?= $row->arc_total ?></td>
-                                                <td><?= $row->arc_subido ?></td>
-                                                <td><?= $row->usu_nombre.' '.$row->usu_apellido ?></td>
-                                                <td><?= $row->arc_tiempo?></td>
-                                                <td><?= $row->arc_fecha_reg ?></td>
-                                                <td>
+                                                <td  style="text-align: center;"><?= $c ?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_nombre ?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_ruta ?></td>
+                                                <td  style="text-align: center;"><?= $row->tip_nombre ?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_total ?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_subido ?></td>
+                                                <td  style="text-align: center;"><?= $row->usu_nombre.' '.$row->usu_apellido ?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_tiempo?></td>
+                                                <td  style="text-align: center;"><?= $row->arc_fecha_reg ?></td>
+                                                <td style="text-align: center;">
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>
                                                     <?php if($row->peyorativo == 'si'){?>
                                                         <a href="<?= $app->baseURL ?>generardata/cacafonias/<?= $row->arc_id ?>" class="btn btn-warning btn-sm" title="CACAFONIAS"><i class="bx bx-error"></i></a>

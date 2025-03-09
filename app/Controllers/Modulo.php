@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\migracionModelo;
 use CodeIgniter\Controller;
 use App\Models\moduloModelo;
 use Config\Services;

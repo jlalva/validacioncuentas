@@ -4,10 +4,10 @@ use CodeIgniter\Model;
 class dominioModelo extends Model{
     protected $table = 'dominio';
     protected $primaryKey = 'dom_id';
-    protected $allowedFields = ['dom_nombre', 'dom_descripcion', 'dom_estado'];
+    protected $allowedFields = ['dom_nombre', 'dom_descripcion', 'dom_estado','dom_emp_id'];
 
-    public function reads(){
-        return $this->orderBy('dom_id DESC')->findAll();
+    public function reads($emp_id){
+        return $this->where("dom_emp_id = $emp_id")->orderBy('dom_id DESC')->findAll();
     }
 
     public function readDominio($id){

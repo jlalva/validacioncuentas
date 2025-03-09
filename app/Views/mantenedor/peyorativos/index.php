@@ -40,7 +40,7 @@
                                 }
                             ?>
                             <td><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
-                            <td>
+                            <td style="text-align: center;">
                             <?php if(editar()){?>
                                 <a href="<?=base_url('peyorativos/edit/'.$row['pey_id'])?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                             <?php }?>

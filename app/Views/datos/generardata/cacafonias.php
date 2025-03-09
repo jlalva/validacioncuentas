@@ -20,18 +20,26 @@
     </div>
 </div>
 <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12">
-                    <div class="form-check">
-                        <label>Correo Generado</label>
-                        <input class="form-control" name="correogenerado" id="correogenerado">
-                        <input type="hidden" id="iddato" name="iddato">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <label>Correo Generado</label>
+                            <input class="form-control" name="correogenerado" id="correogenerado" oninput="this.value = this.value.toLowerCase()">
+                            <input type="hidden" id="iddato" name="iddato">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <label>Dominio</label>
+                            <input class="form-control" name="dominio" id="dominio" oninput="this.value = this.value.toLowerCase()" readonly="readonly">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,13 +54,21 @@
 <script>
     tabla("tablaCuentas");
 
-    function datoseditarcacafonia(id,correo){
+    function datoseditarcacafonia(id,correo,dominio){
         $("#correogenerado").val(correo)
+        $("#dominio").val(dominio)
         $("#iddato").val(id)
     }
 
     function editarcacafonia(){
+        alertify.dismissAll();
         var correo = $("#correogenerado").val();
+        var dominio = $("#dominio").val();
+        correo = correo + dominio;
+        if(correo == ''){
+            alertify.error('Ingrese un correo válido');
+            return;
+        }
         var id = $("#iddato").val();
         $.ajax({
 		url:url+'generardata/meditarcacafonia',

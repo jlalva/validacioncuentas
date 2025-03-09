@@ -138,6 +138,20 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
     function crearCarpetasPorFecha($rutaBase) {
         $anio = date("Y");
         $mes = date("m");
+        switch($mes){
+            case 1:$mes= '01-Enero';break;
+            case 2:$mes= '02-Febrero';break;
+            case 3:$mes= '03-Marzo';break;
+            case 4:$mes= '04-Abril';break;
+            case 5:$mes= '05-Mayo';break;
+            case 6:$mes= '06-Junio';break;
+            case 7:$mes= '07-Julio';break;
+            case 8:$mes= '08-Agosto';break;
+            case 9:$mes= '09-Setiembre';break;
+            case 10:$mes= '10-Octubre';break;
+            case 11:$mes= '11-Noviembre';break;
+            case 11:$mes= '12-Diciembre';break;
+        }
         $rutaAnio = $rutaBase . $anio;
         $rutaMes = $rutaAnio . '/' . $mes;
         if (!file_exists($rutaAnio)) {
@@ -147,4 +161,23 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
             mkdir($rutaMes, 0777, true);
         }
         return $rutaMes;
+    }
+
+    function meses($mesl) {
+        $mesl = intval($mesl);
+        switch($mesl){
+            case 1:$mesl= 'Enero';break;
+            case 2:$mesl= 'Febrero';break;
+            case 3:$mesl= 'Marzo';break;
+            case 4:$mesl= 'Abril';break;
+            case 5:$mesl= 'Mayo';break;
+            case 6:$mesl= 'Junio';break;
+            case 7:$mesl= 'Julio';break;
+            case 8:$mesl= 'Agosto';break;
+            case 9:$mesl= 'Setiembre';break;
+            case 10:$mesl= 'Octubre';break;
+            case 11:$mesl= 'Noviembre';break;
+            case 11:$mesl= 'Diciembre';break;
+        }
+        return $mesl;
     }
