@@ -31,11 +31,11 @@
                         $c = 0;
                         foreach($usuarios as $row){ $c++;?>
                         <tr class="even pointer" style="font-size: 12px;">
-                            <td><?=$c?></td>
-                            <td><?=$row->usu_apellido?></td>
-                            <td><?=$row->usu_nombre?></td>
-                            <td><?=$row->usu_correo?></td>
-                            <td><?=$row->usu_usuario?></td>
+                            <td style="text-align: center;"><?=$c?></td>
+                            <td style="text-align: center;"><?=$row->usu_apellido?></td>
+                            <td style="text-align: center;"><?=$row->usu_nombre?></td>
+                            <td style="text-align: center;"><?=$row->usu_correo?></td>
+                            <td style="text-align: center;"><?=$row->usu_usuario?></td>
                             <?php
                                 switch($row->usu_estado){
                                     case 0: $estado = 'Inactivo';$badge='danger'; break;
@@ -43,8 +43,8 @@
                                     default: $estado = 'Inactivo';$badge='danger'; break;
                                 }
                             ?>
-                            <td><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
-                            <td>
+                            <td style="text-align: center;"><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
+                            <td style="text-align: center;">
                             <?php if(editar()){?>
                                 <a href="<?=base_url('usuarios/edit/'.$row->usu_id)?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                             <?php }?>

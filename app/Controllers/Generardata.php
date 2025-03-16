@@ -543,6 +543,7 @@ class Generardata extends Controller
             $inicio = microtime(true);
             $idempresa = empresaActiva();
             $emp_id = $idempresa->emp_id;
+            $empresa = strtoupper($idempresa->emp_razonsocial);
             $objectD = new dominioModelo();
             $dom_id = $_POST['dominio'];
             $tipopersona = $_POST['tipopersona'];
@@ -631,7 +632,7 @@ class Generardata extends Controller
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                         ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                         $completo);
-                    $val = $object->validarNombres(trim($completo));
+                    $val = $object->validarNombres(trim($completo),$emp_id);
                     $correo = '';
                     $apellido_correo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
@@ -718,7 +719,11 @@ class Generardata extends Controller
                 }
                 $aregistrar = $total -$invalido;
                 $datos = substr($datos,0,-1);
-                $ruta = crearCarpetasPorFecha("public/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/");
+                $rutaempresa = "public/empresas/$empresa";
+                if (!file_exists($rutaempresa)) {
+                    mkdir($rutaempresa, 0777, true);
+                }
+                $ruta = crearCarpetasPorFecha("$rutaempresa/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/");
                 if(move_uploaded_file($_FILES['archivo']['tmp_name'],$ruta.'/'.$nombreserver)){
                     if($object->insertarDatosGenerados($datos,$tipopersona)){
                         $fin = microtime(true);

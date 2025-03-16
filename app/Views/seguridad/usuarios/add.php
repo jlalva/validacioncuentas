@@ -18,10 +18,8 @@
             <div class="col-md-10">
                 <h6 class="mb-0 text-uppercase">Agregar Usuario</h6>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2" style="text-align: right;">
                 <a href="<?= $app->baseURL ?>usuarios" class="btn btn-warning btn-sm" style="color: #000;margin-top:-7px;"><i class="fa fa-remove"></i> Cancelar </a>
-            </div>
-            <div class="col-md-1">
                 <?php if (agregar()) { ?>
                     <button class="btn btn-primary btn-sm" type="submit" id="guardar" style="margin-top:-7px;"><i class="fa fa-save"></i> Guardar</button>
                 <?php } ?>

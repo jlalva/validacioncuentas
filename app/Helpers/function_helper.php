@@ -181,3 +181,11 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         }
         return $mesl;
     }
+
+    function caracteres($texto) {
+        $texto = str_replace(
+            ['á', 'é', 'í', 'ó', 'ú', 'ñ'],
+            ['A', 'E', 'I', 'O', 'U', 'Ñ'],
+            $texto);
+            return mb_strtoupper($texto, 'UTF-8');
+    }

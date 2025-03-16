@@ -35,7 +35,7 @@ class empresaModelo extends Model{
     }
 
     public function datosEmpresa(){
-        return $this->where('emp_estado', 1)->first();
+        return $this->where('emp_activo', 1)->first();
     }
 
     public function ubigeo($ubigeo){

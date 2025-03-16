@@ -60,8 +60,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = strtoupper($hoja->getCell("A$i")->getValue());
-                    $apellido = strtoupper($hoja->getCell("B$i")->getValue());
+                    $nombre = caracteres(strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue())));
+                    $apellido = caracteres(strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue())));
                     $email = $hoja->getCell("C$i")->getValue();
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -78,13 +78,13 @@ class Subirdata extends Controller
                         $color = "style='background-color: green'";
                     }
                     $html .= "<tr $color>
-                                <td>" . ($i - 1) . "</td>
-                                <td>$nombre</td>
-                                <td>$apellido</td>
-                                <td>$email</td>
-                                <td>$status</td>
-                                <td>$ultimoacceso</td>
-                                <td>$espacio</td>
+                                <td style='text-align: center;'>" . ($i - 1) . "</td>
+                                <td style='text-align: center;'>$nombre</td>
+                                <td style='text-align: center;'>$apellido</td>
+                                <td style='text-align: center;'>$email</td>
+                                <td style='text-align: center;'>$status</td>
+                                <td style='text-align: center;'>$ultimoacceso</td>
+                                <td style='text-align: center;'>$espacio</td>
                             </tr>";
                 }
             } else {
@@ -92,8 +92,8 @@ class Subirdata extends Controller
                 foreach ($lineas as $c => $linea) {
                     if ($c == 0) continue;
                     $datos = preg_split("/[;,]/", $linea);
-                    $nombre = strtoupper($datos[0]);
-                    $apellido = mb_convert_encoding(strtoupper($datos[1]), "UTF-8", "ISO-8859-1");
+                    $nombre = caracteres($datos[0]);
+                    $apellido = caracteres($datos[1]);
                     $email = trim($datos[2]);
                     $status = strtoupper($datos[3]);
                     $ultimoacceso = trim($datos[4]);
@@ -106,13 +106,13 @@ class Subirdata extends Controller
                         $color = "style='background-color: green'";
                     }
                     $html .= "<tr $color>
-                                <td>$c</td>
-                                <td>$nombre</td>
-                                <td>$apellido</td>
-                                <td>$email</td>
-                                <td>$status</td>
-                                <td>$ultimoacceso</td>
-                                <td>$espacio</td>
+                                <td style='text-align: center;'>$c</td>
+                                <td style='text-align: center;'>$nombre</td>
+                                <td style='text-align: center;'>$apellido</td>
+                                <td style='text-align: center;'>$email</td>
+                                <td style='text-align: center;'>$status</td>
+                                <td style='text-align: center;'>$ultimoacceso</td>
+                                <td style='text-align: center;'>$espacio</td>
                             </tr>";
                 }
             }
@@ -210,13 +210,18 @@ class Subirdata extends Controller
         $inicio = microtime(true);
         $idempresa = empresaActiva();
         $emp_id = $idempresa->emp_id;
+        $empresa = strtoupper($idempresa->emp_razonsocial);
         $tipoarchivo = $_POST['tipoarchivo'];
         $descripcion = $_POST['descripcion'];
         $archivo = $_FILES["archivo"]["tmp_name"];
         $nombrearchivo = $_FILES["archivo"]["name"];
         $extension = pathinfo($nombrearchivo, PATHINFO_EXTENSION);
         $nombreserver = 'ws_'.date("Ymd").'_'.date("His").'.'.strtolower(pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION));
-        $ruta = crearCarpetasPorFecha("public/archivos/CUENTAS_EXISTENTES_GSUITE/");
+        $rutaempresa = "public/empresas/$empresa";
+        if (!file_exists($rutaempresa)) {
+            mkdir($rutaempresa, 0777, true);
+        }
+        $ruta = crearCarpetasPorFecha("$rutaempresa/archivos/CUENTAS_EXISTENTES_GSUITE/");
         $rutaArchivo = $ruta."/".$nombreserver;
         if (($extension == 'csv' && $tipoarchivo == 1) || (in_array($extension, ['xlsx', 'xls']) && $tipoarchivo == 2)) {
             echo "El tipo de archivo no coincide con el archivo seleccionado.";
@@ -253,8 +258,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue()));
-                    $apellido = strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue()));
+                    $nombre = caracteres(strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue())));
+                    $apellido = caracteres(strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue())));
                     $email = strtolower(trim($hoja->getCell("C$i")->getValue()));
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -287,8 +292,8 @@ class Subirdata extends Controller
                 foreach ($lineas as $indice => $linea) {
                     if ($indice == 0) continue;
                     $item = preg_split("/[;,]/", pg_escape_string($linea));
-                    $nombre = strtoupper($item[0] ?? '');
-                    $apellido = strtoupper($item[1] ?? '');
+                    $nombre = caracteres(strtoupper($item[0] ?? ''));
+                    $apellido = caracteres(strtoupper($item[1] ?? ''));
                     $email = strtolower(trim($item[2] ?? ''));
                     $status = strtoupper($item[3] ?? '');
                     $ultimoacceso = $item[4] ?? '';
@@ -389,8 +394,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = strtoupper($hoja->getCell("A$i")->getValue());
-                    $apellido = strtoupper($hoja->getCell("B$i")->getValue());
+                    $nombre = caracteres($hoja->getCell("A$i")->getValue());
+                    $apellido = caracteres($hoja->getCell("B$i")->getValue());
                     $email = $hoja->getCell("C$i")->getValue();
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -420,8 +425,8 @@ class Subirdata extends Controller
                 foreach ($lineas as $c => $linea) {
                     if ($c == 0) continue;
                     $datos = preg_split("/[;,]/", $linea);
-                    $nombre = strtoupper($datos[0]);
-                    $apellido = mb_convert_encoding(strtoupper($datos[1]), "UTF-8", "ISO-8859-1");
+                    $nombre = caracteres($datos[0]);
+                    $apellido = caracteres($datos[1]);
                     $email = trim($datos[2]);
                     $status = strtoupper($datos[3]);
                     $ultimoacceso = trim($datos[4]);

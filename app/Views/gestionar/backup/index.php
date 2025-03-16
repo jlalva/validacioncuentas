@@ -1,4 +1,63 @@
 <?php require_once APPPATH . 'Views/include/header.php' ?>
+<style>
+    .container {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .label {
+        font-weight: bold;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+        background: #f8f8f8;
+        cursor: pointer;
+        width: 300px;
+        margin: auto;
+        transition: background 0.3s ease;
+        position: relative;
+    }
+
+    .drop-area:hover {
+        background: #e0e0e0;
+    }
+
+    .drop-area.dragover {
+        background: #d0ffd0; /* Cambio de color cuando el archivo está sobre el área */
+        border-color: #00b300;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .preview-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .preview-icon {
+        font-size: 40px;
+        color: #007bff;
+    }
+
+    .file-name {
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>
 <div class="col">
     <div class="x_panel">
         <div class="x_title">
@@ -48,6 +107,7 @@
                                                         <th class="column-title" style="text-align: center;">TAMAÑO</th>
                                                         <th class="column-title" style="text-align: center;">FECHA</th>
                                                         <th class="column-title" style="text-align: center;">USUARIO</th>
+                                                        <th class="column-title" style="text-align: center;">EMPRESA</th>
                                                         <th class="column-title" style="text-align: center;">ACCION</th>
                                                     </tr>
                                                 </thead>
@@ -58,14 +118,15 @@
                                                             $c ++;
                                                         ?>
                                                             <tr class="even pointer">
-                                                                <td><?=$c?></td>
-                                                                <td><?=$row->bac_nombre?></td>
-                                                                <td><?=$row->bac_tamanio?> MB</td>
-                                                                <td><?=$row->fecha?></td>
-                                                                <td><?=$row->usu_usuario?></td>
-                                                                <td>
-                                                                    <a href="<?=$app->baseURL?>public/backups/<?=$row->bac_nombre?>" download class="btn btn-sm btn-info"><i class="bx bx-arrow-to-bottom"></i></a>
-                                                                    <button onclick="eliminar(<?=$row->bac_id?>)" class="btn btn-sm btn-danger"><i class="bx bx-trash"></i></i></button>
+                                                                <td style="text-align: center;"><?=$c?></td>
+                                                                <td style="text-align: center;"><?=$row->bac_nombre?></td>
+                                                                <td style="text-align: center;"><?=$row->bac_tamanio?></td>
+                                                                <td style="text-align: center;"><?=$row->fecha?></td>
+                                                                <td style="text-align: center;"><?=$row->usu_usuario?></td>
+                                                                <td style="text-align: center;"><?=$row->emp_razonsocial?></td>
+                                                                <td style="text-align: center;">
+                                                                    <a href="<?=$app->baseURL?>public/backups/<?=$row->bac_nombre?>" download class="btn btn-sm btn-info" title="Descargar"><i class="bx bx-arrow-to-bottom"></i></a>
+                                                                    <button onclick="eliminar(<?=$row->bac_id?>)" class="btn btn-sm btn-danger" title="Eliminar"><i class="bx bx-trash"></i></i></button>
                                                                 </td>
                                                             </tr>
                                                     <?php }?>
@@ -80,11 +141,29 @@
                             <div class="card">
                                 <div class="card-body">
                                     <?php if(agregar()){?>
-                                        <button class="btn btn-warning btn-sm" style="color: #000;" onclick="abrirExplorador()"><i class="fa fa-warning"></i> Restaurar Backup</button>
+                                        <div class="container">
+                                            <span class="label">SUBIR ARCHIVO *</span>
+                                            <div class="drop-area" id="dropArea">
+                                                <p id="dropText">Hacer clic o arrastrar un archivo aquí</p>
+                                                <div id="previewContainer" class="hidden preview-container">
+                                                    <i class="fa fa-database preview-icon"></i>
+                                                    <span id="fileName" class="file-name"></span>
+                                                </div>
+                                            </div>
+
+                                            <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
+                                                <input type="file" id="fileInput" class="hidden" accept=".sql">
+                                            </form>
+
+                                            <button class="btn btn-danger btn-sm confirmaR hidden" onclick="confirmarRestaurar()">
+                                                <i class="fa fa-warning"></i> Iniciar Restauración
+                                            </button>
+                                        </div>
+                                        <!--<button class="btn btn-warning btn-sm" style="color: #000;" onclick="abrirExplorador()"><i class="fa fa-warning"></i> Restaurar Backup</button>
                                         <button class="btn btn-danger btn-sm confirmaR" style="color: #000;display:none" onclick="confirmarRestaurar()"><i class="fa fa-warning"></i> Iniciar Restauración</button>
                                         <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
                                             <input type="file" id="fileInput" style="display:none;" onchange="muestraConfirma()" accept=".sql">
-                                        </form>
+                                        </form>-->
                                     <?php }?>
                                 </div>
                             </div>
@@ -98,9 +177,57 @@
 <script>
     $('#tablaBackup').DataTable();
 
-    function abrirExplorador() {
-        document.getElementById('fileInput').click();
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const confirmaR = document.querySelector('.confirmaR');
+    const dropText = document.getElementById('dropText');
+    const previewContainer = document.getElementById('previewContainer');
+    const fileName = document.getElementById('fileName');
+
+    function validarArchivo(file) {
+        if (file && file.name.endsWith('.sql')) {
+            // Mostrar icono con el nombre del archivo
+            fileName.textContent = file.name;
+            previewContainer.classList.remove('hidden');
+            dropText.classList.add('hidden');
+            confirmaR.classList.remove('hidden'); // Mostrar botón
+        } else {
+            alert('Solo se permiten archivos con extensión .sql');
+            fileInput.value = ''; // Limpiar input
+            previewContainer.classList.add('hidden');
+            dropText.classList.remove('hidden');
+            confirmaR.classList.add('hidden'); // Ocultar botón
+        }
     }
+
+    // Evento cuando se hace clic en el área
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    // Evento cuando se selecciona un archivo desde el explorador
+    fileInput.addEventListener('change', () => validarArchivo(fileInput.files[0]));
+
+    // Eventos Drag & Drop
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('dragover');
+    });
+
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('dragover');
+    });
+
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('dragover');
+
+        let file = e.dataTransfer.files[0]; // Obtener archivo
+        fileInput.files = e.dataTransfer.files; // Asignar al input
+        validarArchivo(file);
+    });
+
+    /*function abrirExplorador() {
+        document.getElementById('fileInput').click();
+    }*/
 
     function muestraConfirma(){
         var input = document.getElementById('fileInput');
@@ -128,9 +255,8 @@
             },
             success: function(result){
                 $("#tablaBackup").waitMe('hide');
-                redireccionar();
                 if(result == 1){
-                   redireccionar();
+                    redireccionartres();
                 }else{
                     if(result == 2){
                         alertify.error("Ocurrio un error al subir la base de datos");
@@ -196,6 +322,12 @@
     function redireccionardos(url = false){
         alertify.success("Se generó la BACKUP Correctamente");
         setTimeout("location.reload()", 2500);
+    }
+
+    function redireccionartres(url = false){
+        alertify.success("El BACKUP se restauro Correctamente, saliendo del sistema");
+        var url = "salir";
+        window.setTimeout($(location).attr('href',url), 2500 );
     }
 </script>
 <?php require_once APPPATH . 'Views/include/footer.php' ?>

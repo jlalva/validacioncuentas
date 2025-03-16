@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#subirarchivo').on('click', function() {
+        alertify.dismissAll();
         $(".carga").waitMe({text: 'Validando datos'});
         var formData = new FormData();
         var fileInput = document.getElementById('archivo');
@@ -38,6 +39,7 @@ $(document).ready(function() {
     });
 
     $('#btnprocesar').on('click', function() {
+        alertify.dismissAll();
         document.getElementById('datosprocesados').innerHTML = '';
         $(".carga").waitMe({text: 'Procesando información'});
         var formData = new FormData();
@@ -75,6 +77,7 @@ $(document).ready(function() {
     });
 
     $('#btnconfirmar').on('click', function() {
+        alertify.dismissAll();
         alertify.confirm('Confirmar','Estas seguro de registrar el archivo, esta acción no se puede cancelar', function() {
             $(".carga").waitMe({text: 'Guardando información'});
             var formData = new FormData();

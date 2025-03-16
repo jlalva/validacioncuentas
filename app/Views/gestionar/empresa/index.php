@@ -33,13 +33,13 @@
                         $c = 0;
                         foreach($items as $row){ $c++;?>
                         <tr class="even pointer">
-                            <td><?=$c?></td>
-                            <td><?=$row['emp_ruc']?></td>
-                            <td><?=$row['emp_razonsocial']?></td>
-                            <td><?=$row['emp_siglas']?></td>
-                            <td><?=$row['emp_direccion']?></td>
-                            <td><?=$row['emp_telefono']?></td>
-                            <td><?=strftime('%d-%m-%Y', strtotime($row['emp_fechafundacion']))?></td>
+                            <td style="text-align: center;"><?=$c?></td>
+                            <td style="text-align: center;"><?=$row['emp_ruc']?></td>
+                            <td style="text-align: center;"><?=$row['emp_razonsocial']?></td>
+                            <td style="text-align: center;"><?=$row['emp_siglas']?></td>
+                            <td style="text-align: center;"><?=$row['emp_direccion']?></td>
+                            <td style="text-align: center;"><?=$row['emp_telefono']?></td>
+                            <td style="text-align: center;"><?=strftime('%d-%m-%Y', strtotime($row['emp_fechafundacion']))?></td>
                             <?php
                                 switch($row['emp_estado']){
                                     case 0: $estado = 'Inactivo';$badge='danger'; break;
@@ -47,8 +47,8 @@
                                     default: $estado = 'Inactivo';$badge='danger'; break;
                                 }
                             ?>
-                            <td><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
-                            <td>
+                            <td style="text-align: center;"><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
+                            <td style="text-align: center;">
                             <?php if(editar()){?>
                                 <a href="<?=base_url('empresa/edit/'.$row['emp_id'])?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                             <?php }?>

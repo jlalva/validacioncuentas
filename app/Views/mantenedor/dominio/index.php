@@ -29,9 +29,9 @@
                         $c = 0;
                         foreach($items as $row){ $c++;?>
                         <tr class="even pointer">
-                            <td><?=$c?></td>
-                            <td><?=$row['dom_nombre']?></td>
-                            <td><?=$row['dom_descripcion']?></td>
+                            <td style="text-align: center;"><?=$c?></td>
+                            <td style="text-align: center;"><?=$row['dom_nombre']?></td>
+                            <td style="text-align: center;"><?=$row['dom_descripcion']?></td>
                             <?php
                                 switch($row['dom_estado']){
                                     case 0: $estado = 'Inactivo';$badge='danger'; break;
@@ -39,8 +39,8 @@
                                     default: $estado = 'Inactivo';$badge='danger'; break;
                                 }
                             ?>
-                            <td><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
-                            <td>
+                            <td style="text-align: center;"><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
+                            <td style="text-align: center;">
                             <?php if(editar()){?>
                                 <a href="<?=base_url('dominio/edit/'.$row['dom_id'])?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                             <?php }?>

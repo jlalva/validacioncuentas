@@ -48,8 +48,8 @@ class datosModelo extends Model{
         return $query;
     }
 
-    public function validarNombres($nombrecompleto){
-        $query = $this->query("SELECT * FROM datos WHERE dat_nombres_completos = '$nombrecompleto'");
+    public function validarNombres($nombrecompleto, $emp_id){
+        $query = $this->query("SELECT * FROM datos WHERE dat_nombres_completos = '$nombrecompleto' AND dat_emp_id = $emp_id");
         return $query->getRow();
     }
 

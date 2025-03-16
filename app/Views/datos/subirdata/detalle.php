@@ -22,7 +22,7 @@
                             <th class="column-title" style="text-align: center;">NOMBRES</th>
                             <th class="column-title" style="text-align: center;">APELLIDOS</th>
                             <th class="column-title" style="text-align: center;">EMAIL</th>
-                            <th class="column-title" style="text-align: center;">STATUS</th>
+                            <th class="column-title" style="text-align: center;">ESTADO</th>
                             <th class="column-title" style="text-align: center;">ULTIMO ACCESO</th>
                             <th class="column-title" style="text-align: center;">ESPACIO USO</th>
                         </tr>

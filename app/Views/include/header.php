@@ -105,7 +105,7 @@ $app = new App();
 															<input type="radio" name="empresa_seleccionada" id="empresa_<?=$rowE->emp_id?>" onclick="empresaactiva(<?=$rowE->emp_id?>)">
 														<?php }?>
                                                         <div class="flex-grow-1">
-                                                            <h6 class="msg-name"><?=$rowE->emp_razonsocial?></h6>
+                                                            <h6 class="msg-name">&nbsp;<?=$rowE->emp_razonsocial?></h6>
                                                         </div>
                                                     </div>
                                                 </a>

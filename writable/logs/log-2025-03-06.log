@@ -1,8 +1,0 @@
-CRITICAL - 2025-03-06 18:53:43 --> FPDF error: Incorrect output destination: mi_documento.pdf
-in APPPATH\Libraries\fpdf\fpdf.php on line 273.
- 1 APPPATH\Libraries\fpdf\fpdf.php(1032): FPDF->Error('Incorrect output destination: mi_documento.pdf')
- 2 APPPATH\Controllers\Subirdata.php(455): FPDF->Output('mi_documento.pdf')
- 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->pdf('3')
- 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
- 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 6 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

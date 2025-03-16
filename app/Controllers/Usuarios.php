@@ -240,31 +240,19 @@ class Usuarios extends Controller
     }
 
     public function updateperfil(){
-        $objectPerson = new personaModelo();
-        $validation = $this->validate([
-            'telefono' => 'required',
-            'departamento' => 'required',
-            'provincia' => 'required',
-            'distrito' => 'required',
-            'direccion' => 'required',
-            'dni' => 'required'
-        ]);
+        $objectPerson = new usuariosModelo();
 
-        if(!$validation){
-            return redirect()->to(base_url("perfil"))->withInput();
-        }else{
-            $per_id =  $_POST['per_id'];
-            $data = [
-                'per_telefono' => $_POST['telefono'],
-                'per_ubigeo' => $_POST['distrito'],
-                'per_direccion' => $_POST['direccion'],
-                'per_dni' => $_POST['dni']
-            ];
-            if($objectPerson->updatePersona($per_id, $data)){
-                $session = Services::session();
-                $session->setFlashdata("success", "Los datos se actualizaron correctamente");
-                return redirect()->to(base_url("perfil"));
-            }
+        $per_id =  $_POST['per_id'];
+        $data = [
+            'per_telefono' => $_POST['telefono'],
+            'per_ubigeo' => $_POST['distrito'],
+            'per_direccion' => $_POST['direccion'],
+            'per_dni' => $_POST['dni']
+        ];
+        if($objectPerson->updatePersona($per_id, $data)){
+            $session = Services::session();
+            $session->setFlashdata("success", "Los datos se actualizaron correctamente");
+            return redirect()->to(base_url("perfil"));
         }
     }
 

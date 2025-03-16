@@ -26,6 +26,8 @@ class Backup extends Controller
 
     public function generarBackup(){
         $object = new backupModelo();
+        $idempresa = empresaActiva();
+        $emp_id = $idempresa->emp_id;
         $nombre_archivo_respaldo = 'bk_' . date('Ymd_His') . '.sql';
         $ruta_destino_respaldo = 'public/backups/';
         $tamanio = 0;
@@ -45,7 +47,8 @@ class Backup extends Controller
                 $data = [
                     'bac_nombre'=>$nombre_archivo_respaldo,
                     'bac_tamanio'=>formatBytes($tamanio),
-                    'bac_usu_id'=>session('idusuario')
+                    'bac_usu_id'=>session('idusuario'),
+                    'bac_emp_id'=>$emp_id
                 ];
                 $object->add($data);
             }
@@ -89,7 +92,7 @@ class Backup extends Controller
                 $dbpass = password;
                 $dump = new IMysqldump\Mysqldump("mysql:host=$host;dbname=$dbname", "$dbuser", "$dbpass");
                 $dump->restore($ruta);
-                return redirect()->to(base_url("/salir"));
+                $resp = 1;
             }else{
                 $resp = 2;
             }

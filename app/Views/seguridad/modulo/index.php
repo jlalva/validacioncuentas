@@ -31,10 +31,10 @@
                                 foreach ($modulos as $row) {
                                     $c++; ?>
                                     <tr class="even pointer" style="height: 5px;">
-                                        <td style="height: 5px;"><?= $c ?></td>
-                                        <td style="height: 5px;"><?= $row['men_nombre'] ?></td>
-                                        <td style="height: 5px;"><?= $row['men_descripcion'] ?></td>
-                                        <td style="height: 5px;"><?= $row['men_url'] ?></td>
+                                        <td style="height: 5px;text-align: center"><?= $c ?></td>
+                                        <td style="height: 5px;text-align: center"><?= $row['men_nombre'] ?></td>
+                                        <td style="height: 5px;text-align: center"><?= $row['men_descripcion'] ?></td>
+                                        <td style="height: 5px;text-align: center"><?= $row['men_url'] ?></td>
                                         <?php
                                         switch ($row['men_estado']) {
                                             case 0:
@@ -51,8 +51,8 @@
                                                 break;
                                         }
                                         ?>
-                                        <td><span class="badge bg-<?= $badge ?>"><?= $estado ?></span></td>
-                                        <td style="height: 5px;">
+                                        <td style="text-align: center;"><span class="badge bg-<?= $badge ?>"><?= $estado ?></span></td>
+                                        <td style="height: 5px;text-align: center;">
                                             <?php if (editar()) { ?>
                                                 <a href="<?= base_url('modulo/edit/' . $row['men_id']) ?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                                             <?php } ?>

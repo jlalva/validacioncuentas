@@ -49,7 +49,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
-                        <p class="mb-0 text-white">CUENTAS CREADAS</p>
+                        <p class="mb-0 text-white">ARCHIVOS PROCESADOS</p>
                         <h4 class="my-1 text-white"><?=$tcuentas?></h4>
                         <p class="mb-0 font-13 text-white"><a href="<?=base_url('generardata')?>" style="color: #fff;">Ver cuentas creadas</a></p>
                     </div>
@@ -62,25 +62,36 @@
 <div class="card">
     <div class="card-body">
         <div class="row">
-            <div class="col-md-7">
-            <div class="card radius-10">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <h6 class="mb-0">Cuentas creadas por año y persona</h6>
+            <div class="col-md-8">
+                <div class="card radius-10">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-9">
+                                <h6 class="mb-0">CUENTAS CREADAS POR AÑO Y PERSONA</h6>
+                            </div>
+                            <div class="col-md-1">
+                                <label>Año:</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control"><?=$selectAnio?></select>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center ms-auto font-13 gap-2 my-3">
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #14abef"></i>Estudiantes</span>
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ffc107"></i>Docentes</span>
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #4caf50"></i>Administrativos</span>
+                        </div>
+                        <div class="chart-container-1">
+                            <canvas id="barrasxtipo"></canvas>
                         </div>
                     </div>
-                    <div class="chart-container-0">
-                        <canvas id="chart-order-status"></canvas>
-                        </div>
                 </div>
             </div>
-            </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="card-header bg-transparent">
                     <div class="d-flex align-items-center">
                         <div>
-                            <h6 class="mb-0">Cantidad de Usuarios por Roles</h6>
+                            <h6 class="mb-0">CANTIDAD DE USUARIOS POR ROLES</h6>
                         </div>
                     </div>
                 </div>
@@ -103,118 +114,70 @@
         </div>
     </div>
 </div>
-<script src="<?=$app->baseURL?>public/assets/plugins/chartjs/js/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     var ctx = document.getElementById("usuarioxroles").getContext('2d');
-
 var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
     gradientStroke1.addColorStop(0, '#ee0979');
     gradientStroke1.addColorStop(1, '#ff6a00');
-  
 var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
     gradientStroke2.addColorStop(0, '#283c86');
     gradientStroke2.addColorStop(1, '#39bd3c');
-
 var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
     gradientStroke3.addColorStop(0, '#7f00ff');
     gradientStroke3.addColorStop(1, '#e100ff');
+var gradientStroke4 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientStroke4.addColorStop(0, '#ff6a00');
+    gradientStroke4.addColorStop(1, '#39bd3c');
 
-    var myChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: [<?=$labeltorta?>],
-        datasets: [{
-          backgroundColor: [
-            gradientStroke1,
-            gradientStroke2,
-            gradientStroke3
-          ],
-
-           hoverBackgroundColor: [
-            gradientStroke1,
-            gradientStroke2,
-            gradientStroke3
-          ],
-
-          data: [<?=$totaltorta?>],
-        }]
-      },
-      options: {
-       maintainAspectRatio: false,
-        cutoutPercentage: 0,
-          legend: {
-            position: 'bottom',
-            display: false,
-          labels: {
-              boxWidth:8
-            }
-          },
-          tooltips: {
-            displayColors:false,
-          },
-      }
-    });
-
-    var ctx = document.getElementById('chart-order-status').getContext('2d');
-
-    var gradientStroke = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientStroke.addColorStop(0, '#ee0979');  
-        gradientStroke.addColorStop(1, '#ff6a00'); 
-
-    var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: [<?=$labelmeses?>],
-        datasets: [{
-        label: 'Total',
-        data: [<?=$totalmeses?>],
-        backgroundColor: gradientStroke,
-        hoverBackgroundColor: gradientStroke,
-        borderColor: "#fff",
-        pointRadius :6,
-        pointHoverRadius :6,
-        pointHoverBackgroundColor: "#fff",
-        borderWidth: 2
-
-        }]
-    },
-    options: {
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: [<?=$labeltorta?>],
+    datasets: [{
+      backgroundColor: [
+        gradientStroke1,
+        gradientStroke2,
+        gradientStroke3,
+        gradientStroke4
+      ],
+      hoverBackgroundColor: [
+        gradientStroke1,
+        gradientStroke2,
+        gradientStroke3,
+        gradientStroke4
+      ],
+      data: [<?=$totaltorta?>],
+    }]
+  },
+  options: {
     maintainAspectRatio: false,
-    legend: {
+    cutoutPercentage: 0,
+    plugins: {
+      legend: {
+        position: 'bottom',
         display: false,
         labels: {
-        fontColor: '#585757',  
-        boxWidth:40
+          boxWidth: 8
         }
-    },
-    tooltips: {
-        displayColors:false
-    },	
-    scales: {
-        xAxes: [{
-        barPercentage: .4,
-        ticks: {
-        beginAtZero:true,
-        fontColor: '#585757'
-        },
-        gridLines: {
-        display: true ,
-        color: "rgba(0, 0, 0, 0.08)"
-        },
-        }],
-        yAxes: [{
-        ticks: {
-        beginAtZero:true,
-        fontColor: '#585757'
-        },
-        gridLines: {
-        display: false ,
-        color: "rgba(0, 0, 0, 0.08)"
-        },
-        }]
+      },
+      tooltip: {
+        displayColors: false
+      },
+      datalabels: {
+        color: '#fff',         // Color del texto
+        font: { weight: 'bold', size: 14 },
+        anchor: 'center',       // Asegura que el texto esté dentro
+        align: 'center',        // Centra el texto en cada sección
+        formatter: (value) => value // Muestra los valores directamente
+      }
     }
+  },
+  plugins: [ChartDataLabels]
+});
 
-    }
-    }); 
+///////////////////////////////////////////////
 </script>
+<?=$jsonBarra?>
 <?php require_once APPPATH . 'Views/include/footer.php' ?>
