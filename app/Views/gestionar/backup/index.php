@@ -256,7 +256,7 @@
             success: function(result){
                 $("#tablaBackup").waitMe('hide');
                 if(result == 1){
-                    redireccionartres();
+                    alertify.success("El BACKUP se restauro Correctamente");
                 }else{
                     if(result == 2){
                         alertify.error("Ocurrio un error al subir la base de datos");
@@ -322,12 +322,6 @@
     function redireccionardos(url = false){
         alertify.success("Se generó la BACKUP Correctamente");
         setTimeout("location.reload()", 2500);
-    }
-
-    function redireccionartres(url = false){
-        alertify.success("El BACKUP se restauro Correctamente, saliendo del sistema");
-        var url = "salir";
-        window.setTimeout($(location).attr('href',url), 2500 );
     }
 </script>
 <?php require_once APPPATH . 'Views/include/footer.php' ?>

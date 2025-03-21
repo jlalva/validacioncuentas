@@ -109,6 +109,9 @@ $routes->get('backup', 'Backup::index');
 $routes->post('backup/generarBackup', 'Backup::generarBackup');
 $routes->post('backup/eliminar', 'Backup::eliminar');
 $routes->post('backup/restaurar', 'Backup::restaurar');
+//Exportar
+$routes->get('exportar', 'Exportar::index');
+$routes->post('exportar/filtrado', 'Exportar::filtrado');
 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';

@@ -118,8 +118,8 @@ class Generardata extends Controller
                             <tr class="headings">
                                 <th class="column-title" style="text-align: center;">ITEM</th>
                                 <th class="column-title" style="text-align: center;">CODIGO</th>
-                                <th class="column-title" style="text-align: center;">NOMBRE</th>
-                                <th class="column-title" style="text-align: center;">APELLIDO</th>
+                                <th class="column-title" style="text-align: center;">NOMBRES</th>
+                                <th class="column-title" style="text-align: center;">APELLIDOS</th>
                                 <th class="column-title" style="text-align: center;">DNI</th>
                                 <th class="column-title" style="text-align: center;">CELULAR</th>
                                 <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>';
@@ -191,23 +191,23 @@ class Generardata extends Controller
                 $nombres = strtoupper($nombres);
                 $apellido = strtoupper($apellido);
                     $html .="<tr>
-                                <td>".($i-1)."</td>
-                                <td>".$codigo."</td>
-                                <td>".$nombres."</td>
-                                <td>".$apellido."</td>
-                                <td>".$dni."</td>
-                                <td>".$celular."</td>
-                                <td>".$correop."</td>";
+                                <td style='text-align: center;'>".($i-1)."</td>
+                                <td style='text-align: center;'>".$codigo."</td>
+                                <td style='text-align: center;'>".$nombres."</td>
+                                <td style='text-align: center;'>".$apellido."</td>
+                                <td style='text-align: center;'>".$dni."</td>
+                                <td style='text-align: center;'>".$celular."</td>
+                                <td style='text-align: center;'>".$correop."</td>";
                                 if($tipopersona == 1){
-                                    $html .="<td>$unidad</td>";
+                                    $html .="<td style='text-align: center;'>$unidad</td>";
                                 }
                                 if($tipopersona == 2){
-                                    $html .="<td>$departamento</td>";
+                                    $html .="<td style='text-align: center;'>$departamento</td>";
                                 }
                                 if($tipopersona == 3){
-                                    $html .="<td>$facultad</td>
-                                        <td>$escuela</td>
-                                        <td>$sede</td>";
+                                    $html .="<td style='text-align: center;'>$facultad</td>
+                                        <td style='text-align: center;'>$escuela</td>
+                                        <td style='text-align: center;'>$sede</td>";
                                 }
                             $html .="</tr>";
                 }
@@ -249,7 +249,7 @@ class Generardata extends Controller
                 $html .="<th style='background:green'>CORREO INSTITUCIONAL</th>
                         <th style='background:green'>CONTRASEÑA</th>
                     </thead>
-                    <tbody>";
+                    <tbody style='text-align: center'>";
                 $items = $object->validarArchivo($arc_id);
                 $c = 0;
                 foreach($items as $row){
@@ -374,7 +374,7 @@ class Generardata extends Controller
                         }
                 $preview .= '</tr>
                         </thead>
-                        <tbody>';
+                        <tbody style="text-align: center;">';
             $c = 0;
             for($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
@@ -525,17 +525,18 @@ class Generardata extends Controller
                 $nombres = strtoupper($nombres_limpio);
                 $apellidos = strtoupper($apellido_limpio);
                 $html .= "<tr>
-                            <td>$c</td>
-                            <td>$nombres</td>
-                            <td>$apellidos</td>
-                            <td>$correo</td>
-                            <td>$clave</td>
-                            <td>$observacion</td>
+                            <td style='text-align: center;'>$c</td>
+                            <td style='text-align: center;'>$nombres</td>
+                            <td style='text-align: center;'>$apellidos</td>
+                            <td style='text-align: center;'>$correo</td>
+                            <td style='text-align: center;'>$clave</td>
+                            <td style='text-align: center;'>$observacion</td>
                           </tr>";
             }
             echo $html;
         }
     }
+
     public function guardararchivo(){
         $object = new datosModelo();
         $objectArc = new archivosModelo();
@@ -778,14 +779,14 @@ class Generardata extends Controller
                 foreach ($items as $row) {
                     $c++;
                     $fila++;
-                    $hoja->setCellValue("A$fila",utf8_decode($row->dat_codigo));
-                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_nombres));
-                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_apellidos));
-                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_nombres_completos));
-                    $hoja->setCellValue("E$fila",utf8_decode($row->dat_email));
-                    $hoja->setCellValue("F$fila",utf8_decode($row->dat_estado));
-                    $hoja->setCellValue("G$fila",utf8_decode($row->dat_ultimo_acceso));
-                    $hoja->setCellValue("H$fila",utf8_decode($row->dat_espacio_uso));
+                    $hoja->setCellValue("A$fila",$row->dat_codigo);
+                    $hoja->setCellValue("B$fila",$row->dat_nombres);
+                    $hoja->setCellValue("C$fila",$row->dat_apellidos);
+                    $hoja->setCellValue("D$fila",$row->dat_nombres_completos);
+                    $hoja->setCellValue("E$fila",$row->dat_email);
+                    $hoja->setCellValue("F$fila",$row->dat_estado);
+                    $hoja->setCellValue("G$fila",$row->dat_ultimo_acceso);
+                    $hoja->setCellValue("H$fila",$row->dat_espacio_uso);
                 }
                 header('Content-Type: application/vnd.ms-excel');
                 header('Content-Disposition: attachment;filename="Archivos Exportados.xls"');
@@ -818,7 +819,11 @@ class Generardata extends Controller
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);
         $tipopersona = $itemA->arc_tipo_persona;
-        $nombreArchivo  =  $itemA->arc_nombre;
+        $archivo = $itemA->arc_ruta;
+        $tempNombreA = explode('/',$archivo);
+        $ttt = count($tempNombreA) - 1;
+        $tempNombreA = $tempNombreA[$ttt];
+        $nombreArchivo  =  $tempNombreA;
         $nombreArchivo = explode('.',$nombreArchivo);
         $titulo = $nombreArchivo[0];
         $nombreArchivo = $nombreArchivo[0].'.pdf';
@@ -911,10 +916,10 @@ class Generardata extends Controller
                 $objPHPExcel->setActiveSheetIndex(0);
                 $hoja = $objPHPExcel->getActiveSheet();
                 $style = array(
-                    'font' => array('bold' => true),  // Hacer la letra en negrita
+                    'font' => array('bold' => true),
                     'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,  // Tipo de relleno sólido
-                        'startcolor' => array('rgb' => '008000'),  // Color de fondo (en este caso, verde)
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'startcolor' => array('rgb' => '008000'), 
                     ),
                     'borders' => [
                         'outline' => [
@@ -930,8 +935,8 @@ class Generardata extends Controller
                         'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
                     ],
                     'fill' => array(
-                        'type' => PHPExcel_Style_Fill::FILL_SOLID,  // Tipo de relleno sólido
-                        'startcolor' => array('rgb' => '0883F8'),  // Color de fondo (en este caso, Azul)
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'startcolor' => array('rgb' => '0883F8'),
                     ),
                     'font' => [
                         'color' => ['rgb' => 'FFFFFF'],
@@ -939,6 +944,34 @@ class Generardata extends Controller
                 ];
 
                 $style_borde = [
+                    'borders' => [
+                        'outline' => [
+                            'style' => PHPExcel_Style_Border::BORDER_THIN, 
+                            'color' => array('rgb' => '000000'), 
+                        ],
+                    ],
+                    'alignment' => [
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ],
+                ];
+
+                $style_borde_negrita = [
+                    'font' => array('bold' => true),
+                    'borders' => [
+                        'outline' => [
+                            'style' => PHPExcel_Style_Border::BORDER_THIN, 
+                            'color' => array('rgb' => '000000'), 
+                        ],
+                    ],
+                    'alignment' => [
+                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                        'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    ],
+                ];
+
+                $style_borde_titulo = [
+                    'font' => array('bold' => true,'size' => 14),
                     'borders' => [
                         'outline' => [
                             'style' => PHPExcel_Style_Border::BORDER_THIN, 
@@ -960,25 +993,26 @@ class Generardata extends Controller
                 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 
                 $hoja->mergeCells('C2:H2');
-                $hoja->getStyle("C2:H2")->applyFromArray($style_borde);
+                $hoja->getStyle("C2:H2")->applyFromArray($style_borde_titulo);
                 $hoja->setCellValue("C2",utf8_decode(razonsocial()));
                 $hoja->mergeCells('C4:H4');
-                $hoja->getStyle("C4:H4")->applyFromArray($style_borde);
+                $hoja->getStyle("C4:H4")->applyFromArray($style_borde_titulo);
 
                 $hoja->setCellValue("A7",utf8_encode('ITEM'));
-                $hoja->getStyle("A7")->applyFromArray($style_borde);
+                $hoja->getStyle("A7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("B7",utf8_decode('CODIGO'));
-                $hoja->getStyle("B7")->applyFromArray($style_borde);
+                $hoja->getStyle("B7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("C7",utf8_decode('DNI'));
-                $hoja->getStyle("C7")->applyFromArray($style_borde);
+                $hoja->getStyle("C7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("D7",utf8_decode('NOMBRES'));
-                $hoja->getStyle("D7")->applyFromArray($style_borde);
+                $hoja->getStyle("D7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("E7",utf8_decode('APELLIDOS'));
-                $hoja->getStyle("E7")->applyFromArray($style_borde);
+                $hoja->getStyle("E7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("F7",utf8_decode('CELULAR'));
-                $hoja->getStyle("F7")->applyFromArray($style_borde);
+                $hoja->getStyle("F7")->applyFromArray($style_borde_negrita);
                 $hoja->setCellValue("G7",utf8_decode('CORREO PERSONAL'));
-                $hoja->getStyle("G7")->applyFromArray($style_borde);
+                $hoja->getStyle("G7")->applyFromArray($style_borde_negrita);
+                $hoja->getStyle("C2")->applyFromArray($style_azul);
                 $hoja->getStyle("C4")->applyFromArray($style_azul);
                 if($tipopersona == 1){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmY').'_'.date('Hi');
@@ -986,19 +1020,19 @@ class Generardata extends Controller
                     $hoja->getStyle("I7:J7")->applyFromArray($style);
                     $hoja->getStyle("I7:J7")->applyFromArray($style_borde);
                     $hoja->setCellValue("I2",'SISTEMA');
-                    $hoja->getStyle("I2")->applyFromArray($style_borde);
+                    $hoja->getStyle("I2")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I3",'FECHA/HORA');
-                    $hoja->getStyle("I3")->applyFromArray($style_borde);
+                    $hoja->getStyle("I3")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("J2", 'GENERADOR DE CUENTAS');
                     $hoja->getStyle("J2")->applyFromArray($style_borde);
                     $hoja->setCellValue("J3",date('d-m-Y H:i '));
                     $hoja->getStyle("J3")->applyFromArray($style_borde);
                     $hoja->setCellValue("H7",utf8_decode('UNIDAD/OFICINA'));
-                    $hoja->getStyle("H7")->applyFromArray($style_borde);
+                    $hoja->getStyle("H7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->getStyle("I7")->applyFromArray($style_borde);
+                    $hoja->getStyle("I7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
-                    $hoja->getStyle("J7")->applyFromArray($style_borde);
+                    $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                 }
                 if($tipopersona == 2){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmY').'_'.date('Hi');
@@ -1006,19 +1040,19 @@ class Generardata extends Controller
                     $hoja->getStyle("I7:J7")->applyFromArray($style);
                     $hoja->getStyle("I7:J7")->applyFromArray($style_borde);
                     $hoja->setCellValue("I2",'SISTEMA');
-                    $hoja->getStyle("I2")->applyFromArray($style_borde);
+                    $hoja->getStyle("I2")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I3",'FECHA/HORA');
-                    $hoja->getStyle("I3")->applyFromArray($style_borde);
+                    $hoja->getStyle("I3")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("J2", 'GENERADOR DE CUENTAS');
                     $hoja->getStyle("J2")->applyFromArray($style_borde);
                     $hoja->setCellValue("J3",date('d-m-Y H:i '));
                     $hoja->getStyle("J3")->applyFromArray($style_borde);
                     $hoja->setCellValue("H7",utf8_decode('DEPARTAMENTO'));
-                    $hoja->getStyle("H7")->applyFromArray($style_borde);
+                    $hoja->getStyle("H7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->getStyle("I7")->applyFromArray($style_borde);
+                    $hoja->getStyle("I7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
-                    $hoja->getStyle("J7")->applyFromArray($style_borde);
+                    $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                 }
                 if($tipopersona == 3){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmY').'_'.date('Hi');
@@ -1026,23 +1060,23 @@ class Generardata extends Controller
                     $hoja->getStyle("K7:L7")->applyFromArray($style);
                     $hoja->getStyle("K7:L7")->applyFromArray($style_borde);
                     $hoja->setCellValue("K2",'SISTEMA');
-                    $hoja->getStyle("K2")->applyFromArray($style_borde);
+                    $hoja->getStyle("K2")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("K3",'FECHA/HORA');
-                    $hoja->getStyle("K3")->applyFromArray($style_borde);
+                    $hoja->getStyle("K3")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("L2", 'GENERADOR DE CUENTAS');
                     $hoja->getStyle("L2")->applyFromArray($style_borde);
                     $hoja->setCellValue("L3",date('d-m-Y H:i '));
                     $hoja->getStyle("L3")->applyFromArray($style_borde);
                     $hoja->setCellValue("H7",utf8_decode('FACULTAD'));
-                    $hoja->getStyle("H7")->applyFromArray($style_borde);
+                    $hoja->getStyle("H7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I7",utf8_decode('ESCUELA'));
-                    $hoja->getStyle("I7")->applyFromArray($style_borde);
+                    $hoja->getStyle("I7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("J7",utf8_decode('SEDE'));
-                    $hoja->getStyle("J7")->applyFromArray($style_borde);
+                    $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("K7",utf8_decode('CORREO INSTITUCIONAL'));
-                    $hoja->getStyle("K7")->applyFromArray($style_borde);
+                    $hoja->getStyle("K7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("L7",utf8_decode('CONTRASENIA'));
-                    $hoja->getStyle("L7")->applyFromArray($style_borde);
+                    $hoja->getStyle("L7")->applyFromArray($style_borde_negrita);
                 }
                 $items = $object->validarArchivo($arc_id);
                 $c = 0;
@@ -1052,43 +1086,43 @@ class Generardata extends Controller
                     $fila++;
                     $hoja->setCellValue("A$fila",$c);
                     $hoja->getStyle("A$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_codigo));
+                    $hoja->setCellValue("B$fila",$row->dat_codigo);
                     $hoja->getStyle("B$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_dni));
+                    $hoja->setCellValue("C$fila",$row->dat_dni);
                     $hoja->getStyle("C$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_nombres));
+                    $hoja->setCellValue("D$fila",$row->dat_nombres);
                     $hoja->getStyle("D$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("E$fila",utf8_decode($row->dat_apellidos));
+                    $hoja->setCellValue("E$fila",$row->dat_apellidos);
                     $hoja->getStyle("E$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("F$fila",utf8_decode($row->dat_celular));
+                    $hoja->setCellValue("F$fila",$row->dat_celular);
                     $hoja->getStyle("F$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("G$fila",utf8_decode($row->dat_correo_personal));
+                    $hoja->setCellValue("G$fila",$row->dat_correo_personal);
                     $hoja->getStyle("G$fila")->applyFromArray($style_borde);
                     if($tipopersona == 1){
                         $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_unidad, $quitarTildes)));
+                        $hoja->setCellValue("H$fila",strtr($row->dat_unidad, $quitarTildes));
                         $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",utf8_decode($row->dat_email));
+                        $hoja->setCellValue("I$fila",$row->dat_email);
                         $hoja->getStyle("I$fila")->applyFromArray($style_borde);
                         $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
                         $hoja->getStyle("J$fila")->applyFromArray($style_borde);
                     }
                     if($tipopersona == 2){
                         $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_departamento, $quitarTildes)));
+                        $hoja->setCellValue("H$fila",strtr($row->dat_departamento, $quitarTildes));
                         $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",utf8_decode($row->dat_email));
+                        $hoja->setCellValue("I$fila",$row->dat_email);
                         $hoja->getStyle("I$fila")->applyFromArray($style_borde);
                         $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
                         $hoja->getStyle("J$fila")->applyFromArray($style_borde);
                     }
                     if($tipopersona == 3){
                         $hoja->getStyle("K$fila:L$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",utf8_decode(strtr($row->dat_facultad, $quitarTildes)));
+                        $hoja->setCellValue("H$fila",strtr($row->dat_facultad, $quitarTildes));
                         $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",utf8_decode($row->dat_escuela));
+                        $hoja->setCellValue("I$fila",$row->dat_escuela);
                         $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",utf8_decode($row->dat_sede));
+                        $hoja->setCellValue("J$fila",$row->dat_sede);
                         $hoja->getStyle("J$fila")->applyFromArray($style_borde);
                         $hoja->setCellValue("K$fila",utf8_decode($row->dat_email));
                         $hoja->getStyle("K$fila")->applyFromArray($style_borde);
@@ -1099,22 +1133,22 @@ class Generardata extends Controller
                 $fila = $fila + 2;
                 switch($tipopersona){
                     case 1:
-                        $hoja->setCellValue("I$fila",'USUARIO');
-                        $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))));
-                        $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("I4",'USUARIO');
+                        $hoja->getStyle("I4")->applyFromArray($style_borde_negrita);
+                        $hoja->setCellValue("J4",strtoupper(session('nombres').' '.session('apellidos')));
+                        $hoja->getStyle("J4")->applyFromArray($style_borde);
                         break;
                     case 2:
-                        $hoja->setCellValue("I$fila",'USUARIO');
-                        $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))));
-                        $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("I4",'USUARIO');
+                        $hoja->getStyle("I4")->applyFromArray($style_borde_negrita);
+                        $hoja->setCellValue("J4",strtoupper(session('nombres').' '.session('apellidos')));
+                        $hoja->getStyle("J4")->applyFromArray($style_borde);
                         break;
                     case 3:
-                        $hoja->setCellValue("K$fila",'USUARIO');
-                        $hoja->getStyle("K$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("L$fila",utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))));
-                        $hoja->getStyle("L$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("K4",'USUARIO');
+                        $hoja->getStyle("K4")->applyFromArray($style_borde_negrita);
+                        $hoja->setCellValue("L4",strtoupper(session('nombres').' '.session('apellidos')));
+                        $hoja->getStyle("L4")->applyFromArray($style_borde);
                         break;
                 }
                 $hoja->getColumnDimension('A')->setAutoSize(true);
@@ -1148,11 +1182,6 @@ class Generardata extends Controller
     {
         if(session('authenticated') && accede()){
             if(bloqueado()){
-                $quitarTildes = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                                'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                                'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                                'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                                'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
                 require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
                 $object = new datosModelo();
                 $objectA = new archivosModelo();
@@ -1171,12 +1200,12 @@ class Generardata extends Controller
                 $fila = 1;
                 foreach($items as $row){
                     $fila++;
-                    $hoja->setCellValue("A$fila",utf8_decode($row->dat_nombres));
-                    $hoja->setCellValue("B$fila",utf8_decode($row->dat_apellidos));
-                    $hoja->setCellValue("C$fila",utf8_decode($row->dat_email));
-                    $hoja->setCellValue("D$fila",utf8_decode($row->dat_clave));
+                    $hoja->setCellValue("A$fila",$row->dat_nombres);
+                    $hoja->setCellValue("B$fila",$row->dat_apellidos);
+                    $hoja->setCellValue("C$fila",$row->dat_email);
+                    $hoja->setCellValue("D$fila",$row->dat_clave);
                     $hoja->setCellValue("E$fila",'/');
-                    $hoja->setCellValue("F$fila",utf8_decode($row->dat_correo_personal));
+                    $hoja->setCellValue("F$fila",$row->dat_correo_personal);
                 }
                 if($tipopersona == 1){
                     $nombreArchivo = 'Nuevos_CorreoInst_Tipo_Administrativo_'.date('dmY').'_'.date('Hi');
@@ -1206,14 +1235,6 @@ class Generardata extends Controller
     {
         if (session('authenticated') && accede()) {
             if (bloqueado()) {
-                $quitarTildes = array(
-                    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C',
-                    'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
-                    'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a',
-                    'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i',
-                    'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u',
-                    'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y'
-                );
                 $object   = new datosModelo();
                 $objectA  = new archivosModelo();
                 $itemA    = $objectA->archivo($arc_id);
@@ -1245,12 +1266,12 @@ class Generardata extends Controller
                 ));
                 foreach ($items as $row) {
                     fputcsv($output, array(
-                        utf8_decode($row->dat_nombres),
-                        utf8_decode($row->dat_apellidos),
-                        utf8_decode($row->dat_email),
-                        utf8_decode($row->dat_clave),
+                        $row->dat_nombres,
+                        $row->dat_apellidos,
+                        $row->dat_email,
+                        $row->dat_clave,
                         '/',
-                        utf8_decode($row->dat_correo_personal)
+                        $row->dat_correo_personal
                     ));
                 }
                 fclose($output);
@@ -1269,7 +1290,10 @@ class Generardata extends Controller
                 $item = $object->archivo($arc_id);
                 $archivo = $item->arc_ruta;
                 $tipopersona = $item->arc_tipo_persona;
-                $nombreArchivo  =  $item->arc_nombre;
+                $tempNombreA = explode('/',$archivo);
+                $ttt = count($tempNombreA) - 1;
+                $tempNombreA = $tempNombreA[$ttt];
+                $nombreArchivo  =  $tempNombreA;
                 $nombreArchivo = explode('.',$nombreArchivo);
                 $titulo = $nombreArchivo[0];
                 $nombreArchivo = $nombreArchivo[0].'.pdf';

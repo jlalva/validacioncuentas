@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-03-2025 a las 23:49:59
+-- Tiempo de generación: 21-03-2025 a las 11:02:51
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -53,7 +53,8 @@ INSERT INTO `archivos` (`arc_id`, `arc_nombre`, `arc_ruta`, `arc_total`, `arc_su
 (2, 'VALIDAR_Nuevos_ESTUDIANTE.xlsx', NULL, 0, 0, 1, '2025-03-15 18:29:03', 2, 1, 3, 1, NULL, NULL, 2),
 (3, 'VALIDAR_Nuevos_ESTUDIANTE.xlsx', 'public/empresas/EMPRESA PARA PRUEBA DATOS/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/2025/03-Marzo/g_Estudiante_20250315_183245.xlsx', 94, 94, 1, '2025-03-15 18:32:46', 2, 1, 3, 1, NULL, '00:00:00', 2),
 (4, 'Docentes.xlsx', 'public/empresas/UNIVERSIDAD NACIONAL DE INGENIERIA/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/2025/03-Marzo/g_Docente_20250316_110059.xlsx', 3, 3, 1, '2025-03-16 11:00:59', 2, 1, 2, 1, NULL, '00:00:00', 1),
-(5, 'Administrativos.xlsx', 'public/empresas/UNIVERSIDAD NACIONAL DE INGENIERIA/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/2025/03-Marzo/g_Administrativo_20250316_154117.xlsx', 3, 3, 1, '2025-03-16 15:41:17', 2, 1, 1, 1, NULL, '00:00:00', 1);
+(5, 'Administrativos.xlsx', 'public/empresas/UNIVERSIDAD NACIONAL DE INGENIERIA/archivos/FUENTE_DATOS_NUEVAS_CUENTAS/2025/03-Marzo/g_Administrativo_20250316_154117.xlsx', 3, 3, 1, '2025-03-16 15:41:17', 2, 1, 1, 1, NULL, '00:00:00', 1),
+(6, 'SUBIR_26_01_25 - copia (2) - copia.xlsx', 'public/empresas/UNIVERSIDAD NACIONAL DE INGENIERIA/archivos/CUENTAS_EXISTENTES_GSUITE/2025/03-Marzo/ws_20250320_042028.xlsx', 4, 4, 1, '2025-03-20 04:20:28', 1, 1, NULL, 1, 'gdfdgd', '00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,8 @@ INSERT INTO `backup` (`bac_id`, `bac_nombre`, `bac_tamanio`, `bac_fecha`, `bac_u
 (1, 'bk_20250303_191650.sql', '12.3 MB', NULL, 1, 0, 1),
 (2, 'bk_20250309_052008.sql', '12.31 MB', NULL, 1, 0, 1),
 (3, 'bk_20250309_052118.sql', '12.31 MB', '2025-03-09 05:21:18', 1, 0, 1),
-(4, 'bk_20250315_184142.sql', '167.91 KB', '2025-03-15 18:41:42', 1, 2, 1);
+(4, 'bk_20250315_184142.sql', '167.91 KB', '2025-03-15 18:41:42', 1, 2, 1),
+(5, 'bk_20250319_050109.sql', '170.09 KB', '2025-03-19 05:01:09', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -313,7 +315,11 @@ INSERT INTO `datos` (`dat_id`, `dat_nombres`, `dat_apellidos`, `dat_nombres_comp
 (191, 'TANIA ELVIRA', 'CACHO ORE', 'TANIA ELVIRA CACHO ORE', 'tecachoo@google.com', 'ACTIVO', '2025-03-16 11:00:59', '0GB', '20536', '17665433', '942335442', 'tcacho@gmail.com', NULL, NULL, NULL, NULL, 'EDUCACION', 2, 4, '2025-03-16 11:00:59', 1, 1, 'Tc20536*@', 1),
 (192, 'EDGAR JESUS', 'DEUX DIAZ', 'EDGAR JESUS DEUX DIAZ', 'ejdeuxd@google.com', 'ACTIVO', '2025-03-16 15:41:17', '0GB', 'C945', '18544545', '945444221', 'edeux@gmail.com', NULL, NULL, NULL, 'IMAGEN INSTITUCIONAL', NULL, 2, 5, '2025-03-16 15:41:17', 1, 1, 'EdC945*@', 1),
 (193, 'KEVIN KASS', 'MORENO MONTILLA', 'KEVIN KASS MORENO MONTILLA', 'kkmorenom@google.com', 'ACTIVO', '2025-03-16 15:41:17', '0GB', 'A123', '14544432', '955634342', 'kmoreno@gmail.com', NULL, NULL, NULL, 'LOGISTICA', NULL, 2, 5, '2025-03-16 15:41:17', 1, 1, 'KmA123*@', 1),
-(194, 'TERESA TANIA', 'TRIGOSO ALFARO', 'TERESA TANIA TRIGOSO ALFARO', 'tttrigosoa@google.com', 'ACTIVO', '2025-03-16 15:41:17', '0GB', 'B234', '54423222', '955344342', 'ttrigosoa@gmail.com', NULL, NULL, NULL, 'ALMACEN', NULL, 2, 5, '2025-03-16 15:41:17', 1, 1, 'TtB234*@', 1);
+(194, 'TERESA TANIA', 'TRIGOSO ALFARO', 'TERESA TANIA TRIGOSO ALFARO', 'tttrigosoa@google.com', 'ACTIVO', '2025-03-16 15:41:17', '0GB', 'B234', '54423222', '955344342', 'ttrigosoa@gmail.com', NULL, NULL, NULL, 'ALMACEN', NULL, 2, 5, '2025-03-16 15:41:17', 1, 1, 'TtB234*@', 1),
+(195, 'MARIA LISSET', 'OCAÑA', 'MARIA LISSET OCAÑA', 'algalvez@minegocio.com', 'ACTIVE', '25/05/2023 18:11:12', '7.24GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2025-03-20 04:20:28', 1, 1, NULL, 1),
+(196, 'ANA CAROLINA', 'UBILLUS PONCE', 'ANA CAROLINA UBILLUS PONCE', 'aubillus@minegocio.com', 'ACTIVE', '20/12/2024 17:46:20', '11.46GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2025-03-20 04:20:28', 1, 1, NULL, 1),
+(197, 'MERCEDES VALERIA', 'ARQUEROS GONZALES', 'MERCEDES VALERIA ARQUEROS GONZALES', 'darqueros@minegocio.com', 'ACTIVE', '02/01/2025 08:30:34', '14.85GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2025-03-20 04:20:28', 1, 1, NULL, 1),
+(198, 'KARLA JHOANA', 'RODRIGUEZ PONCE', 'KARLA JHOANA RODRIGUEZ PONCE', 'djrodriguez@minegocio.com', 'ACTIVE', '01/01/2025 13:38:47', '1.27GB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 6, '2025-03-20 04:20:28', 1, 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -408,7 +414,7 @@ INSERT INTO `menu` (`men_id`, `men_nombre`, `men_descripcion`, `men_url`, `men_p
 (5, 'Módulo', 'Control de menús', 'modulo', 2, '', 3, 1),
 (6, 'Mantenedor', 'Módulo de mantenimiento', '#', 1, 'bx bx-cog', 2, 1),
 (7, 'Datos', 'Módulo de registro y validación  de cuentas', '#', 1, 'bx bx-book-content', 2, 1),
-(8, 'Generar data', 'Módulo de exportación de datos', 'generardata', 7, '', 4, 1),
+(8, 'Generar data', 'Módulo de exportación de datos', 'generardata', 7, '', 2, 1),
 (11, 'Roles', 'Creación y listado de roles y control de accesos', 'roles', 2, '', 2, 1),
 (13, 'Usuarios', 'Módulo de creación y listado de usuarios', 'usuarios', 2, '', 1, 1),
 (23, 'Configuración', '', '#', 1, 'bx bx-cog', 100, 1),
@@ -418,7 +424,8 @@ INSERT INTO `menu` (`men_id`, `men_nombre`, `men_descripcion`, `men_url`, `men_p
 (39, 'Backup', '', 'backup', 23, '', 1, 1),
 (41, 'Tipo Persona', '', 'tipopersona', 6, '', 2, 1),
 (42, 'Dominio', '', 'dominio', 6, '', 3, 1),
-(43, 'Peyorativos', '', 'peyorativos', 6, '', 3, 1);
+(43, 'Peyorativos', '', 'peyorativos', 6, '', 3, 1),
+(44, 'Exportar', 'Módulo de exportación de archivos', 'exportar', 7, '', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -491,7 +498,8 @@ INSERT INTO `permiso` (`pso_id`, `pso_rol_id`, `pso_men_id`, `pso_estado`, `pso_
 (81, 1, 41, 1, 1, 1, 1, 1),
 (82, 1, 42, 1, 1, 1, 1, 1),
 (83, 1, 43, 1, 1, 1, 1, 1),
-(86, 1, 39, 1, 1, 1, 1, 1);
+(86, 1, 39, 1, 1, 1, 1, 1),
+(87, 1, 44, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2535,19 +2543,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `archivos`
 --
 ALTER TABLE `archivos`
-  MODIFY `arc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `arc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `backup`
 --
 ALTER TABLE `backup`
-  MODIFY `bac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `bac_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `datos`
 --
 ALTER TABLE `datos`
-  MODIFY `dat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `dat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT de la tabla `dominio`
@@ -2565,13 +2573,13 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `men_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `men_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `permiso`
 --
 ALTER TABLE `permiso`
-  MODIFY `pso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `pso_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `peyorativo`

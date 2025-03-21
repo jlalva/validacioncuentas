@@ -1,11 +1,5 @@
 <?php
 
-use App\Models\encuestaModelo;
-use App\Models\matriculaModelo;
-use App\Models\periodoModelo;
-use App\Models\personaModelo;
-use App\Models\secretariaModelo;
-
 require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
 
     function encriptar($texto){

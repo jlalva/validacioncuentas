@@ -51,7 +51,7 @@
                     <div>
                         <p class="mb-0 text-white">ARCHIVOS PROCESADOS</p>
                         <h4 class="my-1 text-white"><?=$tcuentas?></h4>
-                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('generardata')?>" style="color: #fff;">Ver cuentas creadas</a></p>
+                        <p class="mb-0 font-13 text-white"><a href="<?=base_url('generardata')?>" style="color: #fff;">Ver archivos procesados</a></p>
                     </div>
                     <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class='lni lni-envelope'></i></div>
                 </div>

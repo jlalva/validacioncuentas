@@ -6,10 +6,8 @@
                 <div class="col-md-10">
                     <h6 class="mb-0 text-uppercase">Editar Usuario</h6>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2" style="text-align: right;">
                     <a href="<?=$app->baseURL?>usuarios" class="btn btn-warning btn-sm" style="color: #000;"><i class="fa fa-remove"></i> Cancelar</a>
-                </div>
-                <div class="col-md-1">
                     <?php if(editar()){?>
                         <button class="btn btn-success btn-sm" type="submit" id="guardar"><i class="fa fa-edit"></i> Editar</button>
                     <?php }?>
@@ -62,14 +60,14 @@
                     </div>
                     <div class="col-md-3 col-sm-3">
                         <label>Clave</label>
-                        <?php if (in_array(session('idrol'), [1, 2])){?>
-                            <div class="col-md-12 col-sm-12 form-group has-feedback" id="show_hide_password">
-                                <input type="password" class="form-control" id="clave" name="clave" autocomplete="off" value="<?=desencriptar($item->usu_clave)?>">
-                                <span class="fa fa-eye-slash form-control-feedback right icono" aria-hidden="true"  style="cursor: pointer;"></span>
+                        <?php if (in_array(session('idrol'), [1, 2])) { ?>
+                            <div class="col-md-12 col-sm-12 form-group has-feedback position-relative" id="show_hide_password">
+                                <input type="password" class="form-control" id="clave" name="clave" autocomplete="off" value="<?= desencriptar($item->usu_clave) ?>">
+                                <span class="bx bx-low-vision icono" aria-hidden="true" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);" onclick="togglePassword()"></span>
                             </div>
-                        <?php }else{?>
-                            <input type="password" class="form-control" id="clave" readonly="readonly" name="clave" autocomplete="off" value="<?=desencriptar($item->usu_clave)?>">
-                        <?php }?>
+                        <?php } else { ?>
+                            <input type="password" class="form-control" id="clave" readonly="readonly" name="clave" autocomplete="off" value="<?= desencriptar($item->usu_clave) ?>">
+                        <?php } ?>
                     </div>
                     <div class="col-md-2 col-sm-2">
                         <label>Estado</label>

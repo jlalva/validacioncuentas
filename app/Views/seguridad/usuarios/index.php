@@ -30,7 +30,7 @@
                     <?php
                         $c = 0;
                         foreach($usuarios as $row){ $c++;?>
-                        <tr class="even pointer" style="font-size: 12px;">
+                        <tr class="even pointer">
                             <td style="text-align: center;"><?=$c?></td>
                             <td style="text-align: center;"><?=$row->usu_apellido?></td>
                             <td style="text-align: center;"><?=$row->usu_nombre?></td>

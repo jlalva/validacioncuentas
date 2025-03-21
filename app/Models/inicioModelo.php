@@ -21,8 +21,8 @@ class inicioModelo extends Model{
         return $query->getRow();
     }
 
-    public function totalcuentas($emp_id){
-        $query = $this->query("SELECT COUNT(*) as total FROM datos WHERE dat_origen=2 AND dat_emp_id = $emp_id");
+    public function totalarchivos($emp_id){
+        $query = $this->query("SELECT COUNT(*) as total FROM archivos WHERE arc_origen=2 AND arc_emp_id = $emp_id");
         return $query->getRow();
     }
 

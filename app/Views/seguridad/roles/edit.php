@@ -18,10 +18,8 @@
                     <div class="col-md-10">
                         <h6 class="mb-0 text-uppercase">Agregar rol</h6>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2" style="text-align: right;">
                         <a href="<?=$app->baseURL?>roles" class="btn btn-warning btn-sm" style="color: #000;"><i class="fa fa-remove"></i> Cancelar</a>
-                    </div>
-                    <div class="col-md-1">
                         <?php if (editar()) { ?>
                             <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-edit"></i> Editar</button>
                         <?php } ?>

@@ -20,7 +20,7 @@ class Inicio extends Controller
             $totalU = $respobjectU->total;
             $respobjectR = $objectI->totalroles();
             $totalR = $respobjectR->total;
-            $respobjectC = $objectI->totalcuentas($emp_id);
+            $respobjectC = $objectI->totalarchivos($emp_id);
             $totalC = $respobjectC->total;
             $respobjectUxR = $objectI->usurioxrol();
             $labeltorta = '';

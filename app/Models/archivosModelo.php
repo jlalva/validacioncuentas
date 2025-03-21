@@ -17,6 +17,31 @@ class archivosModelo extends Model{
         return $query->getResult();
     }
 
+    public function todo($emp_id){
+        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,usu_apellido,arc_fecha_reg, arc_tiempo, arc_origen
+        FROM archivos arc
+        INNER JOIN usuario usu ON usu.usu_id = arc.arc_usu_id
+        WHERE arc_subido > 0 AND arc_emp_id = $emp_id
+        ORDER BY arc_id DESC");
+        return $query->getResult();
+    }
+
+    public function filtrado($emp_id,$tipo,$fecha_inicio,$fecha_fin){
+        $and = '';
+        if($tipo > 0){
+            $and .=" AND arc_origen = $tipo";
+        }
+        if($fecha_inicio !='' && $fecha_fin != ''){
+            $and .=" AND DATE_FORMAT(arc_fecha_reg, '%Y-%m-%d') BETWEEN '$fecha_inicio' AND '$fecha_fin'";
+        }
+        $query = $this->query("SELECT arc_id,arc_nombre,arc_ruta,arc_total,arc_subido,usu_nombre,usu_apellido,arc_fecha_reg, arc_tiempo, arc_origen
+        FROM archivos arc
+        INNER JOIN usuario usu ON usu.usu_id = arc.arc_usu_id
+        WHERE arc_subido > 0 AND arc_emp_id = $emp_id $and
+        ORDER BY arc_id DESC");
+        return $query->getResult();
+    }
+
     public function archivo($id){
         $query = $this->query("SELECT *
         FROM archivos arc
