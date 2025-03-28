@@ -74,10 +74,12 @@ $app = new App();
 					<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
 					</div>
 					<div class="top-menu ms-auto">
+						<b style="font-size: 20px;">
 						<?php
 							$empresaActiva = empresaActiva();
 							echo $empresaActiva->emp_razonsocial;
 						?>
+						</b>
 					</div>
                     <div class="top-menu ms-auto">
 						<ul class="navbar-nav align-items-center">

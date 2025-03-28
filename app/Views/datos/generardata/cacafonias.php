@@ -27,10 +27,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row g-0">
                     <div class="col-md-6">
                         <div class="form-check">
-                            <label>Correo Generado</label>
+                            <label>Usuario</label>
                             <input class="form-control" name="correogenerado" id="correogenerado" oninput="this.value = this.value.toLowerCase()">
                             <input type="hidden" id="iddato" name="iddato">
                         </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-6">
                         <div class="form-check">
                             <label>Dominio</label>
-                            <input class="form-control" name="dominio" id="dominio" oninput="this.value = this.value.toLowerCase()" readonly="readonly">
+                            <input class="form-control bg-light" name="dominio" id="dominio" oninput="this.value = this.value.toLowerCase()" readonly="readonly">
                         </div>
                     </div>
                 </div>

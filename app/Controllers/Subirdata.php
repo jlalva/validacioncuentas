@@ -50,7 +50,6 @@ class Subirdata extends Controller
             }
             $idempresa = empresaActiva();
             $emp_id = $idempresa->emp_id;
-
             $ruta = $item->arc_ruta;
             $html = "";
             $nombresRegistrados = array_column($objectD->listarNombres($emp_id), 'dat_nombres_completos');

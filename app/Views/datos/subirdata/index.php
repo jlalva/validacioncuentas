@@ -52,7 +52,7 @@
                                                     <tr>
                                                         <td><?=$c?></td>
                                                         <td><?=$row->arc_nombre?></td>
-                                                        <td><?=$row->arc_ruta?></td>
+                                                        <td><?=strtolower(substr($row->arc_ruta, 16))?></td>
                                                         <td><?=$row->arc_total?></td>
                                                         <td><?=$row->arc_subido?></td>
                                                         <td><?=$row->usu_nombre.' '.$row->usu_apellido?></td>

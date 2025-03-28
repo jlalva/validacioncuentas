@@ -13,6 +13,10 @@
     }
 
     .drop-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         border: 2px dashed #ccc;
         border-radius: 10px;
         padding: 20px;
@@ -21,7 +25,8 @@
         color: #333;
         background: #f8f8f8;
         cursor: pointer;
-        width: 300px;
+        width: 500px;
+        height: 250px;
         margin: auto;
         transition: background 0.3s ease;
         position: relative;
@@ -142,28 +147,27 @@
                                 <div class="card-body">
                                     <?php if(agregar()){?>
                                         <div class="container">
-                                            <span class="label">SUBIR ARCHIVO *</span>
-                                            <div class="drop-area" id="dropArea">
-                                                <p id="dropText">Hacer clic o arrastrar un archivo aquí</p>
-                                                <div id="previewContainer" class="hidden preview-container">
-                                                    <i class="fa fa-database preview-icon"></i>
-                                                    <span id="fileName" class="file-name"></span>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <span class="label">SUBIR ARCHIVO *</span>
+                                                    <div class="drop-area" id="dropArea">
+                                                        <p id="dropText">Hacer clic o arrastrar un archivo aquí</p>
+                                                        <div id="previewContainer" class="hidden preview-container">
+                                                            <i class="fa fa-database preview-icon"></i>
+                                                            <span id="fileName" class="file-name"></span>
+                                                        </div>
+                                                    </div>
+
+                                                    <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
+                                                        <input type="file" id="fileInput" class="hidden" accept=".sql">
+                                                    </form>
+
+                                                    <button class="btn btn-danger btn-sm confirmaR hidden" onclick="confirmarRestaurar()">
+                                                        <i class="fa fa-warning"></i> Iniciar Restauración
+                                                    </button>
                                                 </div>
                                             </div>
-
-                                            <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
-                                                <input type="file" id="fileInput" class="hidden" accept=".sql">
-                                            </form>
-
-                                            <button class="btn btn-danger btn-sm confirmaR hidden" onclick="confirmarRestaurar()">
-                                                <i class="fa fa-warning"></i> Iniciar Restauración
-                                            </button>
                                         </div>
-                                        <!--<button class="btn btn-warning btn-sm" style="color: #000;" onclick="abrirExplorador()"><i class="fa fa-warning"></i> Restaurar Backup</button>
-                                        <button class="btn btn-danger btn-sm confirmaR" style="color: #000;display:none" onclick="confirmarRestaurar()"><i class="fa fa-warning"></i> Iniciar Restauración</button>
-                                        <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
-                                            <input type="file" id="fileInput" style="display:none;" onchange="muestraConfirma()" accept=".sql">
-                                        </form>-->
                                     <?php }?>
                                 </div>
                             </div>
@@ -257,6 +261,7 @@
                 $("#tablaBackup").waitMe('hide');
                 if(result == 1){
                     alertify.success("El BACKUP se restauro Correctamente");
+                    location.reload();
                 }else{
                     if(result == 2){
                         alertify.error("Ocurrio un error al subir la base de datos");

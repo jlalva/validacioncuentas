@@ -356,8 +356,8 @@ class Generardata extends Controller
                             <tr class="headings">
                                 <th class="column-title" style="text-align: center;">ITEM</th>
                                 <th class="column-title" style="text-align: center;">CODIGO</th>
-                                <th class="column-title" style="text-align: center;">NOMBRE</th>
-                                <th class="column-title" style="text-align: center;">APELLIDO</th>
+                                <th class="column-title" style="text-align: center;">NOMBRES</th>
+                                <th class="column-title" style="text-align: center;">APELLIDOS</th>
                                 <th class="column-title" style="text-align: center;">DNI</th>
                                 <th class="column-title" style="text-align: center;">CELULAR</th>
                                 <th class="column-title" style="text-align: center;">CORREO PERSONAL</th>';
@@ -521,6 +521,17 @@ class Generardata extends Controller
                         case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;break;
                         case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio;break;
                     }
+                }else{
+                    switch($generarcon){
+                        case 1:$correo = generarCorreo(trim($nombres_correo), trim($apellido_correo)) . $dominio;
+                            if (isset($correosBD[$correo])) {
+                                $correo = generarCorreo2(trim($nombres_correo), trim($apellido_correo)) . $dominio;
+                            }
+                            break;
+                        case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;break;
+                        case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio;break;
+                    }
+                    $correo .='('.$nombresBD[$nombrecompleto].')';
                 }
                 $nombres = strtoupper($nombres_limpio);
                 $apellidos = strtoupper($apellido_limpio);
@@ -660,23 +671,22 @@ class Generardata extends Controller
                                     //$val = $object->validarCorreo($correo);
                                     if (isset($correosBD[$correo])) {
                                         $correo = generarCorreo2(trim($nombres_correo),trim($apellido_correo)).$dominio;
-                                    }else{
-                                        if (validar_correo($correo)){
-                                            if($tipopersona == 1){
-                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
-                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
-                                            }
-                                            if($tipopersona == 2){
-                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
-                                                '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
-                                            }
-                                            if($tipopersona == 3){
-                                                $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
-                                                '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
-                                            }
-                                        }else{
-                                            $invalido++;
+                                    }
+                                    if (validar_correo($correo)){
+                                        if($tipopersona == 1){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$unidad',
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
                                         }
+                                        if($tipopersona == 2){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$departamento',
+                                            '$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
+                                        }
+                                        if($tipopersona == 3){
+                                            $datos .="('$codigo','$dni','$nombres_limpio','$apellido_limpio','$completo','$correo','$celular','$correopersonal','$facultad','$escuela',
+                                            '$sede','$clave','ACTIVO','".date('Y-m-d H:i:s')."','0GB',2,$arc_id,".session('idusuario').",$emp_id),";
+                                        }
+                                    }else{
+                                        $invalido++;
                                     }
                                 break;
                             case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;
@@ -819,14 +829,15 @@ class Generardata extends Controller
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);
         $tipopersona = $itemA->arc_tipo_persona;
-        $archivo = $itemA->arc_ruta;
-        $tempNombreA = explode('/',$archivo);
-        $ttt = count($tempNombreA) - 1;
-        $tempNombreA = $tempNombreA[$ttt];
-        $nombreArchivo  =  $tempNombreA;
-        $nombreArchivo = explode('.',$nombreArchivo);
-        $titulo = $nombreArchivo[0];
-        $nombreArchivo = $nombreArchivo[0].'.pdf';
+        if($tipopersona == 1){
+            $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmY').'_'.date('Hi');
+        }
+        if($tipopersona == 2){
+            $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmY').'_'.date('Hi');
+        }
+        if($tipopersona == 3){
+            $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmY').'_'.date('Hi');
+        }
         $pdf = new PDF();
         $pdf->AddPage('L');
         $pdf->AliasNbPages();
@@ -862,8 +873,9 @@ class Generardata extends Controller
             $pdf->Cell($x[12],$y,utf8_decode('ESCUELA'),1,0,'C');
             $pdf->Cell($x[13],$y,utf8_decode('SEDE'),1,0,'C');
         }
-        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1,0,'C');
-        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1,'C');
+        $pdf->SetFillColor(0, 102, 51); 
+        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1,0,'C',true);
+        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1,'C',true);
         $items = $object->validarArchivo($arc_id);
         $c = 0;
         $pdf->SetFont('Arial','',6);
@@ -892,7 +904,7 @@ class Generardata extends Controller
             $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1,'C',true);
         }
         $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
-        $pdf->SetTitle($titulo);
+        $pdf->SetTitle($nombreArchivo);
         $pdf->Output($nombreArchivo, 'I');
         exit;
     }
@@ -991,12 +1003,14 @@ class Generardata extends Controller
                 $objDrawing->setHeight(80);
                 $objDrawing->setCoordinates('A1');
                 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
-
-                $hoja->mergeCells('C2:H2');
-                $hoja->getStyle("C2:H2")->applyFromArray($style_borde_titulo);
                 $hoja->setCellValue("C2",utf8_decode(razonsocial()));
-                $hoja->mergeCells('C4:H4');
-                $hoja->getStyle("C4:H4")->applyFromArray($style_borde_titulo);
+                if($tipopersona == 3){
+                    $hoja->mergeCells('C2:I2');
+                    $hoja->getStyle("C2:I2")->applyFromArray($style_borde_titulo);
+                }else{
+                    $hoja->mergeCells('C2:H2');
+                    $hoja->getStyle("C2:H2")->applyFromArray($style_borde_titulo);
+                }
 
                 $hoja->setCellValue("A7",utf8_encode('ITEM'));
                 $hoja->getStyle("A7")->applyFromArray($style_borde_negrita);
@@ -1017,6 +1031,8 @@ class Generardata extends Controller
                 if($tipopersona == 1){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmY').'_'.date('Hi');
                     $hoja->setCellValue("C4",'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS ADMINISTRATIVOS');
+                    $hoja->getStyle("C4:H4")->applyFromArray($style_borde_titulo);
+                    $hoja->mergeCells('C4:H4');
                     $hoja->getStyle("I7:J7")->applyFromArray($style);
                     $hoja->getStyle("I7:J7")->applyFromArray($style_borde);
                     $hoja->setCellValue("I2",'SISTEMA');
@@ -1031,12 +1047,14 @@ class Generardata extends Controller
                     $hoja->getStyle("H7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
                     $hoja->getStyle("I7")->applyFromArray($style_borde_negrita);
-                    $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("J7",'CONTRASEÑA');
                     $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                 }
                 if($tipopersona == 2){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmY').'_'.date('Hi');
                     $hoja->setCellValue("C4",'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS DOCENTES');
+                    $hoja->getStyle("C4:H4")->applyFromArray($style_borde_titulo);
+                    $hoja->mergeCells('C4:H4');
                     $hoja->getStyle("I7:J7")->applyFromArray($style);
                     $hoja->getStyle("I7:J7")->applyFromArray($style_borde);
                     $hoja->setCellValue("I2",'SISTEMA');
@@ -1051,12 +1069,14 @@ class Generardata extends Controller
                     $hoja->getStyle("H7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("I7",utf8_decode('CORREO INSTITUCIONAL'));
                     $hoja->getStyle("I7")->applyFromArray($style_borde_negrita);
-                    $hoja->setCellValue("J7",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("J7",'CONTRASEÑA');
                     $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                 }
                 if($tipopersona == 3){
                     $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmY').'_'.date('Hi');
                     $hoja->setCellValue("C4",'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS ESTUDIANTES');
+                    $hoja->getStyle("C4:I4")->applyFromArray($style_borde_titulo);
+                    $hoja->mergeCells('C4:I4');
                     $hoja->getStyle("K7:L7")->applyFromArray($style);
                     $hoja->getStyle("K7:L7")->applyFromArray($style_borde);
                     $hoja->setCellValue("K2",'SISTEMA');
@@ -1075,7 +1095,7 @@ class Generardata extends Controller
                     $hoja->getStyle("J7")->applyFromArray($style_borde_negrita);
                     $hoja->setCellValue("K7",utf8_decode('CORREO INSTITUCIONAL'));
                     $hoja->getStyle("K7")->applyFromArray($style_borde_negrita);
-                    $hoja->setCellValue("L7",utf8_decode('CONTRASENIA'));
+                    $hoja->setCellValue("L7",'CONTRASEÑA');
                     $hoja->getStyle("L7")->applyFromArray($style_borde_negrita);
                 }
                 $items = $object->validarArchivo($arc_id);

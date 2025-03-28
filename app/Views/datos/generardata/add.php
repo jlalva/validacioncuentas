@@ -137,11 +137,11 @@
                                 <thead>
                                     <tr class="headings">
                                         <th class="column-title" style="text-align: center;">ITEM</th>
-                                        <th class="column-title" style="text-align: center;">NOMBRE</th>
-                                        <th class="column-title" style="text-align: center;">APELLIDO</th>
-                                        <th class="column-title" style="text-align: center;">CORREO CREADO</th>
+                                        <th class="column-title" style="text-align: center;">NOMBRES</th>
+                                        <th class="column-title" style="text-align: center;">APELLIDOS</th>
+                                        <th class="column-title" style="text-align: center;">CORREO CREADO/EXISTENTE</th>
                                         <th class="column-title" style="text-align: center;">CLAVE</th>
-                                        <th class="column-title" style="text-align: center;">OBSERVACION</th>
+                                        <th class="column-title" style="text-align: center;">SITUACION</th>
                                     </tr>
                                 </thead>
                                 <tbody id="datosprocesados">

@@ -54,7 +54,7 @@
                                             <tr>
                                                 <td  style="text-align: center;"><?= $c ?></td>
                                                 <td  style="text-align: center;"><?= $row->arc_nombre ?></td>
-                                                <td  style="text-align: center;"><?= $row->arc_ruta ?></td>
+                                                <td  style="text-align: center;"><?= strtolower(substr($row->arc_ruta, 16)) ?></td>
                                                 <td  style="text-align: center;"><?= $row->tip_nombre ?></td>
                                                 <td  style="text-align: center;"><?= $row->arc_total ?></td>
                                                 <td  style="text-align: center;"><?= $row->arc_subido ?></td>
