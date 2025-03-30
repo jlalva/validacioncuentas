@@ -49,7 +49,7 @@
                                                 $c = 0;
                                                 foreach ($items as $row) {
                                                     $c++;?>
-                                                    <tr>
+                                                    <tr style="text-align: center;">
                                                         <td><?=$c?></td>
                                                         <td><?=$row->arc_nombre?></td>
                                                         <td><?=strtolower(substr($row->arc_ruta, 16))?></td>

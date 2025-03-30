@@ -154,7 +154,7 @@ class Subirdata extends Controller
                 $ultimaFila = $hoja->getHighestRow();
 
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $email = $hoja->getCell("C$i")->getValue();
+                    $email = strtolower($hoja->getCell("C$i")->getValue());
                     if (!empty($email) && !in_array($email, $emailsProcesados)) {
                         $emailsProcesados[] = $email;
                         if (validar_correo($email)) {
@@ -181,6 +181,7 @@ class Subirdata extends Controller
                             }
                         } else {
                             $invalido++;
+                            echo $email.'<br>';
                         }
                     }
                 }

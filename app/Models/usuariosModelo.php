@@ -67,7 +67,6 @@ class usuariosModelo extends Model{
 
     public function getUsuarioCorreo($usu_email){
         $query = $this->query("SELECT * FROM usuario us
-                        INNER JOIN persona per ON per.per_id = us.usu_per_id
                         INNER JOIN rol r ON r.rol_id = us.usu_rol_id
                         WHERE us.usu_usuario ='$usu_email'");
         return $query->getRow();

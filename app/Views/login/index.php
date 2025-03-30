@@ -70,7 +70,7 @@ $app = new App();
                                             <input type="password" class="form-control border-end-0" id="password" name="password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 text-end"> <a href="#">¿Has olvidado tu contraseña?</a>
+                                    <div class="col-md-12 text-end"> <a href="<?=$app->baseURL?>recuperar">¿Has olvidado tu contraseña?</a>
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">

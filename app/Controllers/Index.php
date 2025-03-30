@@ -93,13 +93,12 @@ class Index extends Controller
         $object = new usuariosModelo();
         $usu_email = $_POST["correo"];
         $items = $object->getUsuarioCorreo($usu_email);
-        //echo json_encode($items);
         if(empty($items)){
             echo 'vacio';
         }else{
             $objectCodigo = new codigoModelo();
             $correo = $items->usu_usuario;
-            $nombre = $items->per_nombres.' '.$items->per_apellidos;
+            $nombre = $items->usu_nombre.' '.$items->usu_apellido;
             $rol = $items->rol_nombre;
             $codigo = rand(100000,999999);
             $fecha = date('Y-m-d H:i:s');
