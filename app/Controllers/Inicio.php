@@ -136,7 +136,7 @@ class Inicio extends Controller
                                             barPercentage: .5
                                         }]
                                         }
-                                    }
+                                    },
                                 });</script>";
             $datos = ['titulo' => 'Inicio', 'tempresas' => $totalE, 'tusuarios' => $totalU, 'troles' => $totalR, 'tcuentas' => $totalC,'labeltorta'=>$labeltorta,
             'totaltorta'=>$totalestorta, 'selectAnio'=>$selA, 'jsonBarra'=>$chartData];

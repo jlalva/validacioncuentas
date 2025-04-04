@@ -16,7 +16,7 @@
                     <div class="col-md-12"><hr></div>
                     <div class="col-md-6 col-sm-6">
                         <label>Dominio</label>
-                        <input type="text" class="form-control" id="dominio" name="dominio" autocomplete="off" value="<?=$item['dom_nombre']?>">
+                        <input type="text" class="form-control" id="dominio" name="dominio" autocomplete="off" value="<?=$item['dom_nombre']?>" oninput="this.value = this.value.toLowerCase()">
                         <input type="hidden" id="id" name="id" value="<?=$id?>">
                     </div>
                     <div class="col-md-6 col-sm-6">
@@ -42,23 +42,27 @@
                 alertify.warning("Llenar todos los campos para guardar.");
                 return;
             }else{
-                $.ajax({
-                    url: url + "dominio/update",
-                    type: "post",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    error: function (e) {
-                        alertify.error("Ocurrio un error inesperado");
-                    },
-                    success: function(result){
-                        if(result == 1){
-                            redireccionar();
-                        }else{
-                            alertify.error("Ocurrio un error al guardar la información");
+                if(dominio.includes('@')){
+                    $.ajax({
+                        url: url + "dominio/update",
+                        type: "post",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        error: function (e) {
+                            alertify.error("Ocurrio un error inesperado");
+                        },
+                        success: function(result){
+                            if(result == 1){
+                                redireccionar();
+                            }else{
+                                alertify.error("Ocurrio un error al guardar la información");
+                            }
                         }
-                    }
-                });
+                    });
+                }else{
+                    alertify.error("El dominio ingresado no es válido");
+                }
             }
         })
 

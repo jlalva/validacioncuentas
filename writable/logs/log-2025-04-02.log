@@ -1,0 +1,7 @@
+CRITICAL - 2025-04-02 17:30:22 --> Array to string conversion
+in APPPATH\Controllers\Inicio.php on line 74.
+ 1 APPPATH\Controllers\Inicio.php(74): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Inicio.php', 74)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Inicio->index()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Inicio))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

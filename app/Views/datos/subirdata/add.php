@@ -8,13 +8,13 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipoarchivo" id="excel" value="1" checked>
+                            <input class="form-check-input" type="radio" name="tipoarchivo" id="excel" value="1" checked onclick="limpiar()">
                             <label class="form-check-label" for="tipoarchivo">EXCEL</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipoarchivo" id="csv" value="2">
+                            <input class="form-check-input" type="radio" name="tipoarchivo" id="csv" value="2" onclick="limpiar()">
                             <label class="form-check-label" for="tipoarchivo">CSV</label>
                         </div>
                     </div>

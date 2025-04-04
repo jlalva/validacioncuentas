@@ -19,9 +19,9 @@ class datosModelo extends Model{
         return $query;
     }
 
-    public function listarNombres($emp_id)
+    public function listarNombres($emp_id,$dominio)
     {
-        return $this->query("SELECT dat_nombres_completos FROM datos WHERE dat_emp_id = $emp_id ORDER BY dat_nombres_completos ASC")
+        return $this->query("SELECT dat_nombres_completos FROM datos WHERE dat_emp_id = $emp_id AND dat_email LIKE '%$dominio%' ORDER BY dat_nombres_completos ASC")
                     ->getResult();
     }
 
@@ -48,14 +48,25 @@ class datosModelo extends Model{
         return $query;
     }
 
-    public function validarNombres($nombrecompleto, $emp_id){
-        $query = $this->query("SELECT * FROM datos WHERE dat_nombres_completos = '$nombrecompleto' AND dat_emp_id = $emp_id");
+    public function validarNombres($nombrecompleto, $emp_id, $dominio){
+        $query = $this->query("SELECT * FROM datos WHERE dat_nombres_completos = '$nombrecompleto' AND dat_emp_id = $emp_id AND dat_email LIKE '%$dominio%'");
         return $query->getRow();
     }
 
     public function validarArchivo($arc_id){
         $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id");
         return $query->getResult();
+    }
+
+    public function validarRegistro($arc_id, $dni, $codigo){
+        error_log("SELECT * FROM datos WHERE dat_arc_id = $arc_id AND dat_dni = '$dni' AND dat_codigo = '$codigo'");
+        $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id AND dat_dni = '$dni' AND dat_codigo = '$codigo'");
+        return $query->getRow();
+    }
+
+    public function soloDominio($arc_id){
+        $query = $this->query("SELECT DISTINCT SUBSTRING_INDEX(dat_email, '@', -1) as dominio FROM datos WHERE dat_arc_id = $arc_id");
+        return $query->getRow();
     }
 
     public function exportar($arc_id){

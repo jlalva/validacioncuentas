@@ -8,7 +8,9 @@ use App\Models\dominioModelo;
 use App\Models\peyorativosModelo;
 use App\Models\tipopersonaModelo;
 use CodeIgniter\Controller;
-use PDF;
+use PDFE;
+use PDFA;
+use PDFD;
 use PDFS;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -478,9 +480,9 @@ class Generardata extends Controller
             $html = '';
             $c = 0;
 
-            $nombresBD = array_flip(array_column($object->listarNombres($emp_id), 'dat_nombres_completos'));
+            $nombresBD = array_flip(array_column($object->listarNombres($emp_id,$dominio), 'dat_nombres_completos'));
             $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
-
+ 
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
                 $nombres = $hoja->getCell("B$i")->getValue();
@@ -489,22 +491,22 @@ class Generardata extends Controller
                 $sede = $hoja->getCell("I$i")->getValue();
 
                 $apellido_correo = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'Ü','ü'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N','U','U'],
                     $apellidos);
                 $nombres_correo = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'Ü','ü'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N','U','U'],
                     $nombres);
 
                 $apellido_limpio = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ü','ü'],
+                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','U','U'],
                     $apellidos);
 
                 $nombres_limpio = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ü','ü'],
+                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','U','U'],
                     $nombres);
 
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
@@ -525,13 +527,14 @@ class Generardata extends Controller
                     switch($generarcon){
                         case 1:$correo = generarCorreo(trim($nombres_correo), trim($apellido_correo)) . $dominio;
                             if (isset($correosBD[$correo])) {
-                                $correo = generarCorreo2(trim($nombres_correo), trim($apellido_correo)) . $dominio;
+                                $correo .='('.$nombrecompleto.')';
+                            }else{
+                                $observacion = '';
                             }
                             break;
                         case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;break;
                         case 3:$correo = generarCorreoSedeCodigo($sede, $codigo) . $dominio;break;
                     }
-                    $correo .='('.$nombresBD[$nombrecompleto].')';
                 }
                 $nombres = strtoupper($nombres_limpio);
                 $apellidos = strtoupper($apellido_limpio);
@@ -644,25 +647,25 @@ class Generardata extends Controller
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
                         ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
                         $completo);
-                    $val = $object->validarNombres(trim($completo),$emp_id);
+                    $val = $object->validarNombres(trim($completo),$emp_id,$dominio);
                     $correo = '';
                     $apellido_correo = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'Ü','ü'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N','U','U'],
                         $apellidos);
                     $nombres_correo = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'Ü','ü'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'n', 'N','U','U'],
                         $nombres);
 
                     $apellido_limpio = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ü','ü'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','U','U'],
                         $apellidos);
 
                     $nombres_limpio = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ü','ü'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','U','U'],
                         $nombres);
                         $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
                     if(!$val){
@@ -819,34 +822,36 @@ class Generardata extends Controller
 
     public function pdf($arc_id)
     {
-        require_once APPPATH . 'Libraries/PDF.php';
-        $quitarTildes = array(    'Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
-                                'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
-                                'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
-                                'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
-                                'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y' );
+        require_once APPPATH . 'Libraries/Excel/PHPExcel.php';
+        $quitarTildes = array('Š'=>'S', 'š'=>'s', 'Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+                            'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U',
+                            'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
+                            'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
+                            'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
         $object = new datosModelo();
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);
         $tipopersona = $itemA->arc_tipo_persona;
+        $rutaArc = $itemA->arc_ruta;
+        $emp_id = $itemA->arc_emp_id;
         if($tipopersona == 1){
+            require_once APPPATH . 'Libraries/PDFA.php';
+            $pdf = new PDFA();
             $nombreArchivo = 'Lista_CorreoInst_Tipo_Administrativo_'.date('dmY').'_'.date('Hi');
         }
         if($tipopersona == 2){
+            require_once APPPATH . 'Libraries/PDFD.php';
+            $pdf = new PDFD();
             $nombreArchivo = 'Lista_CorreoInst_Tipo_Docente_'.date('dmY').'_'.date('Hi');
         }
         if($tipopersona == 3){
+            require_once APPPATH . 'Libraries/PDFE.php';
+            $pdf = new PDFE();
             $nombreArchivo = 'Lista_CorreoInst_Tipo_Estudiante_'.date('dmY').'_'.date('Hi');
         }
-        $pdf = new PDF();
         $pdf->AddPage('L');
         $pdf->AliasNbPages();
-        $pdf->SetXY(50, 30);
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->SetFillColor(0, 51, 102); // Azul oscuro
-        $pdf->SetTextColor(255, 255, 255); // Texto blanco
-        $pdf->Cell(190, 10, 'LISTA DE CORREOS INSTITUCIONALES DE NUEVOS '.$itemA->tip_nombre.'S', 1, 1, 'C', true);
-        $pdf->Ln();
+
         $pdf->SetFont('Arial','B',7);
         $pdf->SetTextColor(0, 0, 0); // Texto negro
         if($tipopersona == 3){
@@ -854,54 +859,125 @@ class Generardata extends Controller
         }else{
             $x = [0=>10,1=>45,2=>45,3=>17,4=>14,5=>17,6=>30,7=>45,8=>34,9=>20,10=>45,11=>30,12=>28,13=>15];
         }
+        $objPHPExcel = PHPExcel_IOFactory::identify($rutaArc);
+        $objPHPExcel = PHPExcel_IOFactory::createReader($objPHPExcel);
+        $objPHPExcel = $objPHPExcel->load($rutaArc);
+        $hoja = $objPHPExcel->getSheet(0);
+        $ultimaFila = $hoja->getHighestRow();
+        //$total = $ultimaFila - 1;
         $y = 5;
-        $pdf->Cell($x[0],$y, utf8_encode('ITEM'),1,0,'C');
-        $pdf->Cell($x[3],$y, utf8_decode('CODIGO'),1,0,'C');
-        $pdf->Cell($x[4],$y, utf8_decode('DNI'),1,0,'C');
-        $pdf->Cell($x[1],$y, utf8_decode('NOMBRES'),1,0,'C');
-        $pdf->Cell($x[2],$y, utf8_decode('APELLIDOS'),1,0,'C');
-        $pdf->Cell($x[5],$y, utf8_decode('CELULAR'),1,0,'C');
-        $pdf->Cell($x[6],$y, utf8_decode('CORREO PERSONAL'),1,0,'C');
-        if($tipopersona == 1){
-            $pdf->Cell($x[7],$y,utf8_decode('UNIDAD/OFICINA'),1,0,'C');
-        }
-        if($tipopersona == 2){
-            $pdf->Cell($x[10],$y,utf8_decode('DEPARTAMENTO'),1,0,'C');
-        }
-        if($tipopersona == 3){
-            $pdf->Cell($x[11],$y,utf8_decode('FACULTAD'),1,0,'C');
-            $pdf->Cell($x[12],$y,utf8_decode('ESCUELA'),1,0,'C');
-            $pdf->Cell($x[13],$y,utf8_decode('SEDE'),1,0,'C');
-        }
-        $pdf->SetFillColor(0, 102, 51); 
-        $pdf->Cell($x[8],$y,utf8_decode('CORREO INSTITUCIONAL'),1,0,'C',true);
-        $pdf->Cell($x[9],$y,utf8_decode('CONTRASEÑA'),1,1,'C',true);
-        $items = $object->validarArchivo($arc_id);
         $c = 0;
         $pdf->SetFont('Arial','',6);
-        foreach($items as $row){
+        for($i = 2; $i <= $ultimaFila; $i++) {
+            $codigo = $hoja->getCell("A$i")->getValue();
+            $dni = $hoja->getCell("D$i")->getValue();
+            $item = $object->validarRegistro($arc_id, $dni, $codigo);
             $c++;
             $pdf->Cell($x[0],$y,$c,1);
-            $pdf->Cell($x[3],$y,strtoupper(utf8_decode($row->dat_codigo)),1,0,'C');
-            $pdf->Cell($x[4],$y,strtoupper(utf8_decode($row->dat_dni)),1,0,'C');
-            $pdf->Cell($x[1],$y,strtoupper(utf8_decode($row->dat_nombres)),1,0,'C');
-            $pdf->Cell($x[2],$y,strtoupper(utf8_decode($row->dat_apellidos)),1,0,'C');
-            $pdf->Cell($x[5],$y,strtoupper(utf8_decode($row->dat_celular)),1,0,'C');
-            $pdf->Cell($x[6],$y,utf8_decode($row->dat_correo_personal),1,0,'C');
-            if($tipopersona == 1){
-                $pdf->Cell($x[7],$y,strtoupper(utf8_decode(strtr($row->dat_unidad, $quitarTildes))),1,0,'C');
+            if($item){
+                $pdf->Cell($x[3],$y,strtoupper(utf8_decode($item->dat_codigo)),1,0,'C');
+                $pdf->Cell($x[4],$y,strtoupper(utf8_decode($item->dat_dni)),1,0,'C');
+                $pdf->Cell($x[1],$y,strtoupper(utf8_decode($item->dat_nombres)),1,0,'C');
+                $pdf->Cell($x[2],$y,strtoupper(utf8_decode($item->dat_apellidos)),1,0,'C');
+                $pdf->Cell($x[5],$y,strtoupper(utf8_decode($item->dat_celular)),1,0,'C');
+                $pdf->Cell($x[6],$y,utf8_decode($item->dat_correo_personal),1,0,'C');
+                if($tipopersona == 1){
+                    $pdf->Cell($x[7],$y,strtoupper(utf8_decode(strtr($item->dat_unidad, $quitarTildes))),1,0,'C');
+                }
+                if($tipopersona == 2){
+                    $pdf->Cell($x[10],$y,strtoupper(utf8_decode(strtr($item->dat_departamento, $quitarTildes))),1,0,'C');
+                }
+                if($tipopersona == 3){
+                    $pdf->Cell($x[11],$y,strtoupper(utf8_decode(strtr($item->dat_facultad, $quitarTildes))),1,0,'C');
+                    $pdf->Cell($x[12],$y,strtoupper(utf8_decode($item->dat_escuela)),1,0,'C');
+                    $pdf->Cell($x[13],$y,strtoupper(utf8_decode($item->dat_sede)),1,0,'C');
+                }
+                $pdf->SetFillColor(0, 102, 51); // Verde oscuro
+                $pdf->Cell($x[8],$y,utf8_decode($item->dat_email),1,0,'C',true);
+                $pdf->Cell($x[9],$y,utf8_decode($item->dat_clave),1,1,'C',true);
+            }else{
+                $nombres = strtoupper($hoja->getCell("B$i")->getValue());
+                $apellidos = strtoupper($hoja->getCell("C$i")->getValue());
+                $celular = $hoja->getCell("E$i")->getValue();
+                $correopersonal = $hoja->getCell("F$i")->getValue();
+                $completo = $nombres.' '.$apellidos;
+                if($tipopersona == 1){
+                    $unidad = $hoja->getCell("G$i")->getValue();
+                    $unidad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        $unidad);
+                    $unidad = strtoupper($unidad);
+                }
+                if($tipopersona == 2){
+                    $departamento = $hoja->getCell("G$i")->getValue();
+                    $departamento = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        $departamento);
+                    $departamento = strtoupper($departamento);
+                }
+                if($tipopersona == 3){
+                    $facultad = $hoja->getCell("G$i")->getValue();
+                    $facultad = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        $facultad);
+                    $escuela = $hoja->getCell("H$i")->getValue();
+                    $escuela = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        $escuela);
+                    $sede = $hoja->getCell("I$i")->getValue();
+                    $sede = str_replace(
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        $sede);
+                    $facultad = strtoupper($facultad);
+                    $escuela = strtoupper($escuela);
+                    $sede = strtoupper($sede);
+                }
+                $apellido_limpio = str_replace(
+                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                    $apellidos);
+
+                $nombres_limpio = str_replace(
+                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                    $nombres);
+                $completo = str_replace(
+                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                    $completo);
+                $pdf->Cell($x[3],$y,strtoupper(utf8_decode($codigo)),1,0,'C');
+                $pdf->Cell($x[4],$y,strtoupper(utf8_decode($dni)),1,0,'C');
+                $pdf->Cell($x[1],$y,strtoupper(utf8_decode($nombres_limpio)),1,0,'C');
+                $pdf->Cell($x[2],$y,strtoupper(utf8_decode($apellido_limpio)),1,0,'C');
+                $pdf->Cell($x[5],$y,strtoupper(utf8_decode($celular)),1,0,'C');
+                $pdf->Cell($x[6],$y,utf8_decode($correopersonal),1,0,'C');
+                if($tipopersona == 1){
+                    $pdf->Cell($x[7],$y,strtoupper(utf8_decode(strtr($unidad, $quitarTildes))),1,0,'C');
+                }
+                if($tipopersona == 2){
+                    $pdf->Cell($x[10],$y,strtoupper(utf8_decode(strtr($departamento, $quitarTildes))),1,0,'C');
+                }
+                if($tipopersona == 3){
+                    $pdf->Cell($x[11],$y,strtoupper(utf8_decode(strtr($facultad, $quitarTildes))),1,0,'C');
+                    $pdf->Cell($x[12],$y,strtoupper(utf8_decode($escuela)),1,0,'C');
+                    $pdf->Cell($x[13],$y,strtoupper(utf8_decode($sede)),1,0,'C');
+                }
+                $dom = $object->soloDominio($arc_id);
+                $val = $object->validarNombres(trim($completo),$emp_id,$dom->dominio);
+                $pdf->SetFillColor(255, 0, 0); // Rojo oscuro
+                if($val){
+                    $pdf->Cell($x[8],$y,utf8_decode($val->dat_email),1,0,'C',true);
+                    $pdf->Cell($x[9],$y,utf8_decode($val->dat_clave),1,1,'C',true);
+                }else{
+                    $pdf->Cell($x[8],$y,'-',1,0,'C',true);
+                    $pdf->Cell($x[9],$y,'-',1,1,'C',true);
+                }
             }
-            if($tipopersona == 2){
-                $pdf->Cell($x[10],$y,strtoupper(utf8_decode(strtr($row->dat_departamento, $quitarTildes))),1,0,'C');
-            }
-            if($tipopersona == 3){
-                $pdf->Cell($x[11],$y,strtoupper(utf8_decode(strtr($row->dat_facultad, $quitarTildes))),1,0,'C');
-                $pdf->Cell($x[12],$y,strtoupper(utf8_decode($row->dat_escuela)),1,0,'C');
-                $pdf->Cell($x[13],$y,strtoupper(utf8_decode($row->dat_sede)),1,0,'C');
-            }
-            $pdf->SetFillColor(0, 102, 51); // Verde oscuro
-            $pdf->Cell($x[8],$y,utf8_decode($row->dat_email),1,0,'C',true);
-            $pdf->Cell($x[9],$y,utf8_decode($row->dat_clave),1,1,'C',true);
         }
         $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
         $pdf->SetTitle($nombreArchivo);
@@ -923,6 +999,8 @@ class Generardata extends Controller
                 $objectA = new archivosModelo();
                 $itemA = $objectA->archivo($arc_id);
                 $tipopersona = $itemA->arc_tipo_persona;
+                $rutaArc = $itemA->arc_ruta;
+                $emp_id = $itemA->arc_emp_id;
                 $nombreArchivo = '';
                 $objPHPExcel = new PHPExcel();
                 $objPHPExcel->setActiveSheetIndex(0);
@@ -932,6 +1010,20 @@ class Generardata extends Controller
                     'fill' => array(
                         'type' => PHPExcel_Style_Fill::FILL_SOLID,
                         'startcolor' => array('rgb' => '008000'), 
+                    ),
+                    'borders' => [
+                        'outline' => [
+                            'style' => PHPExcel_Style_Border::BORDER_THIN, 
+                            'color' => array('rgb' => '000000'), 
+                        ],
+                    ],
+                );
+
+                $style_rojo = array(
+                    'font' => array('bold' => true),
+                    'fill' => array(
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'startcolor' => array('rgb' => 'FF0000'), 
                     ),
                     'borders' => [
                         'outline' => [
@@ -1098,56 +1190,191 @@ class Generardata extends Controller
                     $hoja->setCellValue("L7",'CONTRASEÑA');
                     $hoja->getStyle("L7")->applyFromArray($style_borde_negrita);
                 }
-                $items = $object->validarArchivo($arc_id);
+
+                $objPHPExcelL = PHPExcel_IOFactory::identify($rutaArc);
+                $objPHPExcelL = PHPExcel_IOFactory::createReader($objPHPExcelL);
+                $objPHPExcelL = $objPHPExcelL->load($rutaArc);
+                $hojaL = $objPHPExcelL->getSheet(0);
+                $ultimaFila = $hojaL->getHighestRow();
+
                 $c = 0;
                 $fila = 7;
-                foreach($items as $row){
+                for($i = 2; $i <= $ultimaFila; $i++) {
                     $c++;
                     $fila++;
-                    $hoja->setCellValue("A$fila",$c);
+                    $codigo = $hojaL->getCell("A$i")->getValue();
+                    $dni = $hojaL->getCell("D$i")->getValue();
+                    $row = $object->validarRegistro($arc_id, $dni, $codigo);
+                    $hoja->setCellValue("A$fila","$c");
                     $hoja->getStyle("A$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("B$fila",$row->dat_codigo);
-                    $hoja->getStyle("B$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("C$fila",$row->dat_dni);
-                    $hoja->getStyle("C$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("D$fila",$row->dat_nombres);
-                    $hoja->getStyle("D$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("E$fila",$row->dat_apellidos);
-                    $hoja->getStyle("E$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("F$fila",$row->dat_celular);
-                    $hoja->getStyle("F$fila")->applyFromArray($style_borde);
-                    $hoja->setCellValue("G$fila",$row->dat_correo_personal);
-                    $hoja->getStyle("G$fila")->applyFromArray($style_borde);
-                    if($tipopersona == 1){
-                        $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",strtr($row->dat_unidad, $quitarTildes));
-                        $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",$row->dat_email);
-                        $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
-                        $hoja->getStyle("J$fila")->applyFromArray($style_borde);
-                    }
-                    if($tipopersona == 2){
-                        $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",strtr($row->dat_departamento, $quitarTildes));
-                        $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",$row->dat_email);
-                        $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
-                        $hoja->getStyle("J$fila")->applyFromArray($style_borde);
-                    }
-                    if($tipopersona == 3){
-                        $hoja->getStyle("K$fila:L$fila")->applyFromArray($style);
-                        $hoja->setCellValue("H$fila",strtr($row->dat_facultad, $quitarTildes));
-                        $hoja->getStyle("H$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("I$fila",$row->dat_escuela);
-                        $hoja->getStyle("I$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("J$fila",$row->dat_sede);
-                        $hoja->getStyle("J$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("K$fila",utf8_decode($row->dat_email));
-                        $hoja->getStyle("K$fila")->applyFromArray($style_borde);
-                        $hoja->setCellValue("L$fila",utf8_decode($row->dat_clave));
-                        $hoja->getStyle("L$fila")->applyFromArray($style_borde);
+                    if($row){
+                        $hoja->setCellValue("B$fila",$row->dat_codigo);
+                        $hoja->getStyle("B$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("C$fila",$row->dat_dni);
+                        $hoja->getStyle("C$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("D$fila",$row->dat_nombres);
+                        $hoja->getStyle("D$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("E$fila",$row->dat_apellidos);
+                        $hoja->getStyle("E$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("F$fila",$row->dat_celular);
+                        $hoja->getStyle("F$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("G$fila",$row->dat_correo_personal);
+                        $hoja->getStyle("G$fila")->applyFromArray($style_borde);
+                        if($tipopersona == 1){
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($row->dat_unidad, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("I$fila",$row->dat_email);
+                            $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
+                            $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                        }
+                        if($tipopersona == 2){
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($row->dat_departamento, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("I$fila",$row->dat_email);
+                            $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("J$fila",utf8_decode($row->dat_clave));
+                            $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                        }
+                        if($tipopersona == 3){
+                            $hoja->getStyle("K$fila:L$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($row->dat_facultad, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("I$fila",$row->dat_escuela);
+                            $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("J$fila",$row->dat_sede);
+                            $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("K$fila",utf8_decode($row->dat_email));
+                            $hoja->getStyle("K$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("L$fila",utf8_decode($row->dat_clave));
+                            $hoja->getStyle("L$fila")->applyFromArray($style_borde);
+                        }
+                    }else{
+                        $nombres = strtoupper($hojaL->getCell("B$i")->getValue());
+                        $apellidos = strtoupper($hojaL->getCell("C$i")->getValue());
+                        $celular = $hojaL->getCell("E$i")->getValue();
+                        $correopersonal = $hojaL->getCell("F$i")->getValue();
+                        $completo = $nombres.' '.$apellidos;
+                        if($tipopersona == 1){
+                            $unidad = $hojaL->getCell("G$i")->getValue();
+                            $unidad = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                                ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                                $unidad);
+                            $unidad = strtoupper($unidad);
+                        }
+                        if($tipopersona == 2){
+                            $departamento = $hojaL->getCell("G$i")->getValue();
+                            $departamento = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                                ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                                $departamento);
+                            $departamento = strtoupper($departamento);
+                        }
+                        if($tipopersona == 3){
+                            $facultad = $hojaL->getCell("G$i")->getValue();
+                            $facultad = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                                ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                                $facultad);
+                            $escuela = $hojaL->getCell("H$i")->getValue();
+                            $escuela = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                                ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                                $escuela);
+                            $sede = $hojaL->getCell("I$i")->getValue();
+                            $sede = str_replace(
+                                ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                                ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                                $sede);
+                            $facultad = strtoupper($facultad);
+                            $escuela = strtoupper($escuela);
+                            $sede = strtoupper($sede);
+                        }
+                        $apellido_limpio = str_replace(
+                            ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                            $apellidos);
+
+                        $nombres_limpio = str_replace(
+                            ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                            $nombres);
+                        $completo = str_replace(
+                            ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
+                            ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                            $completo);
+                        $hoja->setCellValue("B$fila",$codigo);
+                        $hoja->getStyle("B$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("C$fila",$dni);
+                        $hoja->getStyle("C$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("D$fila",$nombres_limpio);
+                        $hoja->getStyle("D$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("E$fila",$apellido_limpio);
+                        $hoja->getStyle("E$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("F$fila",$celular);
+                        $hoja->getStyle("F$fila")->applyFromArray($style_borde);
+                        $hoja->setCellValue("G$fila",$correopersonal);
+                        $hoja->getStyle("G$fila")->applyFromArray($style_borde);
+                        $dom = $object->soloDominio($arc_id);
+                        $val = $object->validarNombres(trim($completo),$emp_id,$dom->dominio);
+                        if($tipopersona == 1){
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($unidad, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            if($val){
+                                $hoja->setCellValue("I$fila",$val->dat_email.'('.trim($completo).')');
+                                $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("J$fila",utf8_decode($val->dat_clave));
+                                $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            }else{
+                                $hoja->setCellValue("I$fila",'');
+                                $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("J$fila",'');
+                                $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            }
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style_rojo);
+                        }
+                        if($tipopersona == 2){
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($departamento, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            if($val){
+                                $hoja->setCellValue("I$fila",$val->dat_email.'('.trim($completo).')');
+                                $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("J$fila",utf8_decode($val->dat_clave));
+                                $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            }else{
+                                $hoja->setCellValue("I$fila",'');
+                                $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("J$fila",'');
+                                $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            }
+                            $hoja->getStyle("I$fila:J$fila")->applyFromArray($style_rojo);
+                        }
+                        if($tipopersona == 3){
+                            $hoja->getStyle("K$fila:L$fila")->applyFromArray($style);
+                            $hoja->setCellValue("H$fila",strtr($facultad, $quitarTildes));
+                            $hoja->getStyle("H$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("I$fila",$escuela);
+                            $hoja->getStyle("I$fila")->applyFromArray($style_borde);
+                            $hoja->setCellValue("J$fila",$sede);
+                            $hoja->getStyle("J$fila")->applyFromArray($style_borde);
+                            if($val){
+                                $hoja->setCellValue("K$fila",utf8_decode($val->dat_email).'('.trim($completo).')');
+                                $hoja->getStyle("K$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("L$fila",utf8_decode($val->dat_clave));
+                                $hoja->getStyle("L$fila")->applyFromArray($style_borde);
+                            }else{
+                                $hoja->setCellValue("K$fila",'');
+                                $hoja->getStyle("K$fila")->applyFromArray($style_borde);
+                                $hoja->setCellValue("L$fila",'');
+                                $hoja->getStyle("L$fila")->applyFromArray($style_borde);
+                            }
+                            $hoja->getStyle("K$fila:L$fila")->applyFromArray($style_rojo);
+                        }
                     }
                 }
                 $fila = $fila + 2;

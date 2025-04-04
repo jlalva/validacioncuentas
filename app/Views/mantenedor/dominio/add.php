@@ -14,7 +14,7 @@
             <div class="col-md-12"><hr></div>
             <div class="col-md-4 col-sm-4">
                 <label>Dominio</label>
-                <input type="text" class="form-control" id="dominio" name="dominio" autocomplete="off">
+                <input type="text" class="form-control" id="dominio" name="dominio" autocomplete="off" oninput="this.value = this.value.toLowerCase()">
             </div>
             <div class="col-md-8 col-sm-8">
                 <label>Descripci&oacute;n</label>
@@ -38,23 +38,27 @@
                 alertify.warning("Llenar todos los campos para guardar.");
                 return;
             }else{
-                $.ajax({
-                    url: url + "dominio/register",
-                    type: "post",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    error: function (e) {
-                        alertify.error("Ocurrio un error inesperado");
-                    },
-                    success: function(result){
-                        if(result == 1){
-                            redireccionar();
-                        }else{
-                            alertify.error("Ocurrio un error al guardar la información");
+                if(dominio.includes('@')){
+                    $.ajax({
+                        url: url + "dominio/register",
+                        type: "post",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        error: function (e) {
+                            alertify.error("Ocurrio un error inesperado");
+                        },
+                        success: function(result){
+                            if(result == 1){
+                                redireccionar();
+                            }else{
+                                alertify.error("Ocurrio un error al guardar la información");
+                            }
                         }
-                    }
-                });
+                    });
+                }else{
+                    alertify.error("El dominio ingresado no es válido");
+                }
             }
         });
     });

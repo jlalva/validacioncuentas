@@ -16,7 +16,7 @@
                     <div class="col-md-12"><hr></div>
                     <div class="col-md-6 col-sm-6">
                         <label>Peyorativo</label>
-                        <input type="text" class="form-control" id="peyorativo" name="peyorativo" autocomplete="off" value="<?=$item['pey_nombre']?>">
+                        <input type="text" class="form-control" id="peyorativo" name="peyorativo" autocomplete="off" value="<?=$item['pey_nombre']?>" oninput="this.value = this.value.toLowerCase()">
                         <input type="hidden" id="pey_id" name="pey_id" value="<?=$id?>">
                     </div>
                     <div class="col-md-6 col-sm-6">

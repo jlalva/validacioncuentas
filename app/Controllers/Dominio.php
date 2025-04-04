@@ -57,7 +57,7 @@ class Dominio extends Controller
         $object = new dominioModelo();
         $idempresa = empresaActiva();
         $emp_id = $idempresa->emp_id;
-        $dominio = $_POST['dominio'];
+        $dominio = strtolower($_POST['dominio']);
         $descripcion = $_POST['descripcion'];
         $data = [
             'dom_nombre' => $dominio,
@@ -73,7 +73,7 @@ class Dominio extends Controller
 
     public function update(){
         $object = new dominioModelo();
-        $dominio = $_POST['dominio'];
+        $dominio = strtolower($_POST['dominio']);
         $descripcion = $_POST['descripcion'];
         $id = $_POST['id'];
         $data = [

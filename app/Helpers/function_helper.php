@@ -92,7 +92,7 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $primeraLetraNombre = substr($partesNombre[0], 0, 1);
         $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
         $partesApellido = explode(" ", $apellido);
-        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) == 2) {
+        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) <= 3) {
             $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3)));
             $correo = strtolower($primeraLetraNombre . $apellidoCompuesto);
         } else {
@@ -109,7 +109,7 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 2) : "";
         $partesApellido = explode(" ", $apellido);
 
-        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) == 2) {
+        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) <= 3) {
             $segundaLetraApellido = isset($partesApellido[3]) ? substr($partesApellido[3], 0, 1) : "";
             $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3)));
             $correo = strtolower($primeraLetraNombre.$segundaLetraNombre . $apellidoCompuesto.$segundaLetraApellido);

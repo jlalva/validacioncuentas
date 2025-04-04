@@ -189,7 +189,7 @@ class Index extends Controller
                                                     <tr>
                                                         <td style="padding: 0 0 0 10px; width: 45%;">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$web.'">
-                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://avant2.es/wp-content/uploads/2020/02/icono-web.png" alt="Web" width="25" />
+                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/1927/1927746.png" alt="Web" width="25" />
                                                                 '.$web.'
                                                             </a>
                                                         </td>
@@ -201,7 +201,7 @@ class Index extends Controller
                                                         </td>
                                                         <td style="padding: 0 0 0 10px;">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$instagram.'">
-                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" width="25" />
+                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="25" />
                                                                 '.$instagram.'
                                                             </a>
                                                         </td>

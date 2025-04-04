@@ -14,7 +14,7 @@
             <div class="col-md-12"><hr></div>
             <div class="col-md-4 col-sm-4">
                 <label>Peyorativo</label>
-                <input type="text" class="form-control" id="peyorativo" name="peyorativo" autocomplete="off">
+                <input type="text" class="form-control" id="peyorativo" name="peyorativo" autocomplete="off" oninput="this.value = this.value.toLowerCase()">
             </div>
             <div class="col-md-8 col-sm-8">
                 <label>Descripci&oacute;n</label>

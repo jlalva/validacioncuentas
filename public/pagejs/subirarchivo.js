@@ -41,6 +41,13 @@ $(document).ready(function() {
     });
 });
 
+function limpiar(){
+    $("#descripcion").val('');
+    $("#resultado").html('');
+    $('#archivoec').val('');
+    $('#archivoec').replaceWith($('#archivoec').clone());
+}
+
 function confirmarexcel(){
     alertify.dismissAll();
     alertify.confirm('Confirmar','Estas seguro de registrar el archivo, esta acción no se puede cancelar', function() {
