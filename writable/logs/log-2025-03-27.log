@@ -1,8 +1,0 @@
-CRITICAL - 2025-03-27 04:55:33 --> Invalid cell coordinate HI
-in APPPATH\Libraries\Excel\PHPExcel\Cell.php on line 558.
- 1 APPPATH\Libraries\Excel\PHPExcel\Style.php(237): PHPExcel_Cell::coordinateFromString('HI')
- 2 APPPATH\Controllers\Generardata.php(1001): PHPExcel_Style->applyFromArray([...])
- 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->descargarcuentas('1')
- 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
- 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
- 6 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

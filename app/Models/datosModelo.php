@@ -19,10 +19,15 @@ class datosModelo extends Model{
         return $query;
     }
 
-    public function listarNombres($emp_id,$dominio)
+    public function listarNombres($emp_id,$dominio = false)
     {
-        return $this->query("SELECT dat_nombres_completos FROM datos WHERE dat_emp_id = $emp_id AND dat_email LIKE '%$dominio%' ORDER BY dat_nombres_completos ASC")
+        if($dominio){
+            return $this->query("SELECT dat_nombres_completos FROM datos WHERE dat_emp_id = $emp_id AND dat_email LIKE '%$dominio%' ORDER BY dat_nombres_completos ASC")
                     ->getResult();
+        }else{
+            return $this->query("SELECT dat_nombres_completos FROM datos WHERE dat_emp_id = $emp_id ORDER BY dat_nombres_completos ASC")
+                    ->getResult();
+        }
     }
 
     public function listarCorreos($emp_id)
