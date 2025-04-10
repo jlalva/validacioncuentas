@@ -83,6 +83,7 @@ $routes->get('generardata/descargarrepocsv/(:num)', 'Generardata::descargarrepoc
 $routes->get('generardata/pdfdescargar/(:num)', 'Generardata::pdfdescargar/$1');
 $routes->get('generardata/cacafonias/(:num)', 'Generardata::cacafonias/$1');
 $routes->post('generardata/meditarcacafonia', 'Generardata::meditarcacafonia');
+$routes->get('generardata/duplicados/(:num)', 'Generardata::duplicados/$1');
 //Tipo persona
 $routes->get('tipopersona', 'Tipopersona::index');
 $routes->get('tipopersona/add', 'Tipopersona::add');

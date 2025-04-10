@@ -59,15 +59,20 @@ class Dominio extends Controller
         $emp_id = $idempresa->emp_id;
         $dominio = strtolower($_POST['dominio']);
         $descripcion = $_POST['descripcion'];
-        $data = [
-            'dom_nombre' => $dominio,
-            'dom_descripcion' => $descripcion,
-            'dom_emp_id' => $emp_id
-        ];
-        if($object->save($data)){
-            echo 1;
+        $val = $object->validarDuplicado($emp_id, $dominio);
+        if(empty($val)){
+            $data = [
+                'dom_nombre' => $dominio,
+                'dom_descripcion' => $descripcion,
+                'dom_emp_id' => $emp_id
+            ];
+            if($object->save($data)){
+                echo 1;
+            }else{
+                echo 'error';
+            }
         }else{
-            echo 'error';
+            echo 'duplicado';
         }
     }
 

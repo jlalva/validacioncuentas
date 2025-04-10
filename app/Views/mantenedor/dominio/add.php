@@ -52,7 +52,11 @@
                             if(result == 1){
                                 redireccionar();
                             }else{
-                                alertify.error("Ocurrio un error al guardar la información");
+                                if(result = 'duplicado'){
+                                    alertify.error("El dominio ingresado ya existe");
+                                }else{
+                                    alertify.error("Ocurrio un error al guardar la información");
+                                }
                             }
                         }
                     });

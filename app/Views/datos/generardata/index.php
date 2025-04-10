@@ -65,9 +65,12 @@
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>
                                                     <?php if($row->peyorativo == 'si'){?>
                                                         <a href="<?= $app->baseURL ?>generardata/cacafonias/<?= $row->arc_id ?>" class="btn btn-warning btn-sm" title="CACAFONIAS"><i class="bx bx-error"></i></a>
+                                                    <?php }else{
+                                                        if($row->duplicados>0){?>
+                                                            <a href="<?= $app->baseURL ?>generardata/duplicados/<?= $row->arc_id ?>" class="btn btn-danger btn-sm" title="DUPLICADOS"><i class="bx bx-error"></i></a>
                                                     <?php }else{?>
                                                         <a href="<?= $app->baseURL ?>generardata/cuentas/<?= $row->arc_id ?>" class="btn btn-success btn-sm" title="DATA PROCESADA"><i class="bx bx-data"></i></a>
-                                                    <?php }?>
+                                                    <?php }}?>
                                                 </td>
                                             </tr>
                                         <?php } ?>

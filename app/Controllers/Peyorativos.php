@@ -59,15 +59,20 @@ class Peyorativos extends Controller
         $emp_id = $idempresa->emp_id;
         $peyorativo = $_POST['peyorativo'];
         $descripcion = $_POST['descripcion'];
-        $data = [
-            'pey_nombre' => $peyorativo,
-            'pey_descripcion' => $descripcion,
-            'pey_emp_id' => $emp_id
-        ];
-        if($object->save($data)){
-            echo 1;
+        $val = $object->validarDuplicado($emp_id, $peyorativo);
+        if(empty($val)){
+            $data = [
+                'pey_nombre' => $peyorativo,
+                'pey_descripcion' => $descripcion,
+                'pey_emp_id' => $emp_id
+            ];
+            if($object->save($data)){
+                echo 1;
+            }else{
+                echo 'error';
+            }
         }else{
-            echo 'error';
+            echo 'duplicado';
         }
     }
 

@@ -52,7 +52,7 @@ class Exportar extends Controller
                     if($row->arc_origen == 1)
                         $html .="<a href='".base_url($row->arc_ruta)."' class='btn btn-info btn-sm' title='DESCARGAR DATA'><i class='bx bx-arrow-to-bottom'></i></a>";
                     else{
-                        $html .="<a href='".base_url('generardata/descargarcuentas/$row->arc_id')."' class='btn btn-info btn-sm' title='DESCARGAR DATA'><i class='bx bx-arrow-to-bottom'></i></a>";
+                        $html .="<a href='".base_url("generardata/descargarcuentas/$row->arc_id")."' class='btn btn-info btn-sm' title='DESCARGAR DATA'><i class='bx bx-arrow-to-bottom'></i></a>";
                     }
             $html .="</td>
             </tr>";

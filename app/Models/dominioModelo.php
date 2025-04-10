@@ -10,6 +10,12 @@ class dominioModelo extends Model{
         return $this->where("dom_emp_id = $emp_id")->orderBy('dom_id DESC')->findAll();
     }
 
+    public function validarDuplicado($emp_id, $dom_nombre)
+    {
+        return $this->query("SELECT dom_nombre FROM dominio WHERE dom_estado = 1 AND dom_emp_id = $emp_id AND dom_nombre = '$dom_nombre'")
+                    ->getRow();
+    }
+
     public function readDominio($id){
         return $this->find($id);
     }

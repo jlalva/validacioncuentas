@@ -78,7 +78,7 @@
                         </div>
                         <div class="d-flex align-items-center ms-auto font-13 gap-2 my-3">
                             <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #6078ea"></i>Estudiantes</span>
-                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ff8359"></i>Docentes</span>
+                            <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ffdf40"></i>Docentes</span>
                             <span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #4caf50"></i>Administrativos</span>
                         </div>
                         <div class="chart-container-1">

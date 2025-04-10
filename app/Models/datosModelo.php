@@ -8,8 +8,8 @@ class datosModelo extends Model{
     'dat_espacio_uso', 'dat_origen', 'dat_arc_id', 'dat_fecha_reg', 'dat_usu_id', 'dat_activo','dat_codigo','dat_dni','dat_celular',
     'dat_correo_personal','dat_facultad','dat_escuela','dat_sede','dat_clave', 'dat_unidad','dat_departamento','dat_emp_id'];
 
-    public function validarCorreo($correo){
-        $query = $this->query("SELECT * FROM datos WHERE dat_email = '$correo'");
+    public function validarCorreo($correo,$emp_id){
+        $query = $this->query("SELECT * FROM datos WHERE dat_email = '$correo' AND dat_emp_id = $emp_id");
         return $query->getRow();
     }
 
@@ -81,6 +81,16 @@ class datosModelo extends Model{
 
     public function updateCacafonias($id, $data){
         return $this->update($id, $data);
+    }
+
+    public function validarDuplicados($arc_id){
+        $query = $this->query("SELECT dat_email,COUNT(dat_email) FROM datos WHERE dat_arc_id = $arc_id GROUP BY dat_email HAVING COUNT(dat_email) > 1 ORDER BY dat_email ASC");
+        return $query->getResult();
+    }
+
+    public function cuentasDuplicados($arc_id,$email){
+        $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id AND dat_email = '$email'");
+        return $query->getResult();
     }
 
 }

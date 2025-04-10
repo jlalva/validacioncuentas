@@ -34,7 +34,7 @@ $app = new App();
 						<div class="card-body formvalida">
 							<div class="p-4">
 								<div class="text-start mb-4">
-									<h5 class="">Recuperar Contraseña</h5>
+									<h5 class="">Restablecer Contraseña</h5>
 									<p class="mb-0">Ingrese su correo institucional o correo personal para generar un código de validación</p>
 								</div>
 								<div class="mb-3 mt-4">

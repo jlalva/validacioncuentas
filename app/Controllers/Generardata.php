@@ -38,6 +38,7 @@ class Generardata extends Controller
                 $peyorativo = $objectP->validarPeyorativo($emp_id);
                 $selTP = '';
                 $selDom = '';
+                $arc_id = 0;
                 foreach ($tipo as $row){
                     if($row['tip_estado'] == 1){
                         $selTP .= "<option value='".$row['tip_id']."'>".$row['tip_nombre']."</option>";
@@ -59,6 +60,8 @@ class Generardata extends Controller
                             }
                         }
                     }
+                    $duplicados = $objectDa->validarDuplicados($items[$i]->arc_id);
+                    $items[$i]->duplicados = count($duplicados);
                 }
                 $datos = ['titulo' => 'Generar datos','items'=>$items, 'tipopersona' => $selTP, 'dominio' => $selDom, 'peyorativo' => $peyorativo];
                 return view('datos/generardata/index', $datos);
@@ -336,6 +339,57 @@ class Generardata extends Controller
                 }
                 $datos = ['titulo' => 'Cacafonías', 'tabla'=>$html, 'idarchivo' => $arc_id];
                 return view('datos/generardata/cacafonias', $datos);
+            }else{
+                return view('denegado');
+            }
+        }else{
+            return redirect()->to(base_url("/"));
+        }
+    }
+
+    public function duplicados($arc_id)
+    {
+        if(session('authenticated') && accede()){
+            if(bloqueado()){
+                $object = new datosModelo();
+                $cduplicados = $object->validarDuplicados($arc_id);
+                $html ="<thead style='text-align: center'>
+                        <th>ITEM</th>
+                        <th>CODIGO</th>
+                        <th>DNI</th>
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
+                        <th>CELULAR</th>
+                        <th>CORREO PERSONAL</th>
+                        <th style='background:red'>CORREO INSTITUCIONAL</th>
+                        <th>CONTRASEÑA</th>
+                        <th>ACCION</th>
+                    </thead>
+                    <tbody>";
+                $c = 0;
+                foreach($cduplicados as $row){
+                    $items = $object->cuentasDuplicados($arc_id, $row->dat_email);
+                    foreach($items as $rowC){
+                            $acorreo = explode("@",$rowC->dat_email);
+                            $correo = $acorreo[0];
+                            $dominio = '@'.$acorreo[1];
+                            $c++;
+                            $html .="<tr>
+                                <td style='text-align: center'>".$c."</td>
+                                <td style='text-align: center'>".$rowC->dat_codigo."</td>
+                                <td style='text-align: center'>".$rowC->dat_dni."</td>
+                                <td style='text-align: center'>".strtoupper($rowC->dat_nombres)."</td>
+                                <td style='text-align: center'>".strtoupper($rowC->dat_apellidos)."</td>
+                                <td style='text-align: center'>".$rowC->dat_celular."</td>
+                                <td style='text-align: center'>".$rowC->dat_correo_personal."</td>";
+                            $html .="<td style='background:red'>".$rowC->dat_email."</td>
+                                <td style='text-align: center'>".$rowC->dat_clave."</td>";
+                            $html .='<td style="text-align: center"><button class="btn btn-success btn-sm" title="EDITAR" data-bs-toggle="modal" data-bs-target="#modalEditar" onclick="datoseditarduplicado('.$rowC->dat_id.',\''.$correo.'\',\''.$dominio.'\')"><i class="bx bx-edit"></i></button></td>
+                            </tr>';
+                    }
+                }
+                $datos = ['titulo' => 'Cacafonías', 'tabla'=>$html, 'idarchivo' => $arc_id];
+                return view('datos/generardata/duplicados', $datos);
             }else{
                 return view('denegado');
             }
@@ -1676,9 +1730,11 @@ class Generardata extends Controller
 
     public function meditarcacafonia(){
         $object = new datosModelo();
+        $idempresa = empresaActiva();
+        $emp_id = $idempresa->emp_id;
         $id = $_POST['id'];
         $correo = strtolower($_POST['correo']);
-        $val = $object->validarCorreo($correo);
+        $val = $object->validarCorreo($correo,$emp_id);
         if(empty($val)){
             $data = [
                 'dat_email' => $correo
