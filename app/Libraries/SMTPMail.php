@@ -11,7 +11,9 @@ class SMTPMail{
 
         //Configuracion servidor mail
         $mail->SMTPAuth = true;
-        $mail->Host = "smtp-relay.sendinblue.com";
+        $mail->SMTPSecure = 'tls'; // secure transfer enabled REQUIRED for GMail
+        $mail->SMTPAutoTLS = false;
+        $mail->Host = "smtp-relay.brevo.com";
         $mail->Port = 587;
         $mail->Username ='jinoalva@gmail.com';//Usuario con el que se creo la cuenta en https://es.sendinblue.com/
         $mail->Password = 'UbrdTjDMQ06mBGOa';//Clave SMTP se crea en https://app.sendinblue.com/settings/keys/smtp
