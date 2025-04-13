@@ -86,8 +86,9 @@ class Tipopersona extends Controller
     public function eliminar(){
         $object = new tipopersonaModelo();
         $id = $_POST['id'];
+        $accion = $_POST['accion'];
         $data = [
-            'tip_estado' => 0
+            'tip_estado' => $accion
         ];
         if($object->updateTipo($id, $data)){
             echo 'ok';

@@ -187,33 +187,33 @@ class Index extends Controller
                                             <td style="padding:0;width:50%;">
                                                 <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
                                                     <tr>
-                                                        <td style="padding: 0 0 0 10px; width: 45%;">
+                                                        <td style="padding: 0 0 0 10px; width: 38%;">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$web.'">
-                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/1927/1927746.png" alt="Web" width="25" />
+                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/128/1006/1006771.png" alt="Web" width="20" />
                                                                 '.$web.'
                                                             </a>
                                                         </td>
-                                                        <td style="padding: 0 0 0 10px; width: 45%;">
+                                                        <td style="padding: 0 0 0 10px; width: 38%">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$twiter.'">
-                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn.icon-icons.com/icons2/730/PNG/512/twitter_icon-icons.com_62765.png" alt="Twitter" width="25" />
+                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn.icon-icons.com/icons2/730/PNG/512/twitter_icon-icons.com_62765.png" alt="Twitter" width="20" />
                                                                 '.$twiter.'
                                                             </a>
                                                         </td>
                                                         <td style="padding: 0 0 0 10px;">
-                                                            <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$instagram.'">
-                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="25" />
+                                                            <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;font-size:10px" href="'.$instagram.'">
+                                                                <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="18" />
                                                                 '.$instagram.'
                                                             </a>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="padding: 0 0 0 10px; width: 45%;">
+                                                        <td style="padding: 0 0 0 10px; width: 38%;">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$face.'">
                                                                 <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://cdn-icons-png.flaticon.com/512/220/220200.png" alt="Facebook" width="20" />
                                                                 '.$face.'
                                                             </a>
                                                         </td>
-                                                        <td style="padding: 0 0 0 10px; width: 45%;" colspan="2">
+                                                        <td style="padding: 0 0 0 10px; width: 38%;" colspan="2">
                                                             <a style="color: #000;text-decoration: none; display: inline-block; vertical-align: middle;" href="'.$youtube.'">
                                                                 <img style="height: auto; display: inline-block; border: 0; vertical-align: middle;" src="https://w7.pngwing.com/pngs/1009/93/png-transparent-youtube-computer-icons-logo-youtube-angle-social-media-share-icon.png" alt="Youtube" width="25" />
                                                                 '.$youtube.'
@@ -233,7 +233,7 @@ class Index extends Controller
                 </html>';
 
                 $this->email->setTo($correo);// Datos el email destino. Donde irá a parar el formulario
-                $this->email->setFrom("jinoluisalva@gmail.com", "Contacto web");// Email desde el que se envía (el que hemos configurarado en el apartado anterior)
+                $this->email->setFrom("adminuser@unitru.edu.pe", "Contacto web");// Email desde el que se envía (el que hemos configurarado en el apartado anterior)
                 $this->email->setSubject('Código de validación');
                 $this->email->setMessage($html);
                 if ($this->email->send()){

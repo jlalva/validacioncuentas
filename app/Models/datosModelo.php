@@ -36,6 +36,12 @@ class datosModelo extends Model{
                     ->getResult();
     }
 
+    public function traerCorreos($emp_id, $completo)
+    {
+        return $this->query("SELECT dat_email FROM datos WHERE dat_emp_id = $emp_id AND dat_nombres_completos='$completo'")
+                    ->getRow();
+    }
+
     public function insertarDatosGenerados($data,$tipopersona){
         if($tipopersona == 1){
             $campos = "dat_codigo,dat_dni,dat_nombres,dat_apellidos,dat_nombres_completos,dat_email,dat_celular,dat_correo_personal,dat_unidad,dat_clave,dat_estado,
@@ -91,6 +97,10 @@ class datosModelo extends Model{
     public function cuentasDuplicados($arc_id,$email){
         $query = $this->query("SELECT * FROM datos WHERE dat_arc_id = $arc_id AND dat_email = '$email'");
         return $query->getResult();
+    }
+
+    public function upd($id, $data){
+        return $this->update($id, $data);
     }
 
 }

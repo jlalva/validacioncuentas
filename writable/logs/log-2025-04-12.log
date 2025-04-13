@@ -1,0 +1,7 @@
+CRITICAL - 2025-04-12 23:49:59 --> Attempt to read property "arc_tipo_persona" on null
+in APPPATH\Controllers\Generardata.php on line 237.
+ 1 APPPATH\Controllers\Generardata.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "arc_tipo_persona" on null', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 237)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->cuentas('17')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

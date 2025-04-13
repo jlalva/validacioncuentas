@@ -92,9 +92,28 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $primeraLetraNombre = substr($partesNombre[0], 0, 1);
         $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
         $partesApellido = explode(" ", $apellido);
-        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) <= 3) {
-            $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3)));
-            $correo = strtolower($primeraLetraNombre . $apellidoCompuesto);
+        if (isset($partesApellido[1]) && (strlen($partesApellido[0]) <= 3 || strlen($partesApellido[1]) <= 3)) {
+            $compuestoCorto = "";
+            $ff = 0;
+            if (strlen($partesApellido[0]) <= 3) {
+                $compuestoCorto .= $partesApellido[0];
+                $ff++;
+            }else{
+                $primerApellido = $partesApellido[0];
+                $letraSegundoApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
+            }
+            if (strlen($partesApellido[1]) <= 3) {
+                $compuestoCorto .= $partesApellido[1];
+                $ff++;
+            }else{
+                $primerApellido = $partesApellido[1];
+                $letraSegundoApellido = isset($partesApellido[2]) ? substr($partesApellido[2], 0, 1) : "";
+            }
+            if($ff == 2){
+                $primerApellido = $partesApellido[2];
+                $letraSegundoApellido = isset($partesApellido[3]) ? substr($partesApellido[3], 0, 1) : "";
+            }
+            $correo = strtolower($primeraLetraNombre . $compuestoCorto . $primerApellido . $letraSegundoApellido);
         } else {
             $apellido1 = $partesApellido[0];
             $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
@@ -109,10 +128,17 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 2) : "";
         $partesApellido = explode(" ", $apellido);
 
-        if (isset($partesApellido[1]) && strlen($partesApellido[0]) == 2 && strlen($partesApellido[1]) <= 3) {
+        if (isset($partesApellido[1]) && (strlen($partesApellido[0]) <= 3 || strlen($partesApellido[1]) <= 3)) {
+            $compuestoCorto = "";
+            if (strlen($partesApellido[0]) <= 3) {
+                $compuestoCorto .= $partesApellido[0];
+            }
+            if (strlen($partesApellido[1]) <= 3) {
+                $compuestoCorto .= $partesApellido[1];
+            }
             $segundaLetraApellido = isset($partesApellido[3]) ? substr($partesApellido[3], 0, 1) : "";
             $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3)));
-            $correo = strtolower($primeraLetraNombre.$segundaLetraNombre . $apellidoCompuesto.$segundaLetraApellido);
+            $correo = strtolower($primeraLetraNombre.$segundaLetraNombre. $compuestoCorto . $apellidoCompuesto.$segundaLetraApellido);
         } else {
             $apellido1 = $partesApellido[0];
             $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 2) : "";

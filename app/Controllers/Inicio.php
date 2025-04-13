@@ -79,7 +79,7 @@ class Inicio extends Controller
                                 gradientStroke1.addColorStop(0, '#6078ea');
                                 gradientStroke1.addColorStop(1, '#17c5ea');
                             var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
-                                gradientStroke2.addColorStop(0, '#ffdf40');
+                                gradientStroke2.addColorStop(0, '#ff8359');
                                 gradientStroke2.addColorStop(1, '#ff8359');
                             var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
                                 gradientStroke3.addColorStop(0, '#4caf50');

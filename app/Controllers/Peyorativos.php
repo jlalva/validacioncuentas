@@ -95,8 +95,9 @@ class Peyorativos extends Controller
     public function eliminar(){
         $object = new peyorativosModelo();
         $id = $_POST['id'];
+        $accion = $_POST['accion'];
         $data = [
-            'pey_estado' => 0
+            'pey_estado' => $accion
         ];
         if($object->updatePeyorativo($id, $data)){
             echo 'ok';

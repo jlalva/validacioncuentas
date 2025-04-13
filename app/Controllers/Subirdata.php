@@ -59,8 +59,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = caracteres(strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue())));
-                    $apellido = caracteres(strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue())));
+                    $nombre = caracteres(strtoupper($hoja->getCell("A$i")->getValue()));
+                    $apellido = caracteres(strtoupper($hoja->getCell("B$i")->getValue()));
                     $email = $hoja->getCell("C$i")->getValue();
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -201,6 +201,7 @@ class Subirdata extends Controller
     }
 
     public function guardararchivo(){
+        $db = \Config\Database::connect();
         $object = new datosModelo();
         $objectArc = new archivosModelo();
         if (!isset($_FILES["archivo"])) {
@@ -258,8 +259,8 @@ class Subirdata extends Controller
                 $hoja = $objPHPExcel->getSheet(0);
                 $ultimaFila = $hoja->getHighestRow();
                 for ($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombre = caracteres(strtoupper(pg_escape_string($hoja->getCell("A$i")->getValue())));
-                    $apellido = caracteres(strtoupper(pg_escape_string($hoja->getCell("B$i")->getValue())));
+                    $nombre = $db->escapeString(caracteres(strtoupper($hoja->getCell("A$i")->getValue())));
+                    $apellido = $db->escapeString(caracteres(strtoupper($hoja->getCell("B$i")->getValue())));
                     $email = strtolower(trim($hoja->getCell("C$i")->getValue()));
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
@@ -291,7 +292,7 @@ class Subirdata extends Controller
                 $lineas = file($archivo);
                 foreach ($lineas as $indice => $linea) {
                     if ($indice == 0) continue;
-                    $item = preg_split("/[;,]/", pg_escape_string($linea));
+                    $item = preg_split("/[;,]/", $db->escapeString($linea));
                     $nombre = caracteres(strtoupper($item[0] ?? ''));
                     $apellido = caracteres(strtoupper($item[1] ?? ''));
                     $email = strtolower(trim($item[2] ?? ''));

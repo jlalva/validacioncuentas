@@ -140,6 +140,7 @@
                                         <th class="column-title" style="text-align: center;">NOMBRES</th>
                                         <th class="column-title" style="text-align: center;">APELLIDOS</th>
                                         <th class="column-title" style="text-align: center;">CORREO CREADO/EXISTENTE</th>
+                                        <th class="column-title" style="text-align: center;">USUARIO</th>
                                         <th class="column-title" style="text-align: center;">CLAVE</th>
                                         <th class="column-title" style="text-align: center;">SITUACION</th>
                                     </tr>

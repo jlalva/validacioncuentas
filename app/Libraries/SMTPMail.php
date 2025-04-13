@@ -18,7 +18,7 @@ class SMTPMail{
         $mail->Username ='jinoalva@gmail.com';//Usuario con el que se creo la cuenta en https://es.sendinblue.com/
         $mail->Password = 'UbrdTjDMQ06mBGOa';//Clave SMTP se crea en https://app.sendinblue.com/settings/keys/smtp
 
-        $mail->setFrom('jinoluisalva@gmail.com', 'DEMO');//Correo que aparecerá en los correos que se envía
+        $mail->setFrom('adminuser@unitru.edu.pe', 'Contacto web');//Correo que aparecerá en los correos que se envía
         $mail->AddAddress($this->destinatario);
         $mail->Subject = $this->subject;
         $mail->isHTML(true);

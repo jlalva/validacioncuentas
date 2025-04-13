@@ -95,8 +95,9 @@ class Dominio extends Controller
     public function eliminar(){
         $object = new dominioModelo();
         $id = $_POST['id'];
+        $accion = $_POST['accion'];
         $data = [
-            'dom_estado' => 0
+            'dom_estado' => $accion 
         ];
         if($object->updateDominio($id, $data)){
             echo 'ok';
