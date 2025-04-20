@@ -152,9 +152,15 @@ class Usuarios extends Controller
                     'usu_correo' => $this->request->getVar('correo'),
                     'usu_usuario' => $this->request->getVar('usuario'),
                     'usu_clave' => encriptar(trim($this->request->getVar('clave'))),
-                    'usu_foto' => $foto
+                    'usu_foto' => $foto,
+                    'usu_estado' => $this->request->getVar('estado')
                 ];
                 if($object->updateUsuario($id,$data)){
+                    $dataS = [
+                        'foto' => $foto
+                    ];
+                    $session = session();
+                    $session->set($dataS);
                     $resp = 1;
                 }else{
                     $resp = 0;
@@ -170,7 +176,8 @@ class Usuarios extends Controller
                 'usu_genero' => $this->request->getVar('genero'),
                 'usu_correo' => $this->request->getVar('correo'),
                 'usu_usuario' => $this->request->getVar('usuario'),
-                'usu_clave' => encriptar(trim($this->request->getVar('clave')))
+                'usu_clave' => encriptar(trim($this->request->getVar('clave'))),
+                'usu_estado' => $this->request->getVar('estado')
             ];
             if($object->updateUsuario($id, $data)){
                 $resp = 1;

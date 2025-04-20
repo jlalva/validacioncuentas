@@ -71,10 +71,8 @@ class Subirdata extends Controller
                         $ultimoacceso = date('d/m/Y H:i:s', $timestamp);
                     }
                     $color = "";
-                    if (!in_array($completo, $nombresRegistrados)) {
+                    if (in_array($email, $correosRegistrados)) {
                         $color = "style='background-color: red'";
-                    } elseif (in_array($email, $correosRegistrados)) {
-                        $color = "style='background-color: green'";
                     }
                     $html .= "<tr $color>
                                 <td style='text-align: center;'>" . ($i - 1) . "</td>
@@ -401,24 +399,18 @@ class Subirdata extends Controller
                     $status = strtoupper($hoja->getCell("D$i")->getValue());
                     $ultimoacceso = $hoja->getCell("E$i")->getValue();
                     $espacio = $hoja->getCell("F$i")->getValue();
-                    $completo = $nombre . " " . $apellido;
                     if (is_numeric($ultimoacceso)) {
                         $timestamp = \PHPExcel_Shared_Date::ExcelToPHP($ultimoacceso);
                         $ultimoacceso = date('d/m/Y H:i:s', $timestamp);
                     }
 
-                    if (!in_array($completo, $nombresRegistrados)) {
-                        $pdf->SetFillColor(255, 0, 0);
-                    } elseif (in_array($email, $correosRegistrados)) {
-                        $pdf->SetFillColor(0, 102, 51);
-                    }
-                    $pdf->Cell($x[0],$y, ($i - 1),1,0,'C',true);
-                    $pdf->Cell($x[1],$y, utf8_decode($nombre),1,0,'C',true);
-                    $pdf->Cell($x[2],$y, utf8_decode($apellido),1,0,'C',true);
-                    $pdf->Cell($x[3],$y, utf8_decode($email),1,0,'C',true);
-                    $pdf->Cell($x[4],$y, utf8_decode($status),1,0,'C',true);
-                    $pdf->Cell($x[5],$y, utf8_decode($ultimoacceso),1,0,'C',true);
-                    $pdf->Cell($x[6],$y, utf8_decode($espacio),1,1,'C',true);
+                    $pdf->Cell($x[0],$y, ($i - 1),1,0,'C');
+                    $pdf->Cell($x[1],$y, utf8_decode($nombre),1,0,'C');
+                    $pdf->Cell($x[2],$y, utf8_decode($apellido),1,0,'C');
+                    $pdf->Cell($x[3],$y, utf8_decode($email),1,0,'C');
+                    $pdf->Cell($x[4],$y, utf8_decode($status),1,0,'C');
+                    $pdf->Cell($x[5],$y, utf8_decode($ultimoacceso),1,0,'C');
+                    $pdf->Cell($x[6],$y, utf8_decode($espacio),1,1,'C');
 
                 }
             } else {
@@ -432,24 +424,25 @@ class Subirdata extends Controller
                     $status = strtoupper($datos[3]);
                     $ultimoacceso = trim($datos[4]);
                     $espacio = trim($datos[5]);
-                    $completo = $nombre . " " . $apellido;
-                    $color = "";
-                    if (!in_array($completo, $nombresRegistrados)) {
-                        $pdf->SetFillColor(255, 0, 0);
-                    } elseif (in_array($email, $correosRegistrados)) {
-                        $pdf->SetFillColor(0, 102, 51);
-                    }
                     $pdf->Cell($x[0],$y, $c,1,0,'C');
-                    $pdf->Cell($x[1],$y, utf8_decode($nombre),1,0,'C',true);
-                    $pdf->Cell($x[2],$y, utf8_decode($apellido),1,0,'C',true);
-                    $pdf->Cell($x[3],$y, utf8_decode($email),1,0,'C',true);
-                    $pdf->Cell($x[4],$y, utf8_decode($status),1,0,'C',true);
-                    $pdf->Cell($x[5],$y, utf8_decode($ultimoacceso),1,0,'C',true);
-                    $pdf->Cell($x[6],$y, utf8_decode($espacio),1,1,'C',true);
+                    $pdf->Cell($x[1],$y, utf8_decode($nombre),1,0,'C');
+                    $pdf->Cell($x[2],$y, utf8_decode($apellido),1,0,'C');
+                    $pdf->Cell($x[3],$y, utf8_decode($email),1,0,'C');
+                    $pdf->Cell($x[4],$y, utf8_decode($status),1,0,'C');
+                    $pdf->Cell($x[5],$y, utf8_decode($ultimoacceso),1,0,'C');
+                    $pdf->Cell($x[6],$y, utf8_decode($espacio),1,1,'C');
                 }
             }
             $pdf->Ln();
             $pdf->Cell(0,$y, 'USUARIO: '.utf8_decode(strtoupper(session('nombres').' '.session('apellidos'))),0,1,'R');
+            if (headers_sent()) {
+                die("¡Los encabezados ya fueron enviados, no se puede mostrar el PDF!");
+            }
+
+            header("Content-Type: application/pdf");
+            header("Cache-Control: private");
+            header("Pragma: no-cache");
+            header("Expires: 0");
             $pdf->SetTitle($titulo);
             $pdf->Output($nombreArchivo, 'I');
             exit;

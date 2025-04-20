@@ -119,7 +119,18 @@ $app = new App();
 					</div>
 					<div class="user-box dropdown">
 						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<img src="<?=$app->baseURL?>public/assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
+						<?php if(session('foto')){?>
+                                <img src="<?=$app->baseURL?>public/images/FOTOS_OFICIAL/<?=strtoupper(session('rol')).'/'.session('foto')?>" class="user-img">
+                            <?php }else{?>
+                                <?php if(in_array(session('idrol'), [1, 2])){
+                                    $foto = 'admin.jpeg';
+                                ?>
+                                    <img class="user-img" src="<?=$app->baseURL?>public/images/user.png">
+                                <?php }else{
+									$foto = 'user.png';
+                                ?>
+                                <img class="user-img" src="<?=$app->baseURL?>public/images/<?=$foto?>" alt="Foto de perfil" title="Foto de perfil">
+                            <?php }}?>	
 							<div class="user-info ps-3">
 								<p class="user-name mb-0"><?=session('nombre').' '. session('apellido_uno') ?></p>
 								<p class="designattion mb-0"><?=session('rol')?></p>

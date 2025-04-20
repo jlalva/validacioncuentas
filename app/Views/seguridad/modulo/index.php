@@ -53,12 +53,18 @@
                                         ?>
                                         <td style="text-align: center;"><span class="badge bg-<?= $badge ?>"><?= $estado ?></span></td>
                                         <td style="height: 5px;text-align: center;">
-                                            <?php if (editar()) { ?>
+                                            <?php $ff = 0;
+                                            if (editar()) { 
+                                                $ff = 1;?>
                                                 <a href="<?= base_url('modulo/edit/' . $row['men_id']) ?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                                             <?php } ?>
-                                            <?php if (eliminar()) { ?>
+                                            <?php if (eliminar()) { 
+                                                $ff = 1;?>
                                                 <a href="#" onclick="eliminar(<?= $row['men_id'] ?>)" class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></a>
-                                            <?php } ?>
+                                            <?php }
+                                            if($ff == 0){?>
+                                                <a href="#" onclick="notificacionsinpermiso('<?=session('nombres')?>','<?=session('apellidos')?>')"><span class="badge bg-warning">SIN PERMISOS</span></a>
+                                            <?php }?>
                                         </td>
                                     </tr>
                                 <?php } ?>

@@ -210,8 +210,8 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
 
     function caracteres($texto) {
         $texto = str_replace(
-            ['á', 'é', 'í', 'ó', 'ú', 'ñ'],
-            ['A', 'E', 'I', 'O', 'U', 'Ñ'],
+            ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
+            ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','Ñ', 'u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
             $texto);
-            return mb_strtoupper($texto, 'UTF-8');
+        return mb_strtoupper($texto, 'UTF-8');
     }

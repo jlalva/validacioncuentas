@@ -8,15 +8,14 @@ class usuariosModelo extends Model{
 
     public function getUsuarios(){
         $query = $this->query("SELECT * FROM usuario us
-                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id
-                        WHERE usu_estado = 1");
+                        INNER JOIN rol r ON r.rol_id = us.usu_rol_id");
         return $query->getResult();
     }
 
     public function getUsuario($id){
         $query = $this->query("SELECT * FROM usuario us
                         INNER JOIN rol r ON r.rol_id = us.usu_rol_id
-                        WHERE usu_estado = 1 AND usu_id = $id");
+                        WHERE usu_id = $id");
         return $query->getRow();
     }
 

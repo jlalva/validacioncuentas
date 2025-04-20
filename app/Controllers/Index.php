@@ -70,6 +70,7 @@ class Index extends Controller
                     'usuario' => $item->usu_usuario,
                     'idrol' => $item->usu_rol_id,
                     'rol' => $item->rol_nombre,
+                    'foto' => $item->usu_foto,
                     'nombre' => $nombre,
                     'apellido_uno' => $apellido_uno,
                     'apellido_dos' => $apellido_dos,

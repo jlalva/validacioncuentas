@@ -6,7 +6,10 @@ class PDFSUBIR extends FPDF
 {
     function Header()
     {
-        $this->Image(base_url('public/images/FOTO_EMPRESA/').logo(), 10, 8, 25); // (ruta, x, y, tamaño)
+        $logo = FCPATH . 'public/images/FOTO_EMPRESA/' . logo();
+        if (file_exists($logo)) {
+            $this->Image($logo, 10, 8, 25);
+        }
         // Razón Social
         $this->SetFont('Arial', 'B', 10);
         $this->SetXY(80, 10);
@@ -16,7 +19,6 @@ class PDFSUBIR extends FPDF
         $this->SetFont('Arial', 'B', 9);
         $this->Cell(50, 5, 'SISTEMA: GENERADOR DE CUENTAS', 0, 2, 'L');
         $this->Cell(50, 5, 'FECHA/HORA: '.date('d-m-Y H:i'), 0, 2, 'L');
-        //$this->Cell(50, 5, 'TIPO CUENTA: Estudiante/Docente o Administrativo', 0, 2, 'L');
         // Línea separadora
         $this->SetXY(35, 25);
         $this->Cell(250, 0, '', 'B', 1, 'C');
@@ -43,11 +45,5 @@ class PDFSUBIR extends FPDF
         $this->SetY(-10);
         $this->SetFont('Arial','I',7);
         $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . " de {nb}", 0, 0, 'C');
-        /*$this->Image("public/images/web.jpg", 15, 289, 8, 0);
-        $this->Cell(55,10,web(),0,0,'C');
-        $this->Image("public/images/telefono.png", 75, 288, 8, 0);
-        $this->Cell(55,10,telefono(),0,0,'C');
-        $this->Image("public/images/direccion.png", 130, 288, 7, 0);
-        $this->Cell(75,10,direccion(),0,0,'R');*/
     }
 }

@@ -1,0 +1,95 @@
+CRITICAL - 2025-04-20 15:48:45 --> FPDF error: Some data has already been output, can't send PDF file (output started at :0)
+in APPPATH\Libraries\fpdf\fpdf.php on line 273.
+ 1 APPPATH\Libraries\fpdf\fpdf.php(1046): FPDF->Error('Some data has already been output, can\'t send PDF file (output started at :0)')
+ 2 APPPATH\Libraries\fpdf\fpdf.php(1003): FPDF->_checkoutput()
+ 3 APPPATH\Controllers\Subirdata.php(441): FPDF->Output('I', 'Download_oficial.pdf')
+ 4 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->pdf('20')
+ 5 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
+ 6 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 15:55:18 --> Cannot modify header information - headers already sent
+in APPPATH\Controllers\Subirdata.php on line 443.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Cannot modify header information - headers already sent', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Subirdata.php', 443)
+ 2 APPPATH\Controllers\Subirdata.php(443): header('Content-Type: application/pdf')
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Subirdata->pdf('20')
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Subirdata))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:05:42 --> Call to undefined method CodeIgniter\HTTP\IncomingRequest::getInt()
+in APPPATH\Controllers\Usuarios.php on line 175.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->update('2')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:07:55 --> Undefined array key "usu_estado"
+in APPPATH\Controllers\Usuarios.php on line 175.
+ 1 APPPATH\Controllers\Usuarios.php(175): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "usu_estado"', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Usuarios.php', 175)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->update('2')
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:09:21 --> Call to undefined method CodeIgniter\HTTP\IncomingRequest::getInt()
+in APPPATH\Controllers\Usuarios.php on line 137.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->update('2')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:11:22 --> Call to undefined method CodeIgniter\HTTP\IncomingRequest::getInt()
+in APPPATH\Controllers\Usuarios.php on line 175.
+ 1 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->update('2')
+ 2 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 3 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:13:32 --> Attempt to read property "usu_nombre" on null
+in APPPATH\Views\seguridad\usuarios\edit.php on line 19.
+ 1 APPPATH\Views\seguridad\usuarios\edit.php(19): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "usu_nombre" on null', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php', 19)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\usuarios\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/usuarios/edit', [], true)
+ 5 APPPATH\Controllers\Usuarios.php(64): view('seguridad/usuarios/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Usuarios->edit('2')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Usuarios))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:15:57 --> Attempt to read property "usu_estado" on array
+in APPPATH\Views\seguridad\roles\edit.php on line 43.
+ 1 APPPATH\Views\seguridad\roles\edit.php(43): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "usu_estado" on array', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\roles\\edit.php', 43)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\roles\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/roles/edit', [], true)
+ 5 APPPATH\Controllers\Roles.php(58): view('seguridad/roles/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->edit('12')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:16:18 --> Attempt to read property "rol_estado" on array
+in APPPATH\Views\seguridad\roles\edit.php on line 43.
+ 1 APPPATH\Views\seguridad\roles\edit.php(43): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "rol_estado" on array', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\roles\\edit.php', 43)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\seguridad\\roles\\edit.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('seguridad/roles/edit', [], true)
+ 5 APPPATH\Controllers\Roles.php(58): view('seguridad/roles/edit', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->edit('12')
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 16:20:48 --> Too few arguments to function CodeIgniter\Database\BaseBuilder::where(), 0 passed in C:\xampp\htdocs\validacioncuentas\system\Model.php on line 840 and at least 1 expected
+in SYSTEMPATH\Database\BaseBuilder.php on line 696.
+ 1 SYSTEMPATH\Model.php(840): CodeIgniter\Database\BaseBuilder->where()
+ 2 APPPATH\Models\rolesModelo.php(10): CodeIgniter\Model->__call('where', [])
+ 3 APPPATH\Controllers\Roles.php(26): App\Models\rolesModelo->readRoles()
+ 4 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Roles->index()
+ 5 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Roles))
+ 6 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-04-20 17:44:08 --> Undefined variable $ff
+in APPPATH\Views\gestionar\empresa\index.php on line 58.
+ 1 APPPATH\Views\gestionar\empresa\index.php(58): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $ff', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\index.php', 58)
+ 2 SYSTEMPATH\View\View.php(213): include('C:\\xampp\\htdocs\\validacioncuentas\\app\\Views\\gestionar\\empresa\\index.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1184): CodeIgniter\View\View->render('gestionar/empresa/index', [], true)
+ 5 APPPATH\Controllers\Empresa.php(18): view('gestionar/empresa/index', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Empresa->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Empresa))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

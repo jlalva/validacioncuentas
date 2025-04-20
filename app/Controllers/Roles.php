@@ -189,9 +189,11 @@ class Roles extends Controller
         }else{
             $rol = $this->request->getVar('rol');
             $descripcion = $this->request->getVar('descripcion');
+            $estado = $this->request->getVar('estado');
             $data = [
                 'rol_nombre' => $rol,
-                'rol_descripcion' => $descripcion
+                'rol_descripcion' => $descripcion,
+                'rol_estado' => $estado
             ];
             $rolModel->updateRoles($id, $data);
 

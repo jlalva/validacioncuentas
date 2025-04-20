@@ -77,6 +77,11 @@ function alfanumerico(valor){
   }
 }
 
+function notificacionsinpermiso(nombre, apellido){
+    alertify.alert('Estimado ' + nombre + ' ' + apellido + ', usted no tiene permisos, comunicarse con el SUPERADMINISTRADOR DEL SISTEMA')
+    .set('title', 'Acceso Denegado');
+}
+
 let language = {
   "processing": "Procesando...",
   "lengthMenu": "Mostrar _MENU_ registros",

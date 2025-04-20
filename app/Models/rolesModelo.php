@@ -7,7 +7,7 @@ class rolesModelo extends Model{
     protected $allowedFields = ['rol_nombre', 'rol_descripcion', 'rol_estado'];
 
     public function readRoles(){
-        return $this->where('rol_estado = 1')->findAll();
+        return $this->findAll();
     }
 
     public function readRol($id){

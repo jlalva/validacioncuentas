@@ -153,6 +153,7 @@
             var rol = $('#rol_id option:selected').text();
             var usuario = $("#usuario").val();
             var clave = $("#clave").val();
+            var estado = $("#usu_estado").val();
 
             if (nombres == '' || apellidos == '' || genero == 0 || correo == '' || rol_id == 0 || usuario == '' || clave == '') {
                 alertify.error("Todos los campos son obligatorios");
@@ -174,6 +175,7 @@
             data.append("rol", rol);
             data.append("usuario", usuario);
             data.append("clave", clave);
+            data.append("estado", estado);
             $(".datosusuario").waitMe();
             $.ajax({
                 url: url + "usuarios/update/<?=$id?>",

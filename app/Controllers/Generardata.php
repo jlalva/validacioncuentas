@@ -18,6 +18,7 @@ use PHPExcel_Style_Border;
 use PHPExcel_Style_Alignment;
 use PHPExcel_Style_Fill;
 use PHPExcel_Worksheet_Drawing;
+use PhpOffice\PhpSpreadsheet\Calculation\TextData\Trim;
 
 class Generardata extends Controller
 {
@@ -388,7 +389,7 @@ class Generardata extends Controller
                             </tr>';
                     }
                 }
-                $datos = ['titulo' => 'Cacafonías', 'tabla'=>$html, 'idarchivo' => $arc_id];
+                $datos = ['titulo' => 'Cuentas Duplicadas', 'tabla'=>$html, 'idarchivo' => $arc_id];
                 return view('datos/generardata/duplicados', $datos);
             }else{
                 return view('denegado');
@@ -539,8 +540,8 @@ class Generardata extends Controller
  
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
-                $nombres = $hoja->getCell("B$i")->getValue();
-                $apellidos = $hoja->getCell("C$i")->getValue();
+                $nombres = Trim($hoja->getCell("B$i")->getValue());
+                $apellidos = Trim($hoja->getCell("C$i")->getValue());
                 $codigo = $hoja->getCell("A$i")->getValue();
                 $sede = $hoja->getCell("I$i")->getValue();
 
@@ -554,13 +555,13 @@ class Generardata extends Controller
                     $nombres);
 
                 $apellido_limpio = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
                     $apellidos);
 
                 $nombres_limpio = str_replace(
-                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                    ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
+                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
                     $nombres);
 
                 $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
@@ -649,8 +650,8 @@ class Generardata extends Controller
                 $invalido = 0;
                 $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
                 for($i = 2; $i <= $ultimaFila; $i++) {
-                    $nombres = $db->escapeString(strtoupper($hoja->getCell("B$i")->getValue()));
-                    $apellidos = $db->escapeString(strtoupper($hoja->getCell("C$i")->getValue()));
+                    $nombres = $db->escapeString(strtoupper(trim($hoja->getCell("B$i")->getValue())));
+                    $apellidos = $db->escapeString(strtoupper(trim($hoja->getCell("C$i")->getValue())));
                     $codigo = $hoja->getCell("A$i")->getValue();
                     $dni = $hoja->getCell("D$i")->getValue();
                     $completo = $db->escapeString($nombres.' '.$apellidos);
@@ -708,13 +709,13 @@ class Generardata extends Controller
                         $nombres);
 
                     $apellido_limpio = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
                         $apellidos);
 
                     $nombres_limpio = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
+                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
+                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
                         $nombres);
                         $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
                     if(!$val){
@@ -884,6 +885,8 @@ class Generardata extends Controller
                             'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
                             'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
+        $reemplazos = ['á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','ñ'=>'n','Ñ'=>'N','ü'=>'u','Ü'=>'U','à'=>'a','è'=>'e',
+        'ì'=>'i','ò'=>'o','ù'=>'u','À'=>'A','È'=>'E','Ì'=>'I','Ò'=>'O','Ù'=>'U','ä'=>'a','ë'=>'e','ï'=>'i','ö'=>'o','Ä'=>'A','Ë'=>'E','Ï'=>'I','Ö'=>'O','Ö'=>'O','à'=>'A'];
         $object = new datosModelo();
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);
@@ -953,7 +956,7 @@ class Generardata extends Controller
                 $pdf->Cell($x[9],$y,utf8_decode($item->dat_clave),1,1,'C',true);
             }else{
                 $nombres = strtoupper($hoja->getCell("B$i")->getValue());
-                $apellidos = strtoupper($hoja->getCell("C$i")->getValue());
+                $apellidos = $hoja->getCell("C$i")->getValue();
                 $celular = $hoja->getCell("E$i")->getValue();
                 $correopersonal = $hoja->getCell("F$i")->getValue();
                 $completo = $nombres.' '.$apellidos;
@@ -993,19 +996,9 @@ class Generardata extends Controller
                     $escuela = strtoupper($escuela);
                     $sede = strtoupper($sede);
                 }
-                $apellido_limpio = str_replace(
-                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
-                    $apellidos);
-
-                $nombres_limpio = str_replace(
-                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
-                    $nombres);
-                $completo = str_replace(
-                    ['Ü','ü','á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                    ['U','U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
-                    $completo);
+                $apellido_limpio = strtr($apellidos, $reemplazos);
+                $nombres_limpio = strtr($nombres, $reemplazos);
+                $completo = strtr($completo, $reemplazos);
                 $pdf->Cell($x[3],$y,strtoupper(utf8_decode($codigo)),1,0,'C');
                 $pdf->Cell($x[4],$y,strtoupper(utf8_decode($dni)),1,0,'C');
                 $pdf->Cell($x[1],$y,strtoupper(utf8_decode($nombres_limpio)),1,0,'C');

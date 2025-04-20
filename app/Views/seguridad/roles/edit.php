@@ -36,6 +36,19 @@
                             <input type="text" class="form-control <?=validate("descripcion") ? 'is-invalid': null;?>" id="descripcion" name="descripcion" autocomplete="off" value="<?=$item['rol_descripcion']?$item['rol_descripcion']:''?>">
                             <div class="invalid"><?=validate("descripcion")?></div>
                         </div>
+                        <div class="col-md-2 col-sm-2">
+                            <label>Estado</label>
+                            <select class="form-control" id="estado" name="estado">
+                                <option value="">Seleccione</option>
+                                <?php if($item['rol_estado'] == 0){?>
+                                    <option value="0" selected>INACTIVO</option>
+                                    <option value="1">ACTIVO</option>
+                                <?php }else{?>
+                                    <option value="0">INACTIVO</option>
+                                    <option value="1" selected>ACTIVO</option>
+                                <?php }?>
+                            </select>
+                        </div>
                     </form>
                 </div>
             </div>

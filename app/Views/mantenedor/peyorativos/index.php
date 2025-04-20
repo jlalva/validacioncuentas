@@ -41,20 +41,31 @@
                             ?>
                             <td style="text-align: center;"><span class="badge bg-<?=$badge?>"><?=$estado?></span></td>
                             <td style="text-align: center;">
-                            <?php if($row['pey_estado'] == 1){
-                                if(editar()){?>
+                            <?php $ff = 0;
+                            if($row['pey_estado'] == 1){
+                                if(editar()){
+                                    $ff = 1;?>
                                     <a href="<?=base_url('peyorativos/edit/'.$row['pey_id'])?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
                             <?php }?>
-                            <?php if(eliminar()){?>
+                            <?php if(eliminar()){
+                                $ff = 1;?>
                                 <a href="#" onclick="eliminar(<?=$row['pey_id']?>)" class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></a>
                             <?php }
+                            if($ff == 0){?>
+                                <a href="#" onclick="notificacionsinpermiso('<?=session('nombres')?>','<?=session('apellidos')?>')"><span class="badge bg-warning">SIN PERMISOS</span></a>
+                            <?php }
                             }else{
-                                if(in_array(session('idrol'),[1,2])){?>
+                                if(editar()){
+                                if(in_array(session('idrol'),[1,2])){
+                                    $ff = 1;?>
                                     <button onclick="restablecer(<?=$row['pey_id']?>)" class="btn btn-warning btn-sm" title="Activar"><i class="bx bx-rotate-left"></i></button>
                             <?php }else{?>
                                     <button class="btn btn-warning btn-sm" title="Sin permiso para activar" disabled><i class="bx bx-rotate-left"></i></button>
                             <?php }
-                                }?>
+                                }
+                                if($ff == 0){?>
+                                    <a href="#" onclick="notificacionsinpermiso('<?=session('nombres')?>','<?=session('apellidos')?>')"><span class="badge bg-warning">SIN PERMISOS</span></a>
+                                <?php }}?>
                             </td>
                         </tr>
                     <?php }?>
