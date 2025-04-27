@@ -156,6 +156,11 @@ class Usuarios extends Controller
                     'usu_estado' => $this->request->getVar('estado')
                 ];
                 if($object->updateUsuario($id,$data)){
+                    $nombres = explode(" ", $this->request->getVar('nombres'));
+                    $apellidos = explode(" ", $this->request->getVar('apellidos'));
+                    $nombre = $nombres[0];
+                    $apellido_uno = $apellidos[0];
+                    $apellido_dos = '';
                     $dataS = [
                         'foto' => $foto
                     ];

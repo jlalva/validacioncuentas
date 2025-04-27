@@ -537,7 +537,6 @@ class Generardata extends Controller
 
             $nombresBD = array_flip(array_column($object->listarNombres($emp_id,$dominio), 'dat_nombres_completos'));
             $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
- 
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
                 $nombres = Trim($hoja->getCell("B$i")->getValue());
@@ -556,15 +555,15 @@ class Generardata extends Controller
 
                 $apellido_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
+                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','Ñ', 'Ñ','U', 'U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','A', 'E', 'I', 'O', 'A', 'E', 'I', 'O'],
                     $apellidos);
 
                 $nombres_limpio = str_replace(
                     ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
-                    ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
+                    ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','Ñ', 'Ñ','U', 'U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','A', 'E', 'I', 'O', 'A', 'E', 'I', 'O'],
                     $nombres);
 
-                $nombrecompleto = trim($nombres_limpio) . ' ' . trim($apellido_limpio);
+                $nombrecompleto = strtoupper(trim($nombres_limpio) . ' ' . trim($apellido_limpio));
                 $observacion = isset($nombresBD[$nombrecompleto]) ? 'Usuario existente' : '';
                 $correo = '';
                 $usuario = '';
@@ -710,12 +709,12 @@ class Generardata extends Controller
 
                     $apellido_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','Ñ', 'Ñ','U', 'U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','A', 'E', 'I', 'O', 'A', 'E', 'I', 'O'],
                         $apellidos);
 
                     $nombres_limpio = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
-                        ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','n', 'N','u', 'U','a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U','a', 'e', 'i', 'o', 'A', 'E', 'I', 'O'],
+                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','Ñ', 'Ñ','U', 'U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','A', 'E', 'I', 'O', 'A', 'E', 'I', 'O'],
                         $nombres);
                         $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
                     if(!$val){
@@ -885,8 +884,8 @@ class Generardata extends Controller
                             'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
                             'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
-        $reemplazos = ['á'=>'a','é'=>'e','í'=>'i','ó'=>'o','ú'=>'u','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','ñ'=>'n','Ñ'=>'N','ü'=>'u','Ü'=>'U','à'=>'a','è'=>'e',
-        'ì'=>'i','ò'=>'o','ù'=>'u','À'=>'A','È'=>'E','Ì'=>'I','Ò'=>'O','Ù'=>'U','ä'=>'a','ë'=>'e','ï'=>'i','ö'=>'o','Ä'=>'A','Ë'=>'E','Ï'=>'I','Ö'=>'O','Ö'=>'O','à'=>'A'];
+        $reemplazos = ['á'=>'A','é'=>'E','í'=>'I','ó'=>'O','ú'=>'U','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','ñ'=>'Ñ','Ñ'=>'N','ü'=>'U','Ü'=>'U','à'=>'A','è'=>'E',
+        'ì'=>'I','ò'=>'O','ù'=>'U','À'=>'A','È'=>'E','Ì'=>'I','Ò'=>'O','Ù'=>'U','ä'=>'A','ë'=>'E','ï'=>'I','ö'=>'O','Ä'=>'A','Ë'=>'E','Ï'=>'I','Ö'=>'O','Ö'=>'O','à'=>'A'];
         $object = new datosModelo();
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);

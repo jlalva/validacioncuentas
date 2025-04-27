@@ -125,7 +125,7 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
     function generarCorreo2($nombre, $apellido) {
         $partesNombre = explode(" ", $nombre);
         $primeraLetraNombre = substr($partesNombre[0], 0, 1);
-        $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 2) : "";
+        $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
         $partesApellido = explode(" ", $apellido);
 
         if (isset($partesApellido[1]) && (strlen($partesApellido[0]) <= 3 || strlen($partesApellido[1]) <= 3)) {

@@ -243,6 +243,7 @@
     }
 
     function confirmarRestaurar(){
+        alertify.dismissAll();
         var archivo = ($("#fileInput"))[0].files[0];
         var data = new FormData();
         $("#tablaBackup").waitMe();
@@ -274,6 +275,7 @@
     }
 
     function generar(){
+        alertify.dismissAll();
         $("#tablaBackup").waitMe();
         $.ajax({
             url: url + "backup/generarBackup",

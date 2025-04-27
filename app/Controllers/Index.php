@@ -50,42 +50,50 @@ class Index extends Controller
         $item = $object->usuarioLogin($usuario);
         $arr = [];
         if(!empty($item)){
-            if(trim(desencriptar($item->usu_clave)) == $clave){
-                $nombres = explode(" ", $item->usu_nombre);
-                $apellidos = explode(" ", $item->usu_apellido);
-                $nombre = $nombres[0];
-                $apellido_uno = $apellidos[0];
-                $apellido_dos = '';
-                $empresaA = empresaActiva();
-                $idempresa = 0;
-                if($empresaA){
-                    $idempresa = $empresaA->emp_id;
+            if($item->usu_estado == 1){
+                if($item->rol_estado == 1){
+                    if(trim(desencriptar($item->usu_clave)) == $clave){
+                        $nombres = explode(" ", $item->usu_nombre);
+                        $apellidos = explode(" ", $item->usu_apellido);
+                        $nombre = $nombres[0];
+                        $apellido_uno = $apellidos[0];
+                        $apellido_dos = '';
+                        $empresaA = empresaActiva();
+                        $idempresa = 0;
+                        if($empresaA){
+                            $idempresa = $empresaA->emp_id;
+                        }
+                        if(isset($apellidos[1])){
+                            $apellido_dos = $apellidos[1];
+                        }
+                        $data = [
+                            'authenticated' => true,
+                            'idusuario' => $item->usu_id,
+                            'usuario' => $item->usu_usuario,
+                            'idrol' => $item->usu_rol_id,
+                            'rol' => $item->rol_nombre,
+                            'foto' => $item->usu_foto,
+                            'nombre' => $nombre,
+                            'apellido_uno' => $apellido_uno,
+                            'apellido_dos' => $apellido_dos,
+                            'nombres' => $item->usu_nombre,
+                            'apellidos' => $item->usu_apellido,
+                            'empresa_activa' => $idempresa
+                        ];
+                        $session = session();
+                        $session->set($data);
+                        $arr = ['status'=>'ok','message'=>'Datos validados correctamente'];
+                    }else{
+                        $arr = ['status'=>'error','message'=>'El usuario o clave no son correctos'];
+                    }
+                }else{
+                    $arr = ['status'=>'error','message'=>'Estimado usuario su rol de '.$item->rol_nombre.' esta inactivo'];
                 }
-                if(isset($apellidos[1])){
-                    $apellido_dos = $apellidos[1];
-                }
-                $data = [
-                    'authenticated' => true,
-                    'idusuario' => $item->usu_id,
-                    'usuario' => $item->usu_usuario,
-                    'idrol' => $item->usu_rol_id,
-                    'rol' => $item->rol_nombre,
-                    'foto' => $item->usu_foto,
-                    'nombre' => $nombre,
-                    'apellido_uno' => $apellido_uno,
-                    'apellido_dos' => $apellido_dos,
-                    'nombres' => $item->usu_nombre,
-                    'apellidos' => $item->usu_apellido,
-                    'empresa_activa' => $idempresa
-                ];
-                $session = session();
-                $session->set($data);
-                $arr = ['status'=>'ok','message'=>'Datos validados correctamente'];
             }else{
-                $arr = ['status'=>'error','message'=>'El usuario o clave no son correctos'];
+                $arr = ['status'=>'error','message'=>'El usuario se encuentra inactivo'];
             }
         }else{
-            $arr = ['status'=>'error','message'=>'El usuario no se encuentra registrado'];
+            $arr = ['status'=>'error','message'=>'El usuario o clave no son correctos'];
         }
         echo json_encode($arr);
     }

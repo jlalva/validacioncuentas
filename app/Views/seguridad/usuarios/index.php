@@ -47,16 +47,28 @@
                             <td style="text-align: center;">
                             <?php $ff = 0;
                             if(editar()){
-                                $ff = 1;?>
+                                $ff = 1;
+                                if($row->usu_rol_id == 1 && session('idrol')!=1){?>
+                                    <a href="#" onclick="nopuede()" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
+                            <?php }else{?>
                                 <a href="<?=base_url('usuarios/edit/'.$row->usu_id)?>" class="btn btn-success btn-sm"><i class="bx bx-edit"></i></a>
-                            <?php }?>
+                            <?php }
+                            }?>
                             <?php if(eliminar()){
-                                $ff = 1;?>
+                                $ff = 1;
+                                if($row->usu_rol_id == 1 && session('idrol')!=1){?>
+                                    <a href="#" onclick="nopuede()" class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></a>
+                            <?php }else{?>
                                 <a href="#" onclick="eliminar(<?=$row->usu_id?>)" class="btn btn-danger btn-sm"><i class="bx bx-trash"></i></a>
                             <?php }
-                            if($ff == 0){?>
+                            }
+                            if($ff == 0){
+                                if($row->usu_rol_id == 1 && session('idrol')!=1){?>
+                                    <a href="#" onclick="nopuede()"><span class="badge bg-warning">SIN PERMISOS</span></a>
+                            <?php }else{?>
                                 <a href="#" onclick="notificacionsinpermiso('<?=session('nombres')?>','<?=session('apellidos')?>')"><span class="badge bg-warning">SIN PERMISOS</span></a>
-                            <?php }?>
+                            <?php }
+                            }?>
                             </td>
                         </tr>
                     <?php }?>
@@ -69,6 +81,11 @@
 
 <script>
     tabla("tablaUser");
+
+    function nopuede(){
+        alertify.alert('Usted no puede modificar este usario')
+    .set('title', 'No Autorizado');
+    }
     function eliminar(usu_id) {
         alertify.confirm('¡Cuidado!','Estas por eliminar un registro, esta acción no se puede cancelar', function() {
             $.post( 'usuarios/eliminar', {usu_id: usu_id}, function(response) {
