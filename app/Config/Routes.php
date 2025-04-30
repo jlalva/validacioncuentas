@@ -105,6 +105,13 @@ $routes->post('peyorativos/register', 'Peyorativos::register');
 $routes->get('peyorativos/edit/(:num)', 'Peyorativos::edit/$1');
 $routes->post('peyorativos/update', 'Peyorativos::update');
 $routes->post('peyorativos/eliminar', 'Peyorativos::eliminar');
+//Compuesto
+$routes->get('compuesto', 'Compuesto::index');
+$routes->get('compuesto/add', 'Compuesto::add');
+$routes->post('compuesto/register', 'Compuesto::register');
+$routes->get('compuesto/edit/(:num)', 'Compuesto::edit/$1');
+$routes->post('compuesto/update', 'Compuesto::update');
+$routes->post('compuesto/eliminar', 'Compuesto::eliminar');
 //Backup
 $routes->get('backup', 'Backup::index');
 $routes->post('backup/generarBackup', 'Backup::generarBackup');

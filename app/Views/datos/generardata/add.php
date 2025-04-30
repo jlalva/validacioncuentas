@@ -128,26 +128,12 @@
                                 <h6 class="mb-0 text-uppercase">Cuentas creadas</h6>
                             </div>
                             <div class="col-md-1">
-                                <button class="btn btn-success btn-sm" hidden id="btnconfirmar">Confirmar</button>
+                                <button class="btn btn-success btn-sm" hidden id="btnconfirmar" onclick="guardarcuentas()">Confirmar</button>
                             </div>
                         </div>
                         <hr />
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="procesados">
-                                <thead>
-                                    <tr class="headings">
-                                        <th class="column-title" style="text-align: center;">ITEM</th>
-                                        <th class="column-title" style="text-align: center;">NOMBRES</th>
-                                        <th class="column-title" style="text-align: center;">APELLIDOS</th>
-                                        <th class="column-title" style="text-align: center;">CORREO CREADO/EXISTENTE</th>
-                                        <th class="column-title" style="text-align: center;">USUARIO</th>
-                                        <th class="column-title" style="text-align: center;">CLAVE</th>
-                                        <th class="column-title" style="text-align: center;">SITUACION</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="datosprocesados">
-                                </tbody>
-                            </table>
+                        <div class="table-responsive" id="datosprocesados">
+
                         </div>
                     </div>
                 </div>

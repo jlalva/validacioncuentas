@@ -36,6 +36,12 @@ class datosModelo extends Model{
                     ->getResult();
     }
 
+    public function listarCompuestos($emp_id)
+    {
+        return $this->query("SELECT com_nombre FROM compuesto WHERE com_emp_id = $emp_id")
+                    ->getResult();
+    }
+
     public function traerCorreos($emp_id, $completo)
     {
         return $this->query("SELECT dat_email FROM datos WHERE dat_emp_id = $emp_id AND dat_nombres_completos='$completo'")

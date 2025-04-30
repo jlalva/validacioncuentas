@@ -83,7 +83,7 @@ class Peyorativos extends Controller
         $id = $_POST['id'];
         $data = [
             'pey_nombre' => $peyorativo,
-            'dom_descripcion' => $descripcion
+            'pey_descripcion' => $descripcion
         ];
         if($object->updatePeyorativo($id, $data)){
             echo 1;

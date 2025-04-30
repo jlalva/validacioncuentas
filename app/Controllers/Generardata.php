@@ -532,11 +532,26 @@ class Generardata extends Controller
             $hoja = $objPHPExcel->getSheet(0);
             $ultimaFila = $hoja->getHighestRow();
 
-            $html = '';
+            $html = '<table class="table table-striped table-bordered" id="procesados">
+                        <thead>
+                            <tr class="headings">
+                                <th class="column-title" style="text-align: center;">ITEM</th>
+                                <th class="column-title" style="text-align: center;">NOMBRES</th>
+                                <th class="column-title" style="text-align: center;">APELLIDOS</th>
+                                <th class="column-title" style="text-align: center;">CORREO CREADO/EXISTENTE</th>
+                                <th class="column-title" style="text-align: center;">USUARIO</th>
+                                <th class="column-title" style="text-align: center;">CLAVE</th>
+                                <th class="column-title" style="text-align: center;">SITUACION</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
             $c = 0;
 
             $nombresBD = array_flip(array_column($object->listarNombres($emp_id,$dominio), 'dat_nombres_completos'));
             $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
+            $nocompuestosBD = array_flip(array_column($object->listarCompuestos($emp_id), 'com_nombre'));
+            $nocompuestos = array_map('strtolower', array_keys($nocompuestosBD));
+            $fl = 0;
             for ($i = 2; $i <= $ultimaFila; $i++) {
                 $c++;
                 $nombres = Trim($hoja->getCell("B$i")->getValue());
@@ -569,10 +584,11 @@ class Generardata extends Controller
                 $usuario = '';
                 $clave = strtoupper(substr($nombres_correo, 0, 1)) . strtolower(substr($apellido_correo, 0, 1)) . $codigo . '*@';
                 if (!$observacion) {
+                    $fl = 1;
                     switch($generarcon){
-                        case 1:$correo = generarCorreo(trim($nombres_correo), trim($apellido_correo)) . $dominio;
+                        case 1:$correo = generarCorreo(trim($nombres_correo), trim($apellido_correo), $nocompuestos) . $dominio;
                             if (isset($correosBD[$correo])) {
-                                $correo = generarCorreo2(trim($nombres_correo), trim($apellido_correo)) . $dominio;
+                                $correo = generarCorreo2(trim($nombres_correo), trim($apellido_correo),$nocompuestos) . $dominio;
                             }
                             break;
                         case 2:$correo = generarCorreoCodigo(trim($nombres_correo), trim($apellido_correo), $codigo) . $dominio;break;
@@ -595,6 +611,9 @@ class Generardata extends Controller
                             <td style='text-align: center;'>$observacion</td>
                           </tr>";
             }
+            $html .= "</tbody>
+                    </table>
+                    <input type='hidden' id='varegistrar' name='varegistrar' value='$fl'>";
             echo $html;
         }
     }
@@ -648,6 +667,8 @@ class Generardata extends Controller
                 $datos = '';
                 $invalido = 0;
                 $correosBD = array_flip(array_column($object->listarCorreos($emp_id), 'dat_email'));
+                $nocompuestosBD = array_flip(array_column($object->listarCompuestos($emp_id), 'com_nombre'));
+                $nocompuestos = array_map('strtolower', array_keys($nocompuestosBD));
                 for($i = 2; $i <= $ultimaFila; $i++) {
                     $nombres = $db->escapeString(strtoupper(trim($hoja->getCell("B$i")->getValue())));
                     $apellidos = $db->escapeString(strtoupper(trim($hoja->getCell("C$i")->getValue())));
@@ -719,10 +740,10 @@ class Generardata extends Controller
                         $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
                     if(!$val){
                         switch($generarcon){
-                            case 1:$correo = generarCorreo(trim($nombres_correo),trim($apellido_correo)).$dominio;
+                            case 1:$correo = generarCorreo(trim($nombres_correo),trim($apellido_correo),$nocompuestos).$dominio;
                                     //$val = $object->validarCorreo($correo);
                                     if (isset($correosBD[$correo])) {
-                                        $correo = generarCorreo2(trim($nombres_correo),trim($apellido_correo)).$dominio;
+                                        $correo = generarCorreo2(trim($nombres_correo),trim($apellido_correo),$nocompuestos).$dominio;
                                     }
                                     if (validar_correo($correo)){
                                         if($tipopersona == 1){

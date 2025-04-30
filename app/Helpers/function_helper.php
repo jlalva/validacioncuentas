@@ -87,65 +87,98 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         }
     }
 
-    function generarCorreo($nombre, $apellido) {
-        $partesNombre = explode(" ", $nombre);
+    function generarCorreo($nombre, $apellido, $compuestos) {
+        $compuestos = array_map('strtolower', $compuestos);
+        $partesNombre = explode(" ", strtolower(trim($nombre)));
         $primeraLetraNombre = substr($partesNombre[0], 0, 1);
-        $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
-        $partesApellido = explode(" ", $apellido);
-        if (isset($partesApellido[1]) && (strlen($partesApellido[0]) <= 3 || strlen($partesApellido[1]) <= 3)) {
-            $compuestoCorto = "";
-            $ff = 0;
-            if (strlen($partesApellido[0]) <= 3) {
-                $compuestoCorto .= $partesApellido[0];
+        $partesApellido = explode(" ", strtolower(trim($apellido)));
+        $compuestoCorto = "";
+        $primerApellido = "";
+        $letraSegundoApellido = "";
+        $i = 0;
+        $ff = 0;
+        // Construcción de apellido paterno compuesto
+        while ($i < count($partesApellido)) {
+            $palabra = $partesApellido[$i];
+            $esCortoValido = strlen($palabra) <= 3 && !in_array($palabra, $compuestos);
+            if ($esCortoValido && $ff < 2) {
+                $compuestoCorto .= $palabra;
                 $ff++;
-            }else{
-                $primerApellido = $partesApellido[0];
-                $letraSegundoApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
+                $i++;
+            } else {
+                break;
             }
-            if (strlen($partesApellido[1]) <= 3) {
-                $compuestoCorto .= $partesApellido[1];
-                $ff++;
-            }else{
-                $primerApellido = $partesApellido[1];
-                $letraSegundoApellido = isset($partesApellido[2]) ? substr($partesApellido[2], 0, 1) : "";
-            }
-            if($ff == 2){
-                $primerApellido = $partesApellido[2];
-                $letraSegundoApellido = isset($partesApellido[3]) ? substr($partesApellido[3], 0, 1) : "";
-            }
-            $correo = strtolower($primeraLetraNombre . $compuestoCorto . $primerApellido . $letraSegundoApellido);
-        } else {
+        }
+        // Obtener primer apellido y primera letra del segundo
+        $primerApellido = isset($partesApellido[$i]) ? $partesApellido[$i] : '';
+        $i++;
+        $letraSegundoApellido = isset($partesApellido[$i]) ? substr($partesApellido[$i], 0, 1) : '';
+        if ($compuestoCorto === "") {
             $apellido1 = $partesApellido[0];
             $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 1) : "";
-            $correo = strtolower($primeraLetraNombre . $segundaLetraNombre . $apellido1 . $segundaLetraApellido);
-        }
-        return $correo;
-    }
-
-    function generarCorreo2($nombre, $apellido) {
-        $partesNombre = explode(" ", $nombre);
-        $primeraLetraNombre = substr($partesNombre[0], 0, 1);
-        $segundaLetraNombre = isset($partesNombre[1]) ? substr($partesNombre[1], 0, 1) : "";
-        $partesApellido = explode(" ", $apellido);
-
-        if (isset($partesApellido[1]) && (strlen($partesApellido[0]) <= 3 || strlen($partesApellido[1]) <= 3)) {
-            $compuestoCorto = "";
-            if (strlen($partesApellido[0]) <= 3) {
-                $compuestoCorto .= $partesApellido[0];
-            }
-            if (strlen($partesApellido[1]) <= 3) {
-                $compuestoCorto .= $partesApellido[1];
-            }
-            $segundaLetraApellido = isset($partesApellido[3]) ? substr($partesApellido[3], 0, 1) : "";
-            $apellidoCompuesto = strtolower(implode("", array_slice($partesApellido, 0, 3)));
-            $correo = strtolower($primeraLetraNombre.$segundaLetraNombre. $compuestoCorto . $apellidoCompuesto.$segundaLetraApellido);
+            $correo = strtolower($primeraLetraNombre  . $apellido1 . $segundaLetraApellido);
         } else {
-            $apellido1 = $partesApellido[0];
-            $segundaLetraApellido = isset($partesApellido[1]) ? substr($partesApellido[1], 0, 2) : "";
-            $correo = strtolower($primeraLetraNombre . $segundaLetraNombre . $apellido1 . $segundaLetraApellido );
+            $correo = strtolower($primeraLetraNombre . $compuestoCorto . $primerApellido . $letraSegundoApellido);
         }
         return $correo;
     }
+
+    function generarCorreo2($nombre, $apellido, $compuestos) {
+        $compuestos = array_map('strtolower', $compuestos);
+    
+        $partesNombre = explode(" ", strtolower(trim($nombre)));
+        $nombre1 = isset($partesNombre[0]) ? $partesNombre[0] : "";
+        $nombre2 = isset($partesNombre[1]) ? $partesNombre[1] : "";
+    
+        $partesApellido = explode(" ", strtolower(trim($apellido)));
+        
+        // Detectar si los primeros elementos del apellido son compuestos válidos
+        $compuestoCorto = "";
+        $primerApellido = "";
+        $letraSegundoApellido = "";
+        $i = 0;
+        $ff = 0;
+    
+        // Apellido paterno compuesto
+        while ($i < count($partesApellido)) {
+            $palabra = $partesApellido[$i];
+            $esCortoValido = strlen($palabra) <= 3 && !in_array($palabra, $compuestos);
+    
+            if ($esCortoValido && $ff < 2) {
+                $compuestoCorto .= $palabra;
+                $ff++;
+                $i++;
+            } else {
+                break;
+            }
+        }
+    
+        $primerApellido = isset($partesApellido[$i]) ? $partesApellido[$i] : '';
+        $i++;
+        $materno = isset($partesApellido[$i]) ? $partesApellido[$i] : '';
+    
+        // Si hay dos nombres: usar iniciales de ambos
+        if ($nombre2 != "") {
+            $inicialesNombre = substr($nombre1, 0, 1) . substr($nombre2, 0, 1);
+    
+            if ($compuestoCorto != "") {
+                $correo = strtolower($inicialesNombre . $compuestoCorto . $primerApellido . substr($materno, 0, 1));
+            } else {
+                $correo = strtolower($inicialesNombre . $primerApellido . substr($materno, 0, 1));
+            }
+    
+        } else { // Si hay solo un nombre: usar 2 primeras letras del materno
+            $dosLetrasMaterno = substr($materno, 0, 1);
+            if ($compuestoCorto != "") {
+                $correo = strtolower(substr($nombre1, 0, 1) . $compuestoCorto . $primerApellido . $dosLetrasMaterno);
+            } else {
+                $correo = strtolower(substr($nombre1, 0, 1) . $primerApellido . $dosLetrasMaterno);
+            }
+        }
+    
+        return $correo;
+    }
+    
 
     function generarCorreoCodigo($nombre, $apellido, $codigo) {
         $partesNombre = explode(" ", $nombre);
