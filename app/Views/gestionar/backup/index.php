@@ -147,26 +147,21 @@
                                 <div class="card-body">
                                     <?php if(agregar()){?>
                                         <div class="container">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <span class="label">SUBIR ARCHIVO *</span>
-                                                    <div class="drop-area" id="dropArea">
-                                                        <p id="dropText">Hacer clic o arrastrar un archivo aquí</p>
-                                                        <div id="previewContainer" class="hidden preview-container">
-                                                            <i class="fa fa-database preview-icon"></i>
-                                                            <span id="fileName" class="file-name"></span>
-                                                        </div>
-                                                    </div>
-
-                                                    <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
-                                                        <input type="file" id="fileInput" class="hidden" accept=".sql">
-                                                    </form>
-
-                                                    <button class="btn btn-danger btn-sm confirmaR hidden" onclick="confirmarRestaurar()">
-                                                        <i class="fa fa-warning"></i> Iniciar Restauración
-                                                    </button>
+                                            <span class="label">SUBIR ARCHIVO *</span>
+                                            <div class="drop-area" id="dropArea">
+                                                <p id="dropText">Hacer clic o arrastrar un archivo aquí</p>
+                                                <div id="previewContainer" class="hidden preview-container">
+                                                    <i class="fa fa-database preview-icon"></i>
+                                                    <span id="fileName" class="file-name"></span>
                                                 </div>
                                             </div>
+                                            <form method="post" enctype="multipart/form-data" id="uploadForm" class="miarchivo" onsubmit="return false;">
+                                                <input type="file" id="fileInput" class="hidden" accept=".sql">
+                                            </form>
+                                            <br>
+                                            <button class="btn btn-danger btn-sm confirmaR hidden" onclick="confirmarRestaurar()">
+                                                <i class="fa fa-warning"></i> Iniciar Restauración
+                                            </button>
                                         </div>
                                     <?php }?>
                                 </div>
@@ -294,6 +289,7 @@
     }
 
     function eliminar(bac_id) {
+        alertify.dismissAll();
         alertify.confirm('¡Cuidado!','Eliminarás el registro seleccionado. Estas seguro de hacerlo?', function() {
             $.post( url + 'backup/eliminar', {bac_id: bac_id}, function(response) {
                     if(response == 'ok'){

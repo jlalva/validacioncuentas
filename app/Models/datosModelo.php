@@ -44,8 +44,8 @@ class datosModelo extends Model{
 
     public function traerCorreos($emp_id, $completo)
     {
-        return $this->query("SELECT dat_email FROM datos WHERE dat_emp_id = $emp_id AND dat_nombres_completos='$completo'")
-                    ->getRow();
+        $sql = "SELECT dat_email FROM datos WHERE dat_emp_id = ? AND dat_nombres_completos = ?";
+        return $this->query($sql, [$emp_id, $completo])->getRow();
     }
 
     public function insertarDatosGenerados($data,$tipopersona){

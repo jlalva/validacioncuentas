@@ -126,7 +126,7 @@ function guardarcuentas(){
             cancel: 'Cancelar'
         }).set('buttonReverse', true).set('confirmButtonText', 'Aceptar').set('cancelButtonText', 'Cancelar').set('defaultFocus', 'ok');
     }else{
-        alertify.warning('No existe ninguna cuenta por registrar');
+        alertify.warning('Del archivo cargado, no hay nuevas cuentas por generar. Todos los usuarios ya tienen cuentas institucionales');
     }
     // Modificar el estilo del cuadro de diálogo de confirmación
     $('.ajs-header').css('background-color', '#0000ff ');

@@ -123,6 +123,7 @@
                                                     <div class="col-md-6 col-sm-6">
                                                         <label>Nombres</label>
                                                         <input type="text" class="form-control" id="nombres" readonly="readonly" value="<?= strtoupper($datos->usu_nombre) ?>">
+                                                        <input type="hidden" id="usu_id" name="usu_id" value="<?=$datos->usu_id?>">
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
                                                         <label>Apellidos</label>
@@ -202,14 +203,12 @@
 
         $('#btnguardar').click(function(e) {
             e.preventDefault();
-
+            alertify.dismissAll();
             var archivo = ($("#archivo"))[0].files[0];
-            var per_id = $("#per_id").val();
-            var codigo = $("#codigo").val();
+            var usu_id = $("#usu_id").val();
             var data = new FormData();
             data.append("file", archivo);
-            data.append("per_id", per_id);
-            data.append("codigo", codigo);
+            data.append("usu_id", usu_id);
             $.ajax({
                 url: url + "usuarios/updatefoto",
                 type: "post",

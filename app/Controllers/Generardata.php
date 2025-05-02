@@ -674,7 +674,6 @@ class Generardata extends Controller
                     $apellidos = $db->escapeString(strtoupper(trim($hoja->getCell("C$i")->getValue())));
                     $codigo = $hoja->getCell("A$i")->getValue();
                     $dni = $hoja->getCell("D$i")->getValue();
-                    $completo = $db->escapeString($nombres.' '.$apellidos);
                     $celular = $hoja->getCell("E$i")->getValue();
                     $correopersonal = $hoja->getCell("F$i")->getValue();
                     if($tipopersona == 1){
@@ -713,11 +712,6 @@ class Generardata extends Controller
                         $escuela = strtoupper($escuela);
                         $sede = strtoupper($sede);
                     }
-                    $completo = str_replace(
-                        ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú'],
-                        ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U'],
-                        $completo);
-                    $val = $object->validarNombres($db->escapeString(trim($completo)),$emp_id,$dominio);
                     $correo = '';
                     $apellido_correo = str_replace(
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
@@ -737,7 +731,9 @@ class Generardata extends Controller
                         ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í', 'Ó', 'Ú','ñ', 'Ñ','ü', 'Ü','à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù','ä', 'ë', 'ï', 'ö', 'Ä', 'Ë', 'Ï', 'Ö'],
                         ['A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','Ñ', 'Ñ','U', 'U','A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U','A', 'E', 'I', 'O', 'A', 'E', 'I', 'O'],
                         $nombres);
-                        $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
+                    $completo = strtoupper(trim($nombres_limpio) . ' ' . trim($apellido_limpio));
+                    $clave = strtoupper(substr($nombres_correo,0,1)).strtolower(substr($apellido_correo,0,1)).$codigo.'*@';
+                    $val = $object->validarNombres($db->escapeString(trim($completo)),$emp_id,$dominio);
                     if(!$val){
                         switch($generarcon){
                             case 1:$correo = generarCorreo(trim($nombres_correo),trim($apellido_correo),$nocompuestos).$dominio;
@@ -905,8 +901,9 @@ class Generardata extends Controller
                             'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss', 'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c',
                             'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o',
                             'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y');
-        $reemplazos = ['á'=>'A','é'=>'E','í'=>'I','ó'=>'O','ú'=>'U','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','ñ'=>'Ñ','Ñ'=>'N','ü'=>'U','Ü'=>'U','à'=>'A','è'=>'E',
-        'ì'=>'I','ò'=>'O','ù'=>'U','À'=>'A','È'=>'E','Ì'=>'I','Ò'=>'O','Ù'=>'U','ä'=>'A','ë'=>'E','ï'=>'I','ö'=>'O','Ä'=>'A','Ë'=>'E','Ï'=>'I','Ö'=>'O','Ö'=>'O','à'=>'A'];
+        $reemplazos = ['á'=>'A','é'=>'E','í'=>'I','ó'=>'O','ú'=>'U','Á'=>'A','É'=>'E','Í'=>'I','Ó'=>'O','Ú'=>'U','ñ'=>'Ñ','ü'=>'U','Ü'=>'U','à'=>'A','è'=>'E',
+        'ì'=>'I','ò'=>'O','ù'=>'U','À'=>'A','È'=>'E','Ì'=>'I','Ò'=>'O','Ù'=>'U','ä'=>'A','ë'=>'E','ï'=>'I','ö'=>'O','Ä'=>'A','Ë'=>'E','Ï'=>'I','Ö'=>'O','Ö'=>'O',
+        'à'=>'A'];
         $object = new datosModelo();
         $objectA = new archivosModelo();
         $itemA = $objectA->archivo($arc_id);

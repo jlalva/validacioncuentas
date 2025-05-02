@@ -205,10 +205,9 @@ class Usuarios extends Controller
     }
 
     public function updateFoto(){
-        $objectPerson = new personaModelo();
-        $per_id = $_POST['per_id'];
-        $codigo = $_POST['codigo'];
-        $foto = '';
+        $object = new usuariosModelo();
+        $usu_id = $_POST['usu_id'];
+        $codigo = $usu_id;
         $foto = $codigo;
         if(!empty($_FILES['file']['name'])){
             $carpeta = strtoupper(session('rol'));
@@ -217,12 +216,12 @@ class Usuarios extends Controller
             if (!file_exists($ruta)) {
                 mkdir($ruta, 0777, true);
             }
-            $foto = $foto.'.'.strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
+            $foto = $foto.'-'.date('YmdHis').'.'.strtolower(pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION));
             if(move_uploaded_file($_FILES['file']['tmp_name'],"public/images/FOTOS_OFICIAL/$carpeta/".$foto)){
                 $data = [
-                    'per_foto' => $foto
+                    'usu_foto' => $foto
                 ];
-            if($objectPerson->updatePersona($per_id, $data)){
+            if($object->updateUsuario($usu_id, $data)){
                 $session = session();
                 $session->set('foto', $foto);
                 $resp = 1;

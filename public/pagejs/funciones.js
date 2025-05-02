@@ -77,10 +77,33 @@ function alfanumerico(valor){
   }
 }
 
-function notificacionsinpermiso(nombre, apellido){
-    alertify.alert('Estimado ' + nombre + ' ' + apellido + ', usted no tiene permisos, comunicarse con el SUPERADMINISTRADOR DEL SISTEMA')
-    .set('title', 'Acceso Denegado');
+function notificacionsinpermiso(nombre, apellido) {
+    alertify.alert()
+        .setting({
+            title: '🚫 Acceso Denegado',
+            message: `<div>
+                        Estimado <strong>${nombre} ${apellido}</strong>,<br><br>
+                        Usted no tiene permisos para acceder a esta sección.<br>
+                        Por favor, comuníquese con el <strong>SUPERADMINISTRADOR DEL SISTEMA</strong>.
+                      </div>`,
+            onok: function () {
+                console.log('Usuario informado');
+            }
+        })
+        .set('transition', 'fade')
+        .set('basic', false)
+        .set('closable', true)
+        .set('movable', true)
+        .set('pinnable', false)
+        .set('frameless', false)
+        .set('modal', true)
+        .set('resizable', false)
+        .set('labels', { ok: 'Entendido' })
+        .show();
+    document.querySelector('.ajs-dialog').classList.add('alert-custom');
 }
+
+
 
 let language = {
   "processing": "Procesando...",

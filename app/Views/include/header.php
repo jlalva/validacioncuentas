@@ -46,6 +46,25 @@ $app = new App();
     <script>
        url =  "<?=$app->baseURL?>";
     </script>
+	<style>
+		.alert-custom .ajs-header {
+    background-color: #d9534f; /* rojo */
+    color: white;
+    font-weight: bold;
+}
+
+.alert-custom .ajs-footer {
+    background-color: #f2dede;
+    text-align: center;
+}
+
+.alert-custom .ajs-button.ajs-ok {
+    background-color: #c9302c;
+    color: white;
+    border: none;
+}
+
+	</style>
 </head>
 
 <body>

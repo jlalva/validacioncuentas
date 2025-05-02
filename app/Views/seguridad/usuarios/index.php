@@ -83,8 +83,28 @@
     tabla("tablaUser");
 
     function nopuede(){
-        alertify.alert('Usted no puede modificar este usario')
-    .set('title', 'No Autorizado');
+        alertify.alert()
+        .setting({
+            title: '🚫 No Autorizado',
+            message: `<div>
+                        Estimado usuario,<br><br>
+                        Usted no puede modificar a este usuario.
+                      </div>`,
+            onok: function () {
+                console.log('Usuario informado');
+            }
+        })
+        .set('transition', 'fade')
+        .set('basic', false)
+        .set('closable', true)
+        .set('movable', true)
+        .set('pinnable', false)
+        .set('frameless', false)
+        .set('modal', true)
+        .set('resizable', false)
+        .set('labels', { ok: 'Entendido' })
+        .show();
+    document.querySelector('.ajs-dialog').classList.add('alert-custom');
     }
     function eliminar(usu_id) {
         alertify.confirm('¡Cuidado!','Estas por eliminar un registro, esta acción no se puede cancelar', function() {
