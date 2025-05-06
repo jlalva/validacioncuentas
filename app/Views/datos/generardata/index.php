@@ -64,7 +64,7 @@
                                                 <td style="text-align: center;">
                                                     <a href="<?= $app->baseURL ?>generardata/detalle/<?= $row->arc_id ?>" class="btn btn-info btn-sm" title="DATA"><i class="bx bx-list-ul"></i></a>
                                                     <?php if($row->peyorativo == 'si'){?>
-                                                        <a href="<?= $app->baseURL ?>generardata/cacafonias/<?= $row->arc_id ?>" class="btn btn-warning btn-sm" title="CACAFONIAS"><i class="bx bx-error"></i></a>
+                                                        <a href="<?= $app->baseURL ?>generardata/peyorativos/<?= $row->arc_id ?>" class="btn btn-warning btn-sm" title="CACAFONIAS"><i class="bx bx-error"></i></a>
                                                     <?php }else{
                                                         if($row->duplicados>0){?>
                                                             <a href="<?= $app->baseURL ?>generardata/duplicados/<?= $row->arc_id ?>" class="btn btn-danger btn-sm" title="DUPLICADOS"><i class="bx bx-error"></i></a>

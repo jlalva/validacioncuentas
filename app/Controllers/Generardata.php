@@ -290,7 +290,7 @@ class Generardata extends Controller
         }
     }
 
-    public function cacafonias($arc_id)
+    public function peyorativos($arc_id)
     {
         if(session('authenticated') && accede()){
             if(bloqueado()){
@@ -338,8 +338,8 @@ class Generardata extends Controller
                         }
                     }
                 }
-                $datos = ['titulo' => 'Cacafonías', 'tabla'=>$html, 'idarchivo' => $arc_id];
-                return view('datos/generardata/cacafonias', $datos);
+                $datos = ['titulo' => 'Peyorativos', 'tabla'=>$html, 'idarchivo' => $arc_id];
+                return view('datos/generardata/peyorativos', $datos);
             }else{
                 return view('denegado');
             }
