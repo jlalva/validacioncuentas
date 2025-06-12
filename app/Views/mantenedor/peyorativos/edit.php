@@ -31,6 +31,7 @@
     $(document).ready(function() {
         $('#guardar').click(function(e) {
             e.preventDefault();
+            alertify.dismissAll();
             var peyorativo = $("#peyorativo").val();
             var descripcion = $("#descripcion").val();
             var pey_id = $("#pey_id").val();

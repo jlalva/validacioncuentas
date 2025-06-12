@@ -309,6 +309,7 @@ $(document).ready(function() {
 
         $('#guardar').click(function(e) {
             e.preventDefault();
+            alertify.dismissAll();
             var validaCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             var wrapper = $("#formEmpresa");
             var logo = ($("#imglogo"))[0].files[0];

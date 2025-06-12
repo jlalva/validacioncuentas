@@ -31,6 +31,7 @@
     $(document).ready(function() {
         $('#guardar').click(function(e) {
             e.preventDefault();
+            alertify.dismissAll();
             var tipo_persona = $("#tipo_persona").val();
             var descripcion = $("#descripcion").val();
             var tip_id = $("#tip_id").val();

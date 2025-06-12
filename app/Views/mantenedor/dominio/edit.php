@@ -31,6 +31,7 @@
     $(document).ready(function() {
         $('#guardar').click(function(e) {
             e.preventDefault();
+            alertify.dismissAll();
             var dominio = $("#dominio").val();
             var descripcion = $("#descripcion").val();
             var id = $("#id").val();

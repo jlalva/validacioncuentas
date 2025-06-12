@@ -1,0 +1,23 @@
+CRITICAL - 2025-06-11 21:58:53 --> Trying to access array offset on value of type null
+in APPPATH\Helpers\function_helper.php on line 192.
+ 1 APPPATH\Helpers\function_helper.php(192): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Helpers\\function_helper.php', 192)
+ 2 APPPATH\Controllers\Generardata.php(595): generarCorreoSedeCodigo(null, 15080.0)
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->procesar()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-06-11 22:07:33 --> Trying to access array offset on value of type null
+in APPPATH\Controllers\Generardata.php on line 526.
+ 1 APPPATH\Controllers\Generardata.php(526): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Controllers\\Generardata.php', 526)
+ 2 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->procesar()
+ 3 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 4 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2025-06-11 22:07:54 --> Trying to access array offset on value of type null
+in APPPATH\Helpers\function_helper.php on line 192.
+ 1 APPPATH\Helpers\function_helper.php(192): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'C:\\xampp\\htdocs\\validacioncuentas\\app\\Helpers\\function_helper.php', 192)
+ 2 APPPATH\Controllers\Generardata.php(595): generarCorreoSedeCodigo(null, 15080.0)
+ 3 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Generardata->procesar()
+ 4 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Generardata))
+ 5 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(30): CodeIgniter\CodeIgniter->run()

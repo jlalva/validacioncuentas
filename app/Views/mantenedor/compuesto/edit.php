@@ -31,6 +31,7 @@
     $(document).ready(function() {
         $('#guardar').click(function(e) {
             e.preventDefault();
+            alertify.dismissAll();
             var compuesto = $("#compuesto").val();
             var descripcion = $("#descripcion").val();
             var com_id = $("#com_id").val();

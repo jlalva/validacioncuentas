@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#subirarchivo').on('click', function() {
         alertify.dismissAll();
         $(".carga").waitMe({text: 'Validando datos'});
+        $("#tablapreview").html('');
         var formData = new FormData();
         var fileInput = document.getElementById('archivo');
         var dominio = document.getElementById('dominio');
@@ -19,19 +20,30 @@ $(document).ready(function() {
             })
             .then(response => response.text())
             .then(data => {
-                if(data != ''){
-                    $(".carga").waitMe('hide');
-                    $("#btnprocesar").removeAttr("hidden");
+                $(".carga").waitMe('hide');
+
+                if (data !== '') {
+                    // Destruye el DataTable si ya existe
+                    if ( $.fn.DataTable.isDataTable('#tablapreview') ) {
+                        $('#tablapreview').DataTable().clear().destroy();
+                    }
+
+                    // Inserta el nuevo contenido
                     document.getElementById('tablapreview').innerHTML = data;
-                    $('#tablapreview').DataTable().destroy();
+
+                    // Inicializa nuevamente DataTable
                     tabla("tablapreview");
-                }else{
-                    alertify.error('Ocurrio un error al mostrar los datos del archivo');
+
+                    // Muestra el botón
+                    $("#btnprocesar").removeAttr("hidden");
+                } else {
+                    alertify.error('Ocurrió un error al mostrar los datos del archivo');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+
         } else {
              $(".carga").waitMe('hide');
             alertify.error('Por favor seleccione un archivo.');
@@ -127,6 +139,16 @@ function guardarcuentas(){
         }).set('buttonReverse', true).set('confirmButtonText', 'Aceptar').set('cancelButtonText', 'Cancelar').set('defaultFocus', 'ok');
     }else{
         alertify.warning('Del archivo cargado, no hay nuevas cuentas por generar. Todos los usuarios ya tienen cuentas institucionales');
+        $('#tipopersona').val('0');
+        $('#dominio').val('0');
+        $('#tipoarchivo').val('0');
+        $('#archivo').val('');
+        $('input[name="generarcon"][value="1"]').prop('checked', true);
+        $('#btnprocesar').attr('hidden', true);
+        $('#btnconfirmar').attr('hidden', true);
+        $('#tablapreview').html('');
+        $('#datosprocesados').html('');
+        $('#resultado').html('');
     }
     // Modificar el estilo del cuadro de diálogo de confirmación
     $('.ajs-header').css('background-color', '#0000ff ');

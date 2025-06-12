@@ -8,7 +8,16 @@ use CodeIgniter\Session\Handlers\FileHandler;
 class App extends BaseConfig
 {
 
-    public string $baseURL = 'http://localhost:8080/validacioncuentas/';
+    public string $baseURL = '';
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Construcción dinámica de la baseURL
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $this->baseURL = $protocol . $host . '/validacioncuentas/';
+    }
 
     public array $allowedHostnames = [];
 

@@ -100,10 +100,8 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         // Construcción de apellido paterno compuesto
         while ($i < count($partesApellido)) {
             $palabra = $partesApellido[$i];
-            $esCortoValido = strlen($palabra) <= 3 && !in_array($palabra, $compuestos);
-            if ($esCortoValido && $ff < 2) {
+            if (strlen($palabra) < 4 && in_array($palabra, $compuestos)) {
                 $compuestoCorto .= $palabra;
-                $ff++;
                 $i++;
             } else {
                 break;
@@ -142,7 +140,7 @@ require_once APPPATH . 'Libraries/phpqrcode/qrlib.php';
         // Apellido paterno compuesto
         while ($i < count($partesApellido)) {
             $palabra = $partesApellido[$i];
-            $esCortoValido = strlen($palabra) <= 3 && !in_array($palabra, $compuestos);
+            $esCortoValido = strlen($palabra) <= 2 && !in_array($palabra, $compuestos);
     
             if ($esCortoValido && $ff < 2) {
                 $compuestoCorto .= $palabra;
